@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS } from "./constants";
 
 const currency = z
   .string()
@@ -78,29 +77,6 @@ export const shippingAddressSchema = z.object({
   lng: z.number().optional(),
 });
 
-// Schema for payment method
-export const paymentMethodSchema = z
-  .object({
-    type: z.string().min(1, "Payment method is required"),
-  })
-  .refine((data) => PAYMENT_METHODS.includes(data.type), {
-    path: ["type"],
-    message: "Invalid payment method",
-  });
-
-// Schema for inserting order
-export const insertOrderSchema = z.object({
-  userId: z.string().min(1, "User id required"),
-  itemsPrice: currency,
-  totalPrice: currency,
-  shippingPrice: currency,
-  taxPrice: currency,
-  shippingAddress: shippingAddressSchema,
-  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
-    message: "Invalid payment method",
-  }),
-});
-
 // Schema for insearting order itmes
 export const insertOrderItemSchema = z.object({
   productId: z.string(),
@@ -124,3 +100,38 @@ export const updateProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
   email: z.string().min(3, "Email must be at least 3 characters long"),
 });
+
+// User schema based on the User interface
+export const userSchema = z.object({
+  email: z.string().email("Invalid email address").nonempty("Email required"),
+  firstName: z.string().nonempty("First name is required"),
+  id: z.number(),
+  lastName: z.string().nonempty("Last name is required"),
+  phoneNumber: z.string().nonempty("Phone number is required"),
+  createdDate: z.string().nonempty("Created date is required"),
+});
+
+// RegisterUser schema based on the RegisterUser type
+export const registerUserSchema = z.object({
+  firstName: z.string().nonempty("First name is required"),
+  lastName: z.string().nonempty("Last name is required"),
+  email: z.string().email("Invalid email address").nonempty("Email required"),
+  phoneNumber: z.string().nonempty("Phone number is required"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+// UpdatePasswordFormValue schema based on the UpdatePasswordFormValue type
+export const updatePasswordFormSchema = z
+  .object({
+    currentPassword: z.string().nonempty("Current password is required"),
+    newPassword: z
+      .string()
+      .min(6, "New password must be at least 6 characters long"),
+    confirmPassword: z
+      .string()
+      .min(6, "Confirm password must be at least 6 characters long"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });

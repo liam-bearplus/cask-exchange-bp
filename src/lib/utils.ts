@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
+import { AxiosResponse, isAxiosError } from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -146,3 +147,18 @@ export function formUrlQuery({
     }
   );
 }
+
+// Helper to standardize API call error handling
+export const handleRequest = async <T>(
+  promise: Promise<AxiosResponse<T>>
+): Promise<T> => {
+  try {
+    const response = await promise;
+    return response.data;
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+    throw new Error("An unexpected error occurred");
+  }
+};
