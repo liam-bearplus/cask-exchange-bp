@@ -25,6 +25,7 @@ const UserButton = async () => {
   const firstInitial = session?.user
     ? session.user.name?.charAt(0).toUpperCase()
     : "U";
+
   return (
     <div className="flex items-center gap-2">
       <DropdownMenu>
@@ -69,18 +70,6 @@ const UserButton = async () => {
               </Button>
             </Link>
           </DropdownMenuItem>
-          {session.user.role === "admin" && (
-            <DropdownMenuItem className="mb-1 p-0">
-              <Link href="/admin/overview" className="w-full">
-                <Button
-                  className="h-4 w-full justify-start px-2 py-4"
-                  variant={"ghost"}
-                >
-                  Admin
-                </Button>
-              </Link>
-            </DropdownMenuItem>
-          )}
           <DropdownMenuItem className="mb-1 p-0" asChild>
             {/* //TODO: Signout <form action={signOutUser} className="w-full">
               <Button

@@ -1,25 +1,28 @@
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
+import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
-import SignUpModule from "@/modules/signup";
+import ResetPasswordModule from "@/modules/reset-password";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+  title: "Reset Password",
 };
 
-const SignUpPage = async (props: {
+const SignInPage = async (props: {
   searchParams: Promise<{
     callbackUrl: string;
   }>;
 }) => {
   const { callbackUrl } = await props.searchParams;
 
-  const session = await getServerSession();
+  const session = await auth();
+  
   if (session) {
     return redirect(callbackUrl || "/");
   }
 
-  return <SignUpModule />;
+  return (
+    <ResetPasswordModule />
+  );
 };
 
-export default SignUpPage;
+export default SignInPage;

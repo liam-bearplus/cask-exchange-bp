@@ -1,16 +1,20 @@
 // services/userApi.ts
 import axiosInstance from "@/config/axios";
 import { handleRequest } from "@/lib/utils";
-import { PasswordForm, RegisterUser, UserSchema } from "@/types";
+import { TLoginUser, TPasswordForm, TRegisterUser, TUserSchema } from "@/types";
 
-export const registerUser = async (data: RegisterUser): Promise<UserSchema> => {
-  return handleRequest(
-    axiosInstance.post<UserSchema>("/api/auth/register", data)
-  );
+export const registerUser = async (
+  data: TRegisterUser
+): Promise<TUserSchema> => {
+  return handleRequest(axiosInstance.post<TUserSchema>("/auth/register", data));
+};
+
+export const loginUser = async (data: TLoginUser): Promise<TUserSchema> => {
+  return handleRequest(axiosInstance.post<TUserSchema>("/auth/login", data));
 };
 
 export const updatePassword = async (
-  data: PasswordForm
+  data: TPasswordForm
 ): Promise<{ message: string }> => {
   return handleRequest(
     axiosInstance.put<{ message: string }>("/api/user/change-password", data)
@@ -18,13 +22,15 @@ export const updatePassword = async (
 };
 
 export const updateUser = async (
-  data: Partial<UserSchema>
-): Promise<UserSchema> => {
-  return handleRequest(axiosInstance.put<UserSchema>("/api/user/update", data));
+  data: Partial<TUserSchema>
+): Promise<TUserSchema> => {
+  return handleRequest(
+    axiosInstance.put<TUserSchema>("/api/user/update", data)
+  );
 };
 
-export const fetchUser = async (): Promise<UserSchema> => {
-  return handleRequest(axiosInstance.get<UserSchema>("/api/user/get-info"));
+export const fetchUser = async (): Promise<TUserSchema> => {
+  return handleRequest(axiosInstance.get<TUserSchema>("/api/user/get-info"));
 };
 
 export const forgotPassword = async (
@@ -58,9 +64,9 @@ export const getUserList = async (params: {
   );
 };
 
-export const getUserDetail = async (id: number): Promise<UserSchema> => {
+export const getUserDetail = async (id: number): Promise<TUserSchema> => {
   return handleRequest(
-    axiosInstance.get<UserSchema>(`/api/user-management/${id}`)
+    axiosInstance.get<TUserSchema>(`/api/user-management/${id}`)
   );
 };
 

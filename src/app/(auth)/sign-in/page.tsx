@@ -1,5 +1,4 @@
-import CredentialsHead from "@/components/shared/auth/credentials-head";
-import CredentialsSignInForm from "@/components/shared/auth/credentials-signin-form";
+import SignInModule from "@/modules/signin";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -20,14 +19,7 @@ const SignInPage = async (props: {
     return redirect(callbackUrl || "/");
   }
 
-  return (
-    <div className="flex flex-col">
-      <CredentialsHead title="Sign In" />
-      <div className="pb-4">
-        <CredentialsSignInForm />
-      </div>
-    </div>
-  );
+  return <SignInModule />;
 };
 
 export default SignInPage;

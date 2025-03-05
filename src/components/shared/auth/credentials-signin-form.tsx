@@ -71,7 +71,7 @@ const CredentialsSignInForm = () => {
             <Checkbox id="remember" className="mt-0.5"/>
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Link href="/forgot-password" target="_self" className="text-base text-typo-body text-underline">Forgot password?</Link>
+          <Link href="/reset-password" target="_self" className="text-base text-typo-body text-underline">Forgot password?</Link>
         </div>
         <div>
           <SignInButton />
