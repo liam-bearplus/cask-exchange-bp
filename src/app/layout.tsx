@@ -2,7 +2,7 @@ import "@/assets/styles/globals.css";
 import MainLayout from "@/layouts/MainLayout/MainLayout";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import type { Metadata } from "next";
-import { Alegreya, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 

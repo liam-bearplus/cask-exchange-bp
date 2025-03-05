@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormField } from "@/components/ui/form";
+import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInDefaultValues } from "@/lib/constants";
@@ -13,10 +13,10 @@ import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 const CredentialsSignInForm = () => {
-  const searchParams = useSearchParams();
   const loginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: ({ data: data }: { data: TLoginUser }) => loginUser(data),
@@ -36,14 +36,23 @@ const CredentialsSignInForm = () => {
       }
     );
   };
+
   const form = useForm({
     resolver: zodResolver(signInFormSchema),
     defaultValues: signInDefaultValues,
   });
+
+  const isDisabled = useCallback(() => {
+    const values = form.getValues();
+    return Object.values(values).every(
+      (value) => value !== undefined && value !== "" && value !== null
+    );
+  }, [form.getValues]);
+
   const SignInButton = () => {
     return (
       <Button
-        disabled={loginMutation.isPending}
+        disabled={!isDisabled() || loginMutation.isPending}
         className="w-full"
         variant="default"
       >
@@ -51,7 +60,8 @@ const CredentialsSignInForm = () => {
       </Button>
     );
   };
-
+  const isDisable = form;
+  console.log("isDisable", isDisable);
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -61,7 +71,8 @@ const CredentialsSignInForm = () => {
           render={({ field }) => (
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" {...field} />
+              <Input id="email" type="text" {...field} />
+              <FormMessage />
             </div>
           )}
         />
@@ -72,6 +83,7 @@ const CredentialsSignInForm = () => {
             <div>
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" {...field} />
+              <FormMessage />
             </div>
           )}
         />

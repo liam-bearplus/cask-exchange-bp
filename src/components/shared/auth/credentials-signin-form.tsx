@@ -1,92 +1,132 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { signInDefaultValues } from "@/lib/constants";
+import { signInFormSchema } from "@/lib/validators";
+import { loginUser } from "@/services/auth";
+import { TLoginUser } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { useSearchParams } from "next/navigation";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
 
 const CredentialsSignInForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
-  const [data, action] = useActionState(
-    () => {
-      return {
-        success: false,
-        message: "",
-      };
-    },
-    {
-      success: false,
-      message: "",
-    }
-  );
+  const loginMutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: ({ data: data }: { data: TLoginUser }) => loginUser(data),
+  });
+  const onSubmit = (data: TLoginUser) => {
+    loginMutation.mutate(
+      { data },
+      {
+        onSuccess: () => {
+          signIn("login", {
+            ...data,
+            redirect: true,
+            callbackUrl: "/",
+          });
+        },
+      }
+    );
+  };
+
+  const form = useForm({
+    resolver: zodResolver(signInFormSchema),
+    defaultValues: signInDefaultValues,
+  });
+
+  const isDisableButton = useDisableButtonForm(form);
 
   const SignInButton = () => {
-    const { pending } = useFormStatus();
     return (
-      <Button disabled={pending} className="w-full" variant="default">
-        {pending ? "Logging In..." : "Login"}
+      <Button
+        disabled={isDisableButton || loginMutation.isPending}
+        className="w-full"
+        variant="default"
+        type="submit"
+      >
+        {loginMutation.isPending ? "Logging In..." : "Login"}
       </Button>
     );
   };
 
   return (
-    <form id="sign-in" action={action}>
-      <input type="hidden" value={callbackUrl} name="callbackUrl" />
-      <div className="space-y-6">
-        <div className="space-y-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
               name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="Ex: johndoe@gmail.com"
-              defaultValue={signInDefaultValues.email}
+              render={({ field }) => (
+                <div className="space-y-1.5">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="Ex: johndoe@gmail.com"
+                    {...field}
+                  />
+                  <FormMessage />
+                </div>
+              )}
             />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
+            <FormField
+              control={form.control}
               name="password"
-              type="password"
-              variant="password"
-              required
-              autoComplete="password"
-              placeholder="•••••••••"
-              defaultValue={signInDefaultValues.password}
+              render={({ field }) => (
+                <div className="space-y-1.5">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    variant="password"
+                    autoComplete="password"
+                    placeholder="•••••••••"
+                    {...field}
+                  />
+                  <FormMessage />
+                </div>
+              )}
             />
           </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <div className="flex items-start content-start space-x-2">
-            <Checkbox id="remember" className="mt-0.5"/>
-            <Label htmlFor="remember">Remember me</Label>
+          <div className="flex items-center justify-between">
+            <div className="flex content-start items-start space-x-2">
+              <Checkbox id="remember" className="mt-0.5" />
+              <Label htmlFor="remember">Remember me</Label>
+            </div>
+            <Link
+              href="/reset-password"
+              target="_self"
+              className="text-underline text-base text-typo-body"
+            >
+              Forgot password?
+            </Link>
           </div>
-          <Link href="/reset-password" target="_self" className="text-base text-typo-body text-underline">Forgot password?</Link>
+          <div>
+            <SignInButton />
+          </div>
+          <div className="text-center text-base text-typo-disable">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/sign-up"
+              target="_self"
+              className="text-underline text-typo-body"
+            >
+              Sign up
+            </Link>{" "}
+          </div>
         </div>
-        <div>
-          <SignInButton />
-        </div>
-        {data && !data.success && (
-          <p className="text-center text-destructive">{data.message}</p>
-        )}
-        <div className="text-base text-center text-typo-disable">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" target="_self" className="text-typo-body text-underline">
-            Sign up
-          </Link>{" "}
-        </div>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 };
 
