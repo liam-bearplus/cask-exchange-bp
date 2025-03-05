@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
-import SignInModule from "@/modules/signin";
+import ResetPasswordModule from "@/modules/reset-password";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+  title: "Reset Password",
 };
 
 const SignInPage = async (props: {
@@ -21,7 +21,7 @@ const SignInPage = async (props: {
   }
 
   return (
-    <SignInModule />
+    <ResetPasswordModule />
   );
 };
 
