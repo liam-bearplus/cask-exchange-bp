@@ -1,9 +1,8 @@
-
-import { Metadata } from "next";
-import { auth } from "@/config/auth";
-import CredentialsSignInForm from "@/components/shared/auth/credentials-signin-form";
-import { redirect } from "next/navigation";
 import CredentialsHead from "@/components/shared/auth/credentials-head";
+import CredentialsSignInForm from "@/components/shared/auth/credentials-signin-form";
+import { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -16,7 +15,7 @@ const SignInPage = async (props: {
 }) => {
   const { callbackUrl } = await props.searchParams;
 
-  const session = await auth();
+  const session = await getServerSession();
   if (session) {
     return redirect(callbackUrl || "/");
   }

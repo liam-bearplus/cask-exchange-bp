@@ -1,32 +1,20 @@
 import {
-  cartItemSchema,
-  insertCartSchema,
-  insertOrderItemSchema,
-  insertProductSchema,
   paymentResultSchema,
-  registerUserSchema,
-  shippingAddressSchema,
+  signUpFormSchema,
   updatePasswordFormSchema,
   userSchema,
+  signInFormSchema,
 } from "@/lib/validators";
 import { z } from "zod";
-export type Product = z.infer<typeof insertProductSchema> & {
-  id: string;
-  rating: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
 
-export type Cart = z.infer<typeof insertCartSchema>;
-export type CartItem = z.infer<typeof cartItemSchema>;
-export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
-export type OrderItem = z.infer<typeof insertOrderItemSchema>;
-export type PaymentResult = z.infer<typeof paymentResultSchema>;
-export type SalesDataType = {
+export type TPaymentResult = z.infer<typeof paymentResultSchema>;
+export type TSalesDataType = {
   month: string;
   totalSales: number;
 }[];
+export type TDataCountryWithNumber = Record<string, string>;
 
-export type UserSchema = z.infer<typeof userSchema>;
-export type RegisterUser = z.infer<typeof registerUserSchema>;
-export type PasswordForm = z.infer<typeof updatePasswordFormSchema>;
+export type TUserSchema = z.infer<typeof userSchema>;
+export type TRegisterUser = z.infer<typeof signUpFormSchema>;
+export type TLoginUser = z.infer<typeof signInFormSchema>;
+export type TPasswordForm = z.infer<typeof updatePasswordFormSchema>;

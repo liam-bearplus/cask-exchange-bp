@@ -5,13 +5,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { auth } from "@/config/auth";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { UserIcon } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 const UserButton = async () => {
-  const session = await auth();
+  const session = await getServerSession();
   if (!session)
     return (
       <Button asChild>
@@ -26,43 +26,43 @@ const UserButton = async () => {
     ? session.user.name?.charAt(0).toUpperCase()
     : "U";
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
             <Button
               variant={"ghost"}
-              className="relative w-8 h-8 rounded-full ml-2 flex items-center justify-center bg-gray-200"
+              className="bg-gray-200 relative ml-2 flex h-8 w-8 items-center justify-center rounded-full"
             >
               {firstInitial}
             </Button>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 " align="end" forceMount>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <div className="text-sm font-medium leading-none">
                 {session?.user?.name ?? ""}
               </div>
-              <div className="text-muted-foreground text-sm leading-none">
+              <div className="text-sm leading-none text-muted-foreground">
                 {session?.user?.email ?? ""}
               </div>
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuItem className="p-0 mb-1">
+          <DropdownMenuItem className="mb-1 p-0">
             <Link href="/user/profile" className="w-full">
               <Button
-                className="w-full py-4 px-2 h-4 justify-start"
+                className="h-4 w-full justify-start px-2 py-4"
                 variant={"ghost"}
               >
                 Profile
               </Button>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="p-0 mb-1">
+          <DropdownMenuItem className="mb-1 p-0">
             <Link href="/user/orders" className="w-full">
               <Button
-                className="w-full py-4 px-2 h-4 justify-start"
+                className="h-4 w-full justify-start px-2 py-4"
                 variant={"ghost"}
               >
                 Order History
@@ -70,10 +70,10 @@ const UserButton = async () => {
             </Link>
           </DropdownMenuItem>
           {session.user.role === "admin" && (
-            <DropdownMenuItem className="p-0 mb-1">
+            <DropdownMenuItem className="mb-1 p-0">
               <Link href="/admin/overview" className="w-full">
                 <Button
-                  className="w-full py-4 px-2 h-4 justify-start"
+                  className="h-4 w-full justify-start px-2 py-4"
                   variant={"ghost"}
                 >
                   Admin
@@ -81,7 +81,7 @@ const UserButton = async () => {
               </Link>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem className="p-0 mb-1" asChild>
+          <DropdownMenuItem className="mb-1 p-0" asChild>
             {/* //TODO: Signout <form action={signOutUser} className="w-full">
               <Button
                 className="w-full py-4 px-2 h-4 justify-start"
