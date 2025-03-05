@@ -16,10 +16,12 @@ export const signInDefaultValues = {
 };
 
 export const signUpDefaultValues = {
-  name: "",
+  firstName: "",
+  lastName: "",
+  phone: "",
+  inviteCode: "",
   email: "",
   password: "",
-  confirmPassword: "",
 };
 
 // export const shippingAddressDefaultValues = {

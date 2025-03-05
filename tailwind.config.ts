@@ -8,6 +8,105 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+	colors: {
+		transparent: 'transparent',
+		current: 'currentColor',
+		typo: {
+			brand: 'hsl(var(--brand))',
+			disable: 'hsl(var(--dark-400))',
+			primary: 'hsl(var(--dark-900))',
+			body: 'hsl(var(--dark-800))',
+			sub: 'hsl(var(--dark-600))',
+			dark: {
+				brand: 'hsl(var(--brand))',
+				disable: 'hsl(var(--white-600))',
+				primary: 'hsl(var(--white-900))',
+				body: 'hsl(var(--white-800))',
+				sub: 'hsl(var(--white-700))',
+			}
+		},
+		bd: {
+			disable: 'hsl(var(--dark-200))',
+			main: 'hsl(var(--dark-300))',
+			sf1: 'hsl(var(--dark-300))',
+			sf2: 'hsl(var(--dark-400))',
+			sf3: 'hsl(var(--dark-500))',
+			dark: {
+				disable: 'hsl(var(--white-200))',
+				main: 'hsl(var(--white-300))',
+				sf1: 'hsl(var(--white-300))',
+				sf2: 'hsl(var(--white-400))',
+				sf3: 'hsl(var(--white-500))',
+			}
+		},
+		bg: {
+			main: 'hsl(var(--white-900))',
+			disable: 'hsl(var(--dark-100))',
+			sf1: 'hsl(var(--dark-100))',
+			sf2: 'hsl(var(--dark-200))',
+			sf3: 'hsl(var(--dark-300))',
+			dark: {
+				main: 'hsl(var(--black))',
+				disable: 'hsl(var(--white-100))',
+				sf1: 'hsl(var(--white-100))',
+				sf2: 'hsl(var(--white-200))',
+				sf3: 'hsl(var(--white-300))',
+			}
+		},
+		white: {
+			100: 'hsl(var(--white-100))',
+			200: 'hsl(var(--white-200))',
+			300: 'hsl(var(--white-300))',
+			400: 'hsl(var(--white-400))',
+			500: 'hsl(var(--white-500))',
+			600: 'hsl(var(--white-600))',
+			700: 'hsl(var(--white-700))',
+			800: 'hsl(var(--white-800))',
+			900: 'hsl(var(--white-900))'
+		},
+		dark: {
+			100: 'hsl(var(--dark-100))',
+			200: 'hsl(var(--dark-200))',
+			300: 'hsl(var(--dark-300))',
+			400: 'hsl(var(--dark-400))',
+			500: 'hsl(var(--dark-500))',
+			600: 'hsl(var(--dark-600))',
+			700: 'hsl(var(--dark-700))',
+			800: 'hsl(var(--dark-800))',
+			900: 'hsl(var(--dark-900))'
+		},
+		black: {
+			DEFAULT: 'hsl(var(--black))'
+		},
+		brand: {
+			DEFAULT: 'hsl(var(--brand))',
+			darker: 'hsl(var(--brand-darker))',
+			darkest: 'hsl(var(--brand-darkest))',
+			lighter: 'hsl(var(--brand-lighter))',
+			lightest: 'hsl(var(--brand-lightest))'
+		},
+		error: {
+			DEFAULT: 'hsl(var(--error))',
+			darker: 'hsl(var(--error-darker))',
+			darkest: 'hsl(var(--error-darkest))',
+			lighter: 'hsl(var(--error-lighter))',
+		},
+		warn: {
+			DEFAULT: 'hsl(var(--warn))',
+			darker: 'hsl(var(--warn-darker))',
+			darkest: 'hsl(var(--warn-darkest))',
+			lighter: 'hsl(var(--warn-lighter))',
+		},
+		success: {
+			DEFAULT: 'hsl(var(--success))',
+			darker: 'hsl(var(--success-darker))',
+			darkest: 'hsl(var(--success-darkest))',
+			lighter: 'hsl(var(--success-lighter))',
+		},
+	},
+	transitionDuration: {
+		DEFAULT: '250ms'
+	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',

@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer utilities {
+  .img-basic {
+    @apply w-full h-auto;
+  }
+  .ff-decor {
+    font-family: 'Alegreya', serif;
+  }
+
+  /* .text-underline {
+    @apply relative overflow-hidden inline-block align-bottom
+    after:block after:w-full after:bg-current after:absolute after:bottom-[.05em] after:h-[1px] after:z-10 after:transition-transform after:scale-x-0 after:origin-right
+    hover:after:transform-none hover:after:scale-x-100 hover:after:origin-left;
+  } */
+  .text-underline {
+    @apply underline transition-[text-decoration-color] decoration-transparent hover:decoration-current;
+  }
+
+  .text-mask {
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, .3) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, .07) 100%);
+  }
+
   .wrapper {
     @apply max-w-7xl lg:mx-auto p-5 md:px-10 w-full;
   }
@@ -33,8 +53,57 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --white-100: 210 8% 19%;
+    --white-200: 214 6% 24%;
+    --white-300: 214 5% 28%;
+    --white-400: 214 4% 32%;
+    --white-500: 210 3% 36%;
+    --white-600: 204 2% 49%;
+    --white-700: 220 2% 66%;
+    --white-800: 180 1% 83%;
+    --white-900: 0 0% 100%;
+
+    --dark-100: 200 16% 96%;
+    --dark-200: 204 10% 90%;
+    --dark-300: 202 12% 82%;
+    --dark-400: 207 11% 69%;
+    --dark-500: 208 11% 53%;
+    --dark-600: 208 12% 43%;
+    --dark-700: 210 11% 35%;
+    --dark-800: 21 9% 27%;
+    --dark-900: 210 11% 15%;
+
+    --black: 0 0% 5%;
+
+    --brand: 44 88% 61%;
+    --brand-darker: 37 65% 52%;
+    --brand-darkest: 31 63% 42%;
+    --brand-lighter: 50 17% 50%;
+    --brand-lightest: 56 100% 90%;
+
+    --error: 347 77% 50%;
+    --error-darker: 345 83% 41%;
+    --error-darkest: 342 75% 30%;
+    --error-lighter: 356 100% 95%;
+
+    --warn: 34 94% 50%;
+    --warn-darker: 28 97% 44%;
+    --warn-darkest: 19 84% 31%;
+    --warn-lighter: 44 98% 77%;
+
+    --success: 152 77% 39%;
+    --success-darker: 153 91% 30%;
+    --success-darkest: 155 90% 24%;
+    --success-lighter: 144 68% 80%;
+
+    --tw-shadow-color: #0A0D12;
+  }
+}
+
+@layer base {
+  :root {
+    --background: var(--white-900);
+    --foreground: var(--dark-800);
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -49,9 +118,9 @@
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: var(--dark-300);
+    --input: var(--dark-300);
+    --ring: var(--brand);
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -88,6 +157,14 @@
 }
 
 @layer base {
+  :root {
+    font-size: 0.9259259259vw;
+  }
+  @media (min-width: 1728px) {
+    :root {
+      font-size: 16px;
+    }
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -95,7 +172,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border focus-visible:outline-ring;
   }
   body {
     @apply bg-background text-foreground;

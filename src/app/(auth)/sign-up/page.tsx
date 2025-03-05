@@ -12,6 +12,7 @@ import { APP_NAME } from "@/lib/constants";
 import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
 import CredentialsSignUpForm from "@/components/shared/auth/credentials-signup-form";
+import CredentialsHead from "@/components/shared/auth/credentials-head";
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -30,27 +31,11 @@ const SignUpPage = async (props: {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <Card>
-        <CardHeader className="space-y-4">
-          <Link href={"/"} className="flex-center">
-            <Image
-              alt={`${APP_NAME} logo`}
-              src="/images/logo.svg"
-              height={100}
-              width={100}
-              priority
-            />
-          </Link>
-          <CardTitle className="text-center ">Sign Up</CardTitle>
-          <CardDescription className="text-center">
-            Create an account and start
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <CredentialsSignUpForm />
-        </CardContent>
-      </Card>
+    <div className="flex flex-col">
+      <CredentialsHead title="Create new account" />
+      <div className="pb-4">
+        <CredentialsSignUpForm />
+      </div>
     </div>
   );
 };
