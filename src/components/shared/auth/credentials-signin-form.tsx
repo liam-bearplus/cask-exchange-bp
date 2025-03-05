@@ -2,7 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormField, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
@@ -14,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 const CredentialsSignInForm = () => {
@@ -33,6 +37,9 @@ const CredentialsSignInForm = () => {
             callbackUrl: "/",
           });
         },
+        // onError: (error) => {
+        //   console.log("error", error);
+        // },
       }
     );
   };
@@ -68,13 +75,16 @@ const CredentialsSignInForm = () => {
               render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="Ex: johndoe@gmail.com"
-                    {...field}
-                  />
+                  <FormControl>
+                    <Input
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="Ex: johndoe@gmail.com"
+                      {...field}
+                    />
+                  </FormControl>
+
                   <FormMessage />
                 </div>
               )}
@@ -85,14 +95,17 @@ const CredentialsSignInForm = () => {
               render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    variant="password"
-                    autoComplete="password"
-                    placeholder="•••••••••"
-                    {...field}
-                  />
+                  <FormControl>
+                    <Input
+                      id="password"
+                      type="password"
+                      variant="password"
+                      autoComplete="password"
+                      placeholder="•••••••••"
+                      {...field}
+                    />
+                  </FormControl>
+
                   <FormMessage />
                 </div>
               )}
