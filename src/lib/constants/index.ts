@@ -18,7 +18,7 @@ export const signInDefaultValues = {
 export const signUpDefaultValues = {
   firstName: "",
   lastName: "",
-  phone: "",
+  phoneNumber: "",
   inviteCode: "",
   email: "",
   password: "",

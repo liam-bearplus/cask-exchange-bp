@@ -27,6 +27,7 @@ export const signUpFormSchema = z
       .nonempty({ message: "Last Name is required" })
       .min(3, "Name must be at 3 characters long"),
     email: z.string().nonempty("Email required").email("Invalid email address"),
+    inviteCode: z.string().optional(),  
     password: z
       .string()
       .min(8, "Password must be at 8 characters long")
@@ -36,13 +37,8 @@ export const signUpFormSchema = z
         /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
         "Must contain at least one number or special character"
       ),
-    confirmPassword: z.string().min(6, "Password must be at 6 characters long"),
     phoneNumber: z.string().nonempty("Phone number is required"),
-    country: z.string().nonempty("Country is required"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
+    country: z.string().nonempty("Country is required").optional(),
   })
   .refine(
     (data) => {
