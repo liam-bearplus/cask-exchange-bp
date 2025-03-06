@@ -18,11 +18,21 @@ export const signInDefaultValues = {
 export const signUpDefaultValues = {
   firstName: "",
   lastName: "",
-  phone: "",
+  phoneNumber: "",
   inviteCode: "",
   email: "",
   password: "",
+  consent: false,
 };
+
+export const ResetPasswordDefaultValues = {
+  email: "",
+}
+
+export const NewPasswordDefaultValues = {
+  password: "",
+  confirmPassword: "",
+}
 
 export const shippingAddressDefaultValues = {
   fullName: "",

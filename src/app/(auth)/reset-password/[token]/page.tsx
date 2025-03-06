@@ -1,17 +1,22 @@
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import ResetPasswordModule from "@/modules/reset-password";
+import { NewPasswordModule } from "@/modules/reset-password";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Reset Password",
 };
 
-const ResetPasswordPage = async (props: {
+const NewPasswordPage = async (props: {
   searchParams: Promise<{
     callbackUrl: string;
-  }>;
+  }>,
+  params: Promise<{
+    token: string;
+  }>
 }) => {
+  const { token } = await props.params;
+  console.log(token)
   const { callbackUrl } = await props.searchParams;
 
   const session = await getServerSession();
@@ -21,8 +26,8 @@ const ResetPasswordPage = async (props: {
   }
 
   return (
-    <ResetPasswordModule />
+    <NewPasswordModule />
   );
 };
 
-export default ResetPasswordPage;
+export default NewPasswordPage;
