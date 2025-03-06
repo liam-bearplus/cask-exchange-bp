@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { auth } from "@/config/auth";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ResetPasswordModule from "@/modules/reset-password";
 
@@ -14,7 +14,7 @@ const ResetPasswordPage = async (props: {
 }) => {
   const { callbackUrl } = await props.searchParams;
 
-  const session = await auth();
+  const session = await getServerSession();
   
   if (session) {
     return redirect(callbackUrl || "/");

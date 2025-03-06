@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { auth } from "@/config/auth";
 import { redirect } from "next/navigation";
 import { NewPasswordModule } from "@/modules/reset-password";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -19,7 +19,7 @@ const NewPasswordPage = async (props: {
   console.log(token)
   const { callbackUrl } = await props.searchParams;
 
-  const session = await auth();
+  const session = await getServerSession();
   
   if (session) {
     return redirect(callbackUrl || "/");
