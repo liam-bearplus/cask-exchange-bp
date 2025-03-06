@@ -1,4 +1,4 @@
-import { createServer, IncomingMessage, ServerResponse } from 'node:http'
+import { createServer, IncomingMessage, ServerResponse } from 'http'
 import next from 'next'
 import { PrismaClient } from '@prisma/client'
 

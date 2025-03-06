@@ -24,6 +24,15 @@ export const signUpDefaultValues = {
   password: "",
 };
 
+export const ResetPasswordDefaultValues = {
+  email: "",
+}
+
+export const NewPasswordDefaultValues = {
+  password: "",
+  confirmPassword: "",
+}
+
 export const shippingAddressDefaultValues = {
   fullName: "",
   streetAddress: "",

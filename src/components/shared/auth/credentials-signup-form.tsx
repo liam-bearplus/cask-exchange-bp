@@ -56,6 +56,7 @@ const CredentialsSignUpForm = () => {
               id="lastName"
               name="lastName"
               type="text"
+              required
               autoComplete="family-name"
               placeholder="Ex: Doe"
               defaultValue={signUpDefaultValues.lastName}
@@ -126,7 +127,7 @@ const CredentialsSignUpForm = () => {
         )}
         <div className="text-base text-center text-typo-disable">
           Already have an account?{" "}
-          <Link href="/sign-up" target="_self" className="text-typo-body text-underline">
+          <Link href="/sign-in" target="_self" className="text-typo-body text-underline">
             Sign in
           </Link>
         </div>
