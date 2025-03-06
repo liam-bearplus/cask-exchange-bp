@@ -39,7 +39,16 @@ export const signUpFormSchema = z
       ),
     phoneNumber: z.string().nonempty("Phone number is required"),
     country: z.string().nonempty("Country is required").optional(),
+    consent: z.boolean()
   })
+  .refine(
+    (data) => {
+      return data.consent === false;
+    }, {
+      message: "You must agree to the terms and conditions",
+      path: ["consent"]
+    }
+  )
   .refine(
     (data) => {
       const phoneNumber = parsePhoneNumber(

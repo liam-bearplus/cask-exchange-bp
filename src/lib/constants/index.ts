@@ -22,6 +22,7 @@ export const signUpDefaultValues = {
   inviteCode: "",
   email: "",
   password: "",
+  consent: false,
 };
 
 export const ResetPasswordDefaultValues = {

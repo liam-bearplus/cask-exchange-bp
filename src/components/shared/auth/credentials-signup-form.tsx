@@ -159,11 +159,19 @@ const CredentialsSignUpForm = () => {
               )}
             />
           </div>
+          <FormField name="consent" control={form.control} render={({ field }) => (
+            <div className="flex items-start content-start space-x-2">
+              <FormControl>
+                <Checkbox id="consent" className="mt-0.5" onChange={field.onChange}/>
+              </FormControl>
+              <Label htmlFor="consent" className="text-typo-disable font-normal">
+                I have read and agree to the <Link href='#' target="_blank" className="text-typo-body text-underline">Terms of Service</Link> and <Link href='#' target="_blank" className="text-typo-body text-underline">Privacy Policy</Link>
+              </Label>
+              <FormMessage />
+            </div>
+          )}
+        />
           <div className="flex items-start content-start space-x-2">
-            <Checkbox id="remember" className="mt-0.5"/>
-            <Label htmlFor="remember" className="text-typo-disable font-normal">
-              I have read and agree to the <Link href='#' target="_blank" className="text-typo-body text-underline">Terms of Service</Link> and <Link href='#' target="_blank" className="text-typo-body text-underline">Privacy Policy</Link>
-            </Label>
           </div>
           <div>
             <SignUpButton />
