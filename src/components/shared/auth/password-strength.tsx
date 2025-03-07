@@ -30,6 +30,7 @@ export default function PasswordStrength({
                     const isInvalid = !validateContains.includes(item.name);
                     return (
                         <PasswordStrengthItem
+                            key={item.name}
                             content={item.message}
                             isInvalid={isInvalid}
                         />
