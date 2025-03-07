@@ -1,7 +1,13 @@
 // services/userApi.ts
 import axiosInstance from "@/config/axios";
 import { handleRequest } from "@/lib/utils";
-import { TLoginUser, TUpdatePassword, TRegisterUser, TUserSchema } from "@/types";
+import {
+    TLoginUser,
+    TUpdatePassword,
+    TRegisterUser,
+    TUserSchema,
+    TForgotPassword,
+} from "@/types";
 
 export const registerUser = async (
     data: TRegisterUser
@@ -16,13 +22,10 @@ export const loginUser = async (data: TLoginUser): Promise<TUserSchema> => {
 };
 
 export const updatePassword = async (
-  data: TUpdatePassword
+    data: TUpdatePassword
 ): Promise<{ message: string }> => {
     return handleRequest(
-        axiosInstance.put<{ message: string }>(
-            "/api/user/change-password",
-            data
-        )
+        axiosInstance.put<{ message: string }>("/user/change-password", data)
     );
 };
 
@@ -35,16 +38,14 @@ export const updateUser = async (
 };
 
 export const fetchUser = async (): Promise<TUserSchema> => {
-    return handleRequest(axiosInstance.get<TUserSchema>("/api/user/get-info"));
+    return handleRequest(axiosInstance.get<TUserSchema>("/user/get-info"));
 };
 
 export const forgotPassword = async (
-    email: string
+    data: TForgotPassword
 ): Promise<{ message: string }> => {
     return handleRequest(
-        axiosInstance.post<{ message: string }>("/api/auth/forgot-password", {
-            email,
-        })
+        axiosInstance.post<{ message: string }>("/auth/forgot-password", data)
     );
 };
 
@@ -53,7 +54,7 @@ export const resetPassword = async (data: {
     password: string;
 }): Promise<{ message: string }> => {
     return handleRequest(
-        axiosInstance.put<{ message: string }>("/api/auth/reset-password", data)
+        axiosInstance.put<{ message: string }>("/auth/reset-password", data)
     );
 };
 

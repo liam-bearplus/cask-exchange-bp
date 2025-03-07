@@ -29,6 +29,9 @@ app.prepare().then(() => {
                 } else if (apiPath.includes("/auth/login")) {
                     loginUser(req, res);
                     return;
+                } else if (apiPath.includes("/auth/forgot-password")) {
+                    forgotPassword(req, res);
+                    return;
                 }
                 return handler(req, res);
             } else {
@@ -113,6 +116,40 @@ const loginUser = async (req: IncomingMessage, res: ServerResponse) => {
             } else {
                 res.writeHead(401, { "Content-Type": "application/json" });
                 res.end(JSON.stringify({ error: "Unauthorized" }));
+            }
+        } catch (error) {
+            console.log("Error logging in:", error);
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Internal server error" }));
+        }
+    });
+};
+
+const forgotPassword = async (req: IncomingMessage, res: ServerResponse) => {
+    let body = "";
+
+    req.on("data", (chunk) => {
+        body += chunk.toString();
+    });
+
+    req.on("end", async () => {
+        try {
+            const { email } = JSON.parse(body);
+            const user = await prisma.user.findUnique({
+                where: {
+                    email,
+                },
+                include: {
+                    auth: true,
+                },
+            });
+            console.log("user", user);
+            if (user) {
+                res.writeHead(200, { "Content-Type": "application/json" });
+                res.end(JSON.stringify(user));
+            } else {
+                res.writeHead(401, { "Content-Type": "application/json" });
+                res.end(JSON.stringify({ error: "Account is not exist" }));
             }
         } catch (error) {
             console.log("Error logging in:", error);

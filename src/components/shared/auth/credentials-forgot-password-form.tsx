@@ -23,7 +23,7 @@ const CredentialsForgotPasswordForm = () => {
     const forgotPasswordMutation = useMutation({
         mutationKey: [KEY_FORGOT_PASSWORD],
         mutationFn: ({ data: data }: { data: TForgotPassword }) =>
-            forgotPassword(data.email),
+            forgotPassword(data),
     });
 
     const onSubmit = (data: TForgotPassword) => {

@@ -18,6 +18,7 @@ import { TUpdatePassword } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import PasswordStrength from "./password-strength";
 
 const CredentialsUpdatePasswordForm = () => {
     const updatePasswordMutation = useMutation({
@@ -97,6 +98,7 @@ const CredentialsUpdatePasswordForm = () => {
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                    <PasswordStrength password={field.value} />
                                 </div>
                             )}
                         />
