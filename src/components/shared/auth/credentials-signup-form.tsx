@@ -175,6 +175,7 @@ const CredentialsSignUpForm = () => {
                                             id="password"
                                             type="password"
                                             required
+                                            variant="password"
                                             autoComplete="password"
                                             placeholder="•••••••••"
                                             {...field}

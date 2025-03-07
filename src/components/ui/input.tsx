@@ -1,6 +1,6 @@
-import * as React from "react";
-import { AlertCircle, EyeIcon, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { EyeIcon, EyeOff } from "lucide-react";
+import * as React from "react";
 import { useFormField } from "./form";
 
 interface InputProps extends React.ComponentProps<"input"> {
@@ -31,15 +31,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     ref={ref}
                     {...props}
                 />
-                {error && (
-                    <button
-                        type="button"
-                        className="alert-icon pointer-events-none absolute right-1 p-2 text-typo-disable transition-colors hover:text-typo-body"
-                        onClick={togglePasswordVisibility}
-                    >
-                        <AlertCircle className="h-4 w-4 text-error-darker" />
-                    </button>
-                )}
 
                 {variant === "password" && (
                     <button
@@ -48,9 +39,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onClick={togglePasswordVisibility}
                     >
                         {showPassword ? (
-                            <EyeIcon className="h-4 w-4" />
+                            <EyeIcon
+                                className={cn("h-4 w-4", error && "text-error")}
+                            />
                         ) : (
-                            <EyeOff className="h-4 w-4" />
+                            <EyeOff
+                                className={cn("h-4 w-4", error && "text-error")}
+                            />
                         )}
                     </button>
                 )}
