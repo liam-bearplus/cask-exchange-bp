@@ -20,30 +20,36 @@ export const signUpFormSchema = z
     .object({
         firstName: z
             .string()
-            .nonempty({ message: "First Name is required" })
-            .min(3, "Name must be at 3 characters long"),
+            .nonempty({ message: "Please enter your first name" })
+            .min(3, "First name must be at least 3 characters long"),
         lastName: z
             .string()
-            .nonempty({ message: "Last Name is required" })
-            .min(3, "Name must be at 3 characters long"),
+            .nonempty({ message: "Please enter your last name" })
+            .min(3, "Last name must be at least 3 characters long"),
         email: z
             .string()
-            .nonempty("Email required")
-            .email("Invalid email address"),
+            .nonempty("Please enter your email")
+            .email("Please provide a valid email address"),
         inviteCode: z.string().optional(),
         password: z
             .string()
-            .min(8, "Password must be at 8 characters long")
-            .regex(/[a-z]/, "Must contain at least 1 lowercase letter")
-            .regex(/[A-Z]/, "Must contain at least 1 uppercase letter")
+            .min(8, "Password must be at least 8 characters long")
+            .regex(
+                /[a-z]/,
+                "Password must include at least one lowercase letter"
+            )
+            .regex(
+                /[A-Z]/,
+                "Password must include at least one uppercase letter"
+            )
             .regex(
                 /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
-                "Must contain at least one number or special character"
+                "Password must include at least one number or special character"
             ),
-        phoneNumber: z.string().nonempty("Phone number is required"),
-        country: z.string().nonempty("Country is required").optional(),
+        phoneNumber: z.string().nonempty("Please enter your phone number"),
+        country: z.string().nonempty("Please select your country").optional(),
         consent: z.boolean().refine((val) => val === true, {
-            message: "Please read and accept the terms and conditions",
+            message: "You must agree to the terms and conditions to proceed",
         }),
     })
     .refine(
@@ -55,11 +61,10 @@ export const signUpFormSchema = z
             return phoneNumber && phoneNumber.isValid();
         },
         {
-            message: "NumberPhone Invalid",
+            message: "Please provide a valid phone number",
             path: ["phoneNumber"],
         }
     );
-
 // Schema for payment method schema
 export const paymentResultSchema = z.object({
     id: z.string(),
