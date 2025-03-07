@@ -9,7 +9,7 @@ export default function AuthLayout({
 }>) {
     return (
         <div className="min-h-screen w-full">
-            <div className="grid h-full min-h-screen w-full grid-cols-2">
+            <div className="grid h-full min-h-screen w-full grid-cols-2 relative">
                 <SplashScreen />
                 <div className="flex-center relative flex-col py-28">
                     <div className="grid w-full grid-cols-12 gap-4 px-5">

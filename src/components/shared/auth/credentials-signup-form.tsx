@@ -21,6 +21,7 @@ import { signUpFormSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
+import PasswordStrength from "./password-strength";
 
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
@@ -52,7 +53,6 @@ const CredentialsSignUpForm = () => {
             </Button>
         );
     };
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} id="sign-up">
@@ -174,6 +174,7 @@ const CredentialsSignUpForm = () => {
                                         <Input
                                             id="password"
                                             type="password"
+                                            variant="password"
                                             required
                                             variant="password"
                                             autoComplete="password"
@@ -182,9 +183,11 @@ const CredentialsSignUpForm = () => {
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                    <PasswordStrength password={field.value}/>
                                 </div>
                             )}
                         />
+                        
                     </div>
 
                     <FormField

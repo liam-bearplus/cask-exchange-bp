@@ -5,7 +5,7 @@ import Background from "@/assets/images/splash-bg.svg";
 
 export default function SplashScreen() {
     return (
-        <div className="relative overflow-hidden bg-bg-dark-main">
+        <div className="overflow-hidden bg-bg-dark-main h-screen sticky top-0">
             <div className="flex-start relative z-20 h-full flex-col">
                 <div className="mt-[8.6vh] h-5">
                     <Image

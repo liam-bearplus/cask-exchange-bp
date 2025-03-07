@@ -97,10 +97,12 @@
         --warn-lighter: 44 98% 77%;
 
         --success: 152 77% 39%;
+        --success: 85 85% 35%;
         --success-darker: 153 91% 30%;
         --success-darkest: 155 90% 24%;
         --success-lighter: 144 68% 80%;
 
+        --info: 204 86% 53%;
         --tw-shadow-color: #0a0d12;
     }
 }
@@ -170,8 +172,28 @@
             font-size: 16px;
         }
     }
+    html {
+        scroll-behavior: smooth
+    }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground overscroll-none;
+    }
+    ::-webkit-scrollbar {
+        width: 0;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: transparent
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: hsl(var(--border));
+        border-radius: 5px
+    }
+    
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: hsl(var(--border)) transparent
     }
 }
 
@@ -181,5 +203,8 @@
     }
     body {
         @apply bg-background text-foreground;
+    }
+    ::-webkit-scrollbar {
+        width: 5px;
     }
 }

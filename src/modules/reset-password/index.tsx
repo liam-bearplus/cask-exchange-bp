@@ -6,14 +6,9 @@ import CredentialsForgotPasswordForm from "@/components/shared/auth/credentials-
 export default function ForgotPasswordModule() {
     return (
         <div className="flex flex-col">
-            <CredentialsHead
-                title="Reset password"
-                desc="Please enter your account's email address"
-                breadcrumb
-            />
-            <div className="pb-4">
-                <CredentialsForgotPasswordForm />
-            </div>
+            <CredentialsHead title="Reset password" desc="Please enter your account's email address" breadcrumb/>
+            {/* <CredentialsHead title="Check your mail box" desc="Please follow the instruction in your mailbox to reset your password." breadcrumb/> */}
+            <CredentialsForgotPasswordForm />
         </div>
     );
 }
@@ -22,9 +17,7 @@ export function UpdatePasswordModule() {
     return (
         <div className="flex flex-col">
             <CredentialsHead title="Reset password" breadcrumb />
-            <div className="pb-4">
-                <CredentialsUpdatePasswordForm />
-            </div>
+            <CredentialsUpdatePasswordForm />
         </div>
     );
 }

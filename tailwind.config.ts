@@ -88,6 +88,7 @@ export default {
                 lighter: "hsl(var(--brand-lighter))",
                 lightest: "hsl(var(--brand-lightest))",
             },
+            info: 'hsl(var(--info))',
             error: {
                 DEFAULT: "hsl(var(--error))",
                 darker: "hsl(var(--error-darker))",
