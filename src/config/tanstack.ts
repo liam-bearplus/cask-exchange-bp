@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient } from "@tanstack/react-query";
 const queryClientConfig = new QueryClient({
     defaultOptions: {
         queries: {
@@ -10,5 +10,5 @@ const queryClientConfig = new QueryClient({
             throwOnError: true,
         },
     },
-})
-export default queryClientConfig
+});
+export default queryClientConfig;

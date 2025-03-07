@@ -1,11 +1,9 @@
 import RootLayout from "@/layouts/root-layout";
 
 export default function Layout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <RootLayout>{children}</RootLayout>
-  );
+    return <RootLayout>{children}</RootLayout>;
 }

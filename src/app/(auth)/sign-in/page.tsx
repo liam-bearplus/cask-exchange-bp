@@ -4,22 +4,22 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Sign In",
+    title: "Sign In",
 };
 
 const SignInPage = async (props: {
-  searchParams: Promise<{
-    callbackUrl: string;
-  }>;
+    searchParams: Promise<{
+        callbackUrl: string;
+    }>;
 }) => {
-  const { callbackUrl } = await props.searchParams;
+    const { callbackUrl } = await props.searchParams;
 
-  const session = await getServerSession();
-  if (session) {
-    return redirect(callbackUrl || "/");
-  }
+    const session = await getServerSession();
+    if (session) {
+        return redirect(callbackUrl || "/");
+    }
 
-  return <SignInModule />;
+    return <SignInModule />;
 };
 
 export default SignInPage;

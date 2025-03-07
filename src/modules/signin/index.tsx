@@ -9,5 +9,5 @@ export default function SignInModule() {
                 <CredentialsSignInForm />
             </div>
         </div>
-    )
+    );
 }

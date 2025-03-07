@@ -68,7 +68,7 @@ The project follows Next.js App Router pattern with a modular structure:
 src/
 ├── app/                  # Next.js App Router pages
 │   ├── (auth)/           # Authentication routes (sign-in, sign-up)
-│   ├── (root)/           # Main public-facing routes 
+│   ├── (root)/           # Main public-facing routes
 │   ├── admin/            # Admin dashboard routes
 │   ├── api/              # API routes
 │   └── user/             # User account routes
@@ -92,6 +92,7 @@ The application uses NextAuth.js for authentication:
 - Protected routes in middleware
 
 Authentication flow:
+
 1. User signs in through `/sign-in` page
 2. Credentials are validated
 3. JWT token is created and stored
@@ -106,6 +107,7 @@ The component structure follows a clear separation of concerns:
 Generic, reusable components that form the building blocks of the UI. These components are styled with Tailwind CSS and follow the principles of the Shadcn UI component library.
 
 Examples:
+
 - Button
 - Card
 - Dialog
@@ -165,6 +167,7 @@ When contributing to this project, follow these git practices:
 4. Ensure all tests pass before merging
 
 Recent commit history:
+
 - `feat(set up)`: Front-end set up
 - `feat(refactor)`: Delete redundant dependencies
 - `first commit`: Initial project setup

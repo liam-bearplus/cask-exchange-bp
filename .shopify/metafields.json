@@ -1,280 +1,280 @@
 {
-  "article": [
-    {
-      "key": "partners",
-      "namespace": "custom",
-      "name": "Partners",
-      "description": "Link of partner",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    }
-  ],
-  "blog": [
-    {
-      "key": "sad",
-      "namespace": "custom",
-      "name": "Partner",
-      "description": "Link of Partner",
-      "type": {
-        "name": "url",
-        "category": "URL"
-      }
-    }
-  ],
-  "brand": [],
-  "collection": [
-    {
-      "key": "list_collections",
-      "namespace": "custom",
-      "name": "List Collections",
-      "description": "",
-      "type": {
-        "name": "collection_reference",
-        "category": "REFERENCE"
-      }
-    }
-  ],
-  "company": [],
-  "company_location": [],
-  "location": [],
-  "market": [],
-  "order": [],
-  "page": [
-    {
-      "key": "rows",
-      "namespace": "custom",
-      "name": "Details Compare",
-      "description": "",
-      "type": {
-        "name": "list.metaobject_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "features",
-      "namespace": "custom",
-      "name": "Group Data Compare",
-      "description": "",
-      "type": {
-        "name": "list.metaobject_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "tables_faqs",
-      "namespace": "custom",
-      "name": "Tables FAQs",
-      "description": "",
-      "type": {
-        "name": "list.metaobject_reference",
-        "category": "REFERENCE"
-      }
-    }
-  ],
-  "product": [
-    {
-      "key": "color-pattern",
-      "namespace": "shopify",
-      "name": "Color",
-      "description": "Defines the primary color or pattern, such as blue or striped",
-      "type": {
-        "name": "list.metaobject_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "weight",
-      "namespace": "custom",
-      "name": "Weight",
-      "description": "",
-      "type": {
-        "name": "weight",
-        "category": "MEASUREMENT"
-      }
-    },
-    {
-      "key": "width",
-      "namespace": "custom",
-      "name": "Width",
-      "description": "",
-      "type": {
-        "name": "dimension",
-        "category": "MEASUREMENT"
-      }
-    },
-    {
-      "key": "depth",
-      "namespace": "custom",
-      "name": "Depth",
-      "description": "",
-      "type": {
-        "name": "dimension",
-        "category": "MEASUREMENT"
-      }
-    },
-    {
-      "key": "height",
-      "namespace": "custom",
-      "name": "Height",
-      "description": "",
-      "type": {
-        "name": "dimension",
-        "category": "MEASUREMENT"
-      }
-    },
-    {
-      "key": "frequency",
-      "namespace": "custom",
-      "name": "Frequency",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "power",
-      "namespace": "custom",
-      "name": "Power",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "voltage",
-      "namespace": "custom",
-      "name": "Voltage",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "motors",
-      "namespace": "custom",
-      "name": "Motors",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "sensors",
-      "namespace": "custom",
-      "name": "Sensors",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "cover",
-      "namespace": "custom",
-      "name": "Cover",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "kneading_part",
-      "namespace": "custom",
-      "name": "Kneading part",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "features",
-      "namespace": "custom",
-      "name": "Features",
-      "description": "",
-      "type": {
-        "name": "metaobject_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "product_color",
-      "namespace": "custom",
-      "name": "Product Color",
-      "description": "",
-      "type": {
-        "name": "color",
-        "category": "COLOR"
-      }
-    },
-    {
-      "key": "ingredients",
-      "namespace": "custom",
-      "name": "Ingredients",
-      "description": "",
-      "type": {
-        "name": "list.mixed_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "no_mixes_contain",
-      "namespace": "custom",
-      "name": "No Mixes Contain",
-      "description": "",
-      "type": {
-        "name": "list.mixed_reference",
-        "category": "REFERENCE"
-      }
-    },
-    {
-      "key": "recommended_for",
-      "namespace": "custom",
-      "name": "Recommended for",
-      "description": "",
-      "type": {
-        "name": "multi_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "nutritional_benefits",
-      "namespace": "custom",
-      "name": "Nutritional benefits",
-      "description": "",
-      "type": {
-        "name": "multi_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "container",
-      "namespace": "custom",
-      "name": "Container",
-      "description": "",
-      "type": {
-        "name": "single_line_text_field",
-        "category": "TEXT"
-      }
-    },
-    {
-      "key": "inside_the_box",
-      "namespace": "custom",
-      "name": "Inside the box",
-      "description": "",
-      "type": {
-        "name": "rich_text_field",
-        "category": "TEXT"
-      }
-    }
-  ],
-  "variant": [],
-  "shop": []
+    "article": [
+        {
+            "key": "partners",
+            "namespace": "custom",
+            "name": "Partners",
+            "description": "Link of partner",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        }
+    ],
+    "blog": [
+        {
+            "key": "sad",
+            "namespace": "custom",
+            "name": "Partner",
+            "description": "Link of Partner",
+            "type": {
+                "name": "url",
+                "category": "URL"
+            }
+        }
+    ],
+    "brand": [],
+    "collection": [
+        {
+            "key": "list_collections",
+            "namespace": "custom",
+            "name": "List Collections",
+            "description": "",
+            "type": {
+                "name": "collection_reference",
+                "category": "REFERENCE"
+            }
+        }
+    ],
+    "company": [],
+    "company_location": [],
+    "location": [],
+    "market": [],
+    "order": [],
+    "page": [
+        {
+            "key": "rows",
+            "namespace": "custom",
+            "name": "Details Compare",
+            "description": "",
+            "type": {
+                "name": "list.metaobject_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "features",
+            "namespace": "custom",
+            "name": "Group Data Compare",
+            "description": "",
+            "type": {
+                "name": "list.metaobject_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "tables_faqs",
+            "namespace": "custom",
+            "name": "Tables FAQs",
+            "description": "",
+            "type": {
+                "name": "list.metaobject_reference",
+                "category": "REFERENCE"
+            }
+        }
+    ],
+    "product": [
+        {
+            "key": "color-pattern",
+            "namespace": "shopify",
+            "name": "Color",
+            "description": "Defines the primary color or pattern, such as blue or striped",
+            "type": {
+                "name": "list.metaobject_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "weight",
+            "namespace": "custom",
+            "name": "Weight",
+            "description": "",
+            "type": {
+                "name": "weight",
+                "category": "MEASUREMENT"
+            }
+        },
+        {
+            "key": "width",
+            "namespace": "custom",
+            "name": "Width",
+            "description": "",
+            "type": {
+                "name": "dimension",
+                "category": "MEASUREMENT"
+            }
+        },
+        {
+            "key": "depth",
+            "namespace": "custom",
+            "name": "Depth",
+            "description": "",
+            "type": {
+                "name": "dimension",
+                "category": "MEASUREMENT"
+            }
+        },
+        {
+            "key": "height",
+            "namespace": "custom",
+            "name": "Height",
+            "description": "",
+            "type": {
+                "name": "dimension",
+                "category": "MEASUREMENT"
+            }
+        },
+        {
+            "key": "frequency",
+            "namespace": "custom",
+            "name": "Frequency",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "power",
+            "namespace": "custom",
+            "name": "Power",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "voltage",
+            "namespace": "custom",
+            "name": "Voltage",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "motors",
+            "namespace": "custom",
+            "name": "Motors",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "sensors",
+            "namespace": "custom",
+            "name": "Sensors",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "cover",
+            "namespace": "custom",
+            "name": "Cover",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "kneading_part",
+            "namespace": "custom",
+            "name": "Kneading part",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "features",
+            "namespace": "custom",
+            "name": "Features",
+            "description": "",
+            "type": {
+                "name": "metaobject_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "product_color",
+            "namespace": "custom",
+            "name": "Product Color",
+            "description": "",
+            "type": {
+                "name": "color",
+                "category": "COLOR"
+            }
+        },
+        {
+            "key": "ingredients",
+            "namespace": "custom",
+            "name": "Ingredients",
+            "description": "",
+            "type": {
+                "name": "list.mixed_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "no_mixes_contain",
+            "namespace": "custom",
+            "name": "No Mixes Contain",
+            "description": "",
+            "type": {
+                "name": "list.mixed_reference",
+                "category": "REFERENCE"
+            }
+        },
+        {
+            "key": "recommended_for",
+            "namespace": "custom",
+            "name": "Recommended for",
+            "description": "",
+            "type": {
+                "name": "multi_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "nutritional_benefits",
+            "namespace": "custom",
+            "name": "Nutritional benefits",
+            "description": "",
+            "type": {
+                "name": "multi_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "container",
+            "namespace": "custom",
+            "name": "Container",
+            "description": "",
+            "type": {
+                "name": "single_line_text_field",
+                "category": "TEXT"
+            }
+        },
+        {
+            "key": "inside_the_box",
+            "namespace": "custom",
+            "name": "Inside the box",
+            "description": "",
+            "type": {
+                "name": "rich_text_field",
+                "category": "TEXT"
+            }
+        }
+    ],
+    "variant": [],
+    "shop": []
 }

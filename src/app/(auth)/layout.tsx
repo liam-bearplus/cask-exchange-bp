@@ -1,11 +1,9 @@
 import AuthLayout from "@/layouts/auth-layout";
 
 export default function Layout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <AuthLayout>{children}</AuthLayout>
-  );
+    return <AuthLayout>{children}</AuthLayout>;
 }

@@ -4,22 +4,22 @@ import { redirect } from "next/navigation";
 import SignUpModule from "@/modules/signup";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+    title: "Sign Up",
 };
 
 const SignUpPage = async (props: {
-  searchParams: Promise<{
-    callbackUrl: string;
-  }>;
+    searchParams: Promise<{
+        callbackUrl: string;
+    }>;
 }) => {
-  const { callbackUrl } = await props.searchParams;
+    const { callbackUrl } = await props.searchParams;
 
-  const session = await getServerSession();
-  if (session) {
-    return redirect(callbackUrl || "/");
-  }
+    const session = await getServerSession();
+    if (session) {
+        return redirect(callbackUrl || "/");
+    }
 
-  return <SignUpModule />;
+    return <SignUpModule />;
 };
 
 export default SignUpPage;

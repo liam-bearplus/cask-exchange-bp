@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Home Page",
+    title: "Home Page",
 };
 
 const HomePage = async () => {
-  return <>HomePage</>;
+    return <>HomePage</>;
 };
 
 export default HomePage;

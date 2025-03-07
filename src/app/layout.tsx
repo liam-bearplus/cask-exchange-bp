@@ -7,24 +7,24 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    template: `%s | ${APP_NAME}`,
-    default: APP_NAME,
-  },
-  description: APP_DESCRIPTION,
-  metadataBase: new URL(SERVER_URL),
+    title: {
+        template: `%s | ${APP_NAME}`,
+        default: APP_NAME,
+    },
+    description: APP_DESCRIPTION,
+    metadataBase: new URL(SERVER_URL),
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
-        <MainLayout>{children}</MainLayout>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en" suppressHydrationWarning>
+            <body className={`${inter.className} antialiased`}>
+                <MainLayout>{children}</MainLayout>
+            </body>
+        </html>
+    );
 }
