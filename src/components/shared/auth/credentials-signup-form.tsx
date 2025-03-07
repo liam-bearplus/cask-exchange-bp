@@ -176,18 +176,16 @@ const CredentialsSignUpForm = () => {
                                             type="password"
                                             variant="password"
                                             required
-                                            variant="password"
                                             autoComplete="password"
                                             placeholder="•••••••••"
                                             {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />
-                                    <PasswordStrength password={field.value}/>
+                                    <PasswordStrength password={field.value} />
                                 </div>
                             )}
                         />
-                        
                     </div>
 
                     <FormField
