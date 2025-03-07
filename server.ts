@@ -115,6 +115,7 @@ const loginUser = async (req: IncomingMessage, res: ServerResponse) => {
                 res.end(JSON.stringify({ error: "Unauthorized" }));
             }
         } catch (error) {
+            console.log("Error logging in:", error);
             res.writeHead(500, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ error: "Internal server error" }));
         }

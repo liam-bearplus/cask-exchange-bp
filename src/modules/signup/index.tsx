@@ -14,9 +14,10 @@ export default function SignUpModule() {
             data: mutation.state.data as TRegisterUser,
         }),
     })[0];
+
     console.log("data", data);
     if (data?.status === "success") {
-        return <SignupSuccess name={data?.data?.lastName} />;
+        return <SignupSuccess name={data?.data?.firstName} />;
     }
 
     return (

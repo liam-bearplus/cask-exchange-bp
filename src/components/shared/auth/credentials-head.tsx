@@ -13,7 +13,7 @@ export default function CredentialsHead({
     breadcrumb?: boolean;
 }) {
     return (
-        <div className="flex-center flex-col pb-8">
+        <div className="flex-center text-center flex-col pb-8">
             {breadcrumb ? (
                 <Link href="/sign-in">
                     <Button variant="ghost" className="mb-8 min-w-0" size="sm">
