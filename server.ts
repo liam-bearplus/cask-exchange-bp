@@ -66,10 +66,10 @@ const registerUser = async (req: IncomingMessage, res: ServerResponse) => {
             const user = await prisma.user.create({
                 data: {
                     email,
-                    first_name: firstName,
-                    last_name: lastName,
-                    full_name: `${firstName} ${lastName}`,
-                    user_name: `${firstName.toLowerCase()}-${lastName.toLowerCase()}`,
+                    firstName: firstName,
+                    lastName: lastName,
+                    fullName: `${firstName} ${lastName}`,
+                    userName: `${firstName.toLowerCase().trim()}-${lastName.toLowerCase().trim()}-${(Math.random() * 1000).toFixed(0)}`,
                     inviteCode,
                     auth: {
                         create: {

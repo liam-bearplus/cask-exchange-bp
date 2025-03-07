@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 
 const CredentialsSignInForm = () => {
     const loginMutation = useMutation({
-        mutationKey: ["login"],
+        mutationKey: [KEY_LOGIN],
         mutationFn: ({ data: data }: { data: TLoginUser }) => loginUser(data),
     });
     const onSubmit = (data: TLoginUser) => {

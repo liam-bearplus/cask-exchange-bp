@@ -1,12 +1,12 @@
 import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export default withAuth({
     pages: {
         signIn: "/login",
     },
 });
-export async function middleware(req: any) {
+export async function middleware(req: NextRequest) {
     const sessionToken = req.cookies.get("next-auth.session-token");
     console.log("sessionToken_________", sessionToken);
     if (sessionToken && req.nextUrl.pathname === "/login") {

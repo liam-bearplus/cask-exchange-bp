@@ -22,10 +22,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import PasswordStrength from "./password-strength";
+import { KEY_REGISTER } from "@/lib/constants/key";
 
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
-        mutationKey: ["register"],
+        mutationKey: [KEY_REGISTER],
+
         mutationFn: ({ data: data }: { data: TRegisterUser }) =>
             registerUser(data),
     });

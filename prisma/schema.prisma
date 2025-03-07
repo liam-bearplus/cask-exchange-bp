@@ -9,29 +9,29 @@ datasource db {
 
 model User {
   id         String   @id @default(uuid())
-  first_name String
-  last_name  String
-  full_name  String
+  firstName  String
+  lastName   String
+  fullName   String
   email      String   @unique
-  user_name  String   @unique
+  userName   String   @unique
   role       Role     @default(USER)
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
-  inviteCode String
+  inviteCode String?
   auth       Auth?
 
-  @@unique([user_name, email])
+  @@unique([userName, email])
 }
 
 model Auth {
-  id        String @id @default(uuid())
-  user_name String @unique
-  email     String @unique
-  password  String
+  id       String @id @default(uuid())
+  userName String @unique
+  email    String @unique
+  password String
 
-  user User @relation(fields: [user_name, email], references: [user_name, email], onDelete: Cascade)
+  user User @relation(fields: [userName, email], references: [userName, email], onDelete: Cascade)
 
-  @@unique([user_name, email])
+  @@unique([userName, email])
 }
 
 enum Role {

@@ -30,13 +30,13 @@ export const OptionNextAuth: NextAuthOptions = {
         CredentialsProvider({
             id: "login",
             name: "Domain Account",
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 console.log("credentials", credentials);
 
                 if (credentials) {
                     return {
                         ...credentials,
-                        id: credentials.id as string,
+                        id: credentials.username as string,
                     };
                 } else return null;
             },
@@ -87,7 +87,7 @@ export const OptionNextAuth: NextAuthOptions = {
             }
             return { token, user };
         },
-        session: ({ session, token, user }) => {
+        session: ({ session, token }) => {
             session.user = token;
 
             console.log("session", session);
