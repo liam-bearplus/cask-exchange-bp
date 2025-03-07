@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import ResetPasswordModule from "@/modules/reset-password";
+import ForgotPasswordModule from "@/modules/reset-password";
 
 export const metadata: Metadata = {
     title: "Reset Password",
@@ -20,7 +20,9 @@ const ResetPasswordPage = async (props: {
         return redirect(callbackUrl || "/");
     }
 
-    return <ResetPasswordModule />;
+  return (
+    <ForgotPasswordModule />
+  );
 };
 
 export default ResetPasswordPage;

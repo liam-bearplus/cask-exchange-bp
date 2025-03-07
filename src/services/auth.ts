@@ -1,7 +1,7 @@
 // services/userApi.ts
 import axiosInstance from "@/config/axios";
 import { handleRequest } from "@/lib/utils";
-import { TLoginUser, TPasswordForm, TRegisterUser, TUserSchema } from "@/types";
+import { TLoginUser, TUpdatePassword, TRegisterUser, TUserSchema } from "@/types";
 
 export const registerUser = async (
     data: TRegisterUser
@@ -16,7 +16,7 @@ export const loginUser = async (data: TLoginUser): Promise<TUserSchema> => {
 };
 
 export const updatePassword = async (
-    data: TPasswordForm
+  data: TUpdatePassword
 ): Promise<{ message: string }> => {
     return handleRequest(
         axiosInstance.put<{ message: string }>(

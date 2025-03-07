@@ -1,8 +1,9 @@
 import CredentialsHead from "@/components/shared/auth/credentials-head";
-import CredentialsNewPasswordForm from "@/components/shared/auth/credentials-new-password-form";
-import CredentialsResetPasswordForm from "@/components/shared/auth/credentials-reset-password-form";
+import CredentialsUpdatePasswordForm from "@/components/shared/auth/credentials-update-password-form";
+import CredentialsForgotPasswordForm from "@/components/shared/auth/credentials-forgot-password-form";
 
-export default function ResetPasswordModule() {
+
+export default function ForgotPasswordModule() {
     return (
         <div className="flex flex-col">
             <CredentialsHead
@@ -11,18 +12,18 @@ export default function ResetPasswordModule() {
                 breadcrumb
             />
             <div className="pb-4">
-                <CredentialsResetPasswordForm />
+                <CredentialsForgotPasswordForm />
             </div>
         </div>
     );
 }
 
-export function NewPasswordModule() {
+export function UpdatePasswordModule() {
     return (
         <div className="flex flex-col">
             <CredentialsHead title="Reset password" breadcrumb />
             <div className="pb-4">
-                <CredentialsNewPasswordForm />
+                <CredentialsUpdatePasswordForm />
             </div>
         </div>
     );

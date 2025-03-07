@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { NewPasswordModule } from "@/modules/reset-password";
+import { UpdatePasswordModule } from "@/modules/reset-password";
 import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
@@ -25,7 +25,9 @@ const NewPasswordPage = async (props: {
         return redirect(callbackUrl || "/");
     }
 
-    return <NewPasswordModule />;
+  return (
+    <UpdatePasswordModule />
+  );
 };
 
 export default NewPasswordPage;

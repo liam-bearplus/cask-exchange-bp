@@ -1,14 +1,13 @@
 import parsePhoneNumber, { CountryCode } from "libphonenumber-js";
 import { z } from "zod";
-import { formatNumberWithDecimal } from "./utils";
+// import { formatNumberWithDecimal } from "./utils";
 
-const currency = z
-    .string()
-    .refine(
-        (value) =>
-            /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(value))),
-        "Price must have exactly two decimal places"
-    );
+// const currency = z
+//   .string()
+//   .refine(
+//     (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(value))),
+//     "Price must have exactly two decimal places"
+//   );
 
 // Schema for signing users in
 export const signInFormSchema = z.object({
@@ -85,18 +84,21 @@ export const userSchema = z.object({
     createdDate: z.string().nonempty("Created date is required"),
 });
 
+export const forgotPasswordFormSchema = z.object({
+  email: z.string().email("Invalid email address").nonempty("Email required"),
+});
+
 // UpdatePasswordFormValue schema based on the UpdatePasswordFormValue type
 export const updatePasswordFormSchema = z
-    .object({
-        currentPassword: z.string().nonempty("Current password is required"),
-        newPassword: z
-            .string()
-            .min(6, "New password must be at least 6 characters long"),
-        confirmPassword: z
-            .string()
-            .min(6, "Confirm password must be at least 6 characters long"),
-    })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-    });
+  .object({
+    newPassword: z
+      .string()
+      .min(6, "New password must be at least 6 characters long"),
+    confirmPassword: z
+      .string()
+      .min(6, "Confirm password must be at least 6 characters long"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });

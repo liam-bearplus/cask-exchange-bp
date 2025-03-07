@@ -25,14 +25,14 @@ export const signUpDefaultValues = {
     consent: false,
 };
 
-export const ResetPasswordDefaultValues = {
-    email: "",
-};
+export const ForgotPasswordDefaultValues = {
+  email: "",
+}
 
-export const NewPasswordDefaultValues = {
-    password: "",
-    confirmPassword: "",
-};
+export const UpdatePasswordDefaultValues = {
+  newPassword: "",
+  confirmPassword: "",
+}
 
 export const shippingAddressDefaultValues = {
     fullName: "",
