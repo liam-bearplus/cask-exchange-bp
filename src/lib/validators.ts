@@ -11,7 +11,10 @@ import { z } from "zod";
 
 // Schema for signing users in
 export const signInFormSchema = z.object({
-    email: z.string().email("Invalid email address").nonempty("Email required"),
+    email: z
+        .string()
+        .nonempty("Email required")
+        .email("Please provide a properly formatted email address"),
     password: z.string().min(6, "Password must be at 6 characters long"),
 });
 
@@ -90,20 +93,20 @@ export const userSchema = z.object({
 });
 
 export const forgotPasswordFormSchema = z.object({
-  email: z.string().email("Invalid email address").nonempty("Email required"),
+    email: z.string().email("Invalid email address").nonempty("Email required"),
 });
 
 // UpdatePasswordFormValue schema based on the UpdatePasswordFormValue type
 export const updatePasswordFormSchema = z
-  .object({
-    newPassword: z
-      .string()
-      .min(6, "New password must be at least 6 characters long"),
-    confirmPassword: z
-      .string()
-      .min(6, "Confirm password must be at least 6 characters long"),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+    .object({
+        newPassword: z
+            .string()
+            .min(6, "New password must be at least 6 characters long"),
+        confirmPassword: z
+            .string()
+            .min(6, "Confirm password must be at least 6 characters long"),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });

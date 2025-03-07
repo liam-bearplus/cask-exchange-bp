@@ -45,7 +45,28 @@ export const shippingAddressDefaultValues = {
 export const DEFAULT_PAGE_SIZE = process.env.DEFAULT_PAGE_SIZE
     ? Number(process.env.DEFAULT_PAGE_SIZE)
     : 10;
-
+export const pointSchema = {
+    weak: {
+        match: 1,
+        minLength: 0,
+        point: 1,
+    },
+    normal: {
+        match: 2,
+        minLength: 8,
+        point: 2,
+    },
+    medium: {
+        match: 3,
+        minLength: 12,
+        point: 3,
+    },
+    strong: {
+        match: 4,
+        minLength: 20,
+        point: 4,
+    },
+};
 export const passwordConstraintContent: {
     id: number;
     name: string;
