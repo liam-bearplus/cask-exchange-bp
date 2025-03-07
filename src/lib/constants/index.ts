@@ -19,7 +19,7 @@ export const signUpDefaultValues = {
   firstName: "",
   lastName: "",
   phoneNumber: "",
-  inviteCode: "",
+  inviteCode: undefined,
   email: "",
   password: "",
   consent: false,
@@ -27,12 +27,12 @@ export const signUpDefaultValues = {
 
 export const ResetPasswordDefaultValues = {
   email: "",
-}
+};
 
 export const NewPasswordDefaultValues = {
   password: "",
   confirmPassword: "",
-}
+};
 
 export const shippingAddressDefaultValues = {
   fullName: "",
@@ -45,3 +45,35 @@ export const shippingAddressDefaultValues = {
 export const DEFAULT_PAGE_SIZE = process.env.DEFAULT_PAGE_SIZE
   ? Number(process.env.DEFAULT_PAGE_SIZE)
   : 10;
+
+export const passwordConstraintContent: {
+  id: number;
+  name: string;
+  message: string;
+  regex: RegExp;
+}[] = [
+  {
+    id: 1,
+    name: "minLength",
+    message: "Password must be at least 8 characters",
+    regex: /^.{8,}$/,
+  },
+  {
+    id: 2,
+    name: "lowercase",
+    message: "Must contain at least 1 lowercase letter",
+    regex: /^(?=.*[a-z]).*$/,
+  },
+  {
+    id: 3,
+    name: "uppercase",
+    message: "Must contain at least 1 uppercase letter",
+    regex: /^(?=.*[A-Z]).*$/,
+  },
+  {
+    id: 4,
+    name: "number",
+    message: "Must contain at least 1 number or special character",
+    regex: /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
+  },
+];

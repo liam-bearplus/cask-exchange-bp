@@ -22,29 +22,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 
-
 const CredentialsSignUpForm = () => {
   const registrationMutation = useMutation({
     mutationKey: ["register"],
-    mutationFn: ({ data: data } : {data: TRegisterUser}) => registerUser(data),
+    mutationFn: ({ data: data }: { data: TRegisterUser }) => registerUser(data),
   });
   const onSubmit = (data: TRegisterUser) => {
-    registrationMutation.mutate(
-      { data }
-    )
+    registrationMutation.mutate({ data });
   };
 
   const form = useForm({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: signUpDefaultValues,
-  })
+  });
 
   const isDisableButton = useDisableButtonForm(form);
 
   const SignUpButton = () => {
     return (
-      <Button disabled={isDisableButton || registrationMutation.isPending} className="w-full" variant="default">
-        {registrationMutation.isPending ? "Submitting..." : "Create new account"}
+      <Button
+        disabled={isDisableButton || registrationMutation.isPending}
+        className="w-full"
+        variant="default"
+      >
+        {registrationMutation.isPending
+          ? "Submitting..."
+          : "Create new account"}
       </Button>
     );
   };
@@ -54,7 +57,10 @@ const CredentialsSignUpForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} id="sign-up">
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-x-3 gap-y-4">
-            <FormField name="firstName" control={form.control} render={({ field }) => (
+            <FormField
+              name="firstName"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="firstName">First name</Label>
                   <FormControl>
@@ -71,7 +77,10 @@ const CredentialsSignUpForm = () => {
                 </div>
               )}
             />
-            <FormField name="lastName" control={form.control} render={({ field }) => (
+            <FormField
+              name="lastName"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="lastName">Last name</Label>
                   <FormControl>
@@ -88,7 +97,10 @@ const CredentialsSignUpForm = () => {
                 </div>
               )}
             />
-            <FormField name="phoneNumber" control={form.control} render={({ field }) => (
+            <FormField
+              name="phoneNumber"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="phoneNumber">Phone</Label>
                   <FormControl>
@@ -105,7 +117,10 @@ const CredentialsSignUpForm = () => {
                 </div>
               )}
             />
-            <FormField name="inviteCode" control={form.control} render={({ field }) => (
+            <FormField
+              name="inviteCode"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="inviteCode">Invite code</Label>
                   <FormControl>
@@ -122,15 +137,18 @@ const CredentialsSignUpForm = () => {
               )}
             />
           </div>
-          <Separator/>
+          <Separator />
           <div className="space-y-4">
-            <FormField name="email" control={form.control} render={({ field }) => (
+            <FormField
+              name="email"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="email">Email</Label>
                   <FormControl>
                     <Input
                       id="email"
-                      type="email"
+                      type="text"
                       required
                       autoComplete="email"
                       placeholder="Ex: johndoe@gmail.com"
@@ -141,7 +159,10 @@ const CredentialsSignUpForm = () => {
                 </div>
               )}
             />
-            <FormField name="password" control={form.control} render={({ field }) => (
+            <FormField
+              name="password"
+              control={form.control}
+              render={({ field }) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="password">Password</Label>
                   <FormControl>
@@ -159,30 +180,61 @@ const CredentialsSignUpForm = () => {
               )}
             />
           </div>
-          <FormField name="consent" control={form.control} render={({ field }) => (
-            <div className="flex items-start content-start space-x-2">
-              <FormControl>
-                <Checkbox id="consent" className="mt-0.5" onChange={field.onChange}/>
-              </FormControl>
-              <Label htmlFor="consent" className="text-typo-disable font-normal">
-                I have read and agree to the <Link href='#' target="_blank" className="text-typo-body text-underline">Terms of Service</Link> and <Link href='#' target="_blank" className="text-typo-body text-underline">Privacy Policy</Link>
-              </Label>
-              <FormMessage />
-            </div>
-          )}
-        />
-          <div className="flex items-start content-start space-x-2">
-          </div>
+          <FormField
+            name="consent"
+            control={form.control}
+            render={({ field }) => (
+              <div className="space-y-1.5">
+                <div className="flex content-start items-start space-x-2">
+                  <FormControl>
+                    <Checkbox
+                      id="consent"
+                      className="mt-0.5"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <Label
+                    htmlFor="consent"
+                    className="font-normal text-typo-disable"
+                  >
+                    I have read and agree to the{" "}
+                    <Link
+                      href="#"
+                      target="_blank"
+                      className="text-underline text-typo-body"
+                    >
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="#"
+                      target="_blank"
+                      className="text-underline text-typo-body"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </Label>
+                </div>
+                <FormMessage />
+              </div>
+            )}
+          />
+          <div className="flex content-start items-start space-x-2"></div>
           <div>
             <SignUpButton />
           </div>
-          <div className="text-base text-center text-typo-disable">
+          <div className="text-center text-base text-typo-disable">
             Already have an account?{" "}
-            <Link href="/sign-in" target="_self" className="text-typo-body text-underline">
+            <Link
+              href="/sign-in"
+              target="_self"
+              className="text-underline text-typo-body"
+            >
               Sign in
             </Link>
           </div>
-        </div>      
+        </div>
       </form>
     </Form>
   );

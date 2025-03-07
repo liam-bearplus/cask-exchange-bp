@@ -27,7 +27,7 @@ export const signUpFormSchema = z
       .nonempty({ message: "Last Name is required" })
       .min(3, "Name must be at 3 characters long"),
     email: z.string().nonempty("Email required").email("Invalid email address"),
-    inviteCode: z.string().optional(),  
+    inviteCode: z.string().optional(),
     password: z
       .string()
       .min(8, "Password must be at 8 characters long")
@@ -39,16 +39,10 @@ export const signUpFormSchema = z
       ),
     phoneNumber: z.string().nonempty("Phone number is required"),
     country: z.string().nonempty("Country is required").optional(),
-    consent: z.boolean()
+    consent: z.boolean().refine((val) => val === true, {
+      message: "Please read and accept the terms and conditions",
+    }),
   })
-  .refine(
-    (data) => {
-      return data.consent === false;
-    }, {
-      message: "You must agree to the terms and conditions",
-      path: ["consent"]
-    }
-  )
   .refine(
     (data) => {
       const phoneNumber = parsePhoneNumber(

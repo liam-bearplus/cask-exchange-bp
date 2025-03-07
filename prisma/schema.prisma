@@ -17,8 +17,8 @@ model User {
   role       Role     @default(USER)
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
-
-  auth Auth?
+  inviteCode String
+  auth       Auth?
 
   @@unique([user_name, email])
 }

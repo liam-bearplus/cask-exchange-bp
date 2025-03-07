@@ -4,7 +4,14 @@ export const useDisableButtonForm = <T extends FieldValues>(
   form: UseFormReturn<T>
 ) => {
   const values = form.getValues();
-  return !Object.values(values).every(
-    (value) => value !== undefined && value !== "" && value !== null
-  );
+  const defaultValues = form.formState.defaultValues || {};
+
+  return !Object.entries(values).every(([key, value]) => {
+    const isOptional =
+      !(key in defaultValues) ||
+      defaultValues[key as keyof typeof defaultValues] === undefined;
+    return (
+      isOptional || (value !== undefined && value !== "" && value !== null)
+    );
+  });
 };

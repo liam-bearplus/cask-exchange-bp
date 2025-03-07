@@ -61,7 +61,8 @@ const registerUser = async (req: IncomingMessage, res: ServerResponse) => {
   req.on("end", async () => {
     try {
       console.log("JSON.parse(body)", JSON.parse(body));
-      const { email, firstName, lastName, password } = JSON.parse(body);
+      const { email, firstName, lastName, password, inviteCode } =
+        JSON.parse(body);
       const user = await prisma.user.create({
         data: {
           email,
@@ -69,6 +70,7 @@ const registerUser = async (req: IncomingMessage, res: ServerResponse) => {
           last_name: lastName,
           full_name: `${firstName} ${lastName}`,
           user_name: `${firstName.toLowerCase()}-${lastName.toLowerCase()}`,
+          inviteCode,
           auth: {
             create: {
               password,
