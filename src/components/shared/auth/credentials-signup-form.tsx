@@ -37,7 +37,7 @@ const CredentialsSignUpForm = () => {
         defaultValues: signUpDefaultValues,
     });
 
-    const isDisableButton = useDisableButtonForm(form);
+    const isDisableButton = useDisableButtonForm(form, ["inviteCode"]);
 
     const SignUpButton = () => {
         return (
@@ -185,6 +185,7 @@ const CredentialsSignUpForm = () => {
                             )}
                         />
                     </div>
+
                     <FormField
                         name="consent"
                         control={form.control}

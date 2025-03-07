@@ -19,20 +19,20 @@ export const signUpDefaultValues = {
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    inviteCode: undefined,
+    inviteCode: "",
     email: "",
     password: "",
     consent: false,
 };
 
 export const ForgotPasswordDefaultValues = {
-  email: "",
-}
+    email: "",
+};
 
 export const UpdatePasswordDefaultValues = {
-  newPassword: "",
-  confirmPassword: "",
-}
+    newPassword: "",
+    confirmPassword: "",
+};
 
 export const shippingAddressDefaultValues = {
     fullName: "",

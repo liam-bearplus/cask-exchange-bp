@@ -65,81 +65,81 @@ const CredentialsSignInForm = () => {
         );
     };
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <div className="space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
-                  <FormControl>
-                    <Input
-                      id="email"
-                      type="text"
-                      autoComplete="email"
-                      placeholder="Ex: johndoe@gmail.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
+                <div className="space-y-6">
+                    <div className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="email">Email</Label>
+                                    <FormControl>
+                                        <Input
+                                            id="email"
+                                            type="text"
+                                            autoComplete="email"
+                                            placeholder="Ex: johndoe@gmail.com"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </div>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="password">Password</Label>
+                                    <FormControl>
+                                        <Input
+                                            id="password"
+                                            type="password"
+                                            variant="password"
+                                            autoComplete="password"
+                                            placeholder="•••••••••"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </div>
+                            )}
+                        />
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <div className="flex content-start items-start space-x-2">
+                            <Checkbox id="remember" className="mt-0.5" />
+                            <Label htmlFor="remember">Remember me</Label>
+                        </div>
+                        <Link
+                            href="/reset-password"
+                            target="_self"
+                            className="text-underline text-base text-typo-body"
+                        >
+                            Forgot password?
+                        </Link>
+                    </div>
+                    <div>
+                        <SignInButton />
+                    </div>
+                    <div className="text-center text-base text-typo-disable">
+                        Don&apos;t have an account?{" "}
+                        <Link
+                            href="/sign-up"
+                            target="_self"
+                            className="text-underline text-typo-body"
+                        >
+                            Sign up
+                        </Link>{" "}
+                    </div>
                 </div>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <div className="space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
-                  <FormControl>
-                    <Input
-                      id="password"
-                      type="password"
-                      variant="password"
-                      autoComplete="password"
-                      placeholder="•••••••••"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              )}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex content-start items-start space-x-2">
-              <Checkbox id="remember" className="mt-0.5" />
-              <Label htmlFor="remember">Remember me</Label>
-            </div>
-            <Link
-              href="/reset-password"
-              target="_self"
-              className="text-underline text-base text-typo-body"
-            >
-              Forgot password?
-            </Link>
-          </div>
-          <div>
-            <SignInButton />
-          </div>
-          <div className="text-center text-base text-typo-disable">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/sign-up"
-              target="_self"
-              className="text-underline text-typo-body"
-            >
-              Sign up
-            </Link>{" "}
-          </div>
-        </div>
-      </form>
-    </Form>
-  );
+            </form>
+        </Form>
+    );
 };
 
 export default CredentialsSignInForm;

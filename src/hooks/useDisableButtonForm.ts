@@ -1,18 +1,17 @@
 import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export const useDisableButtonForm = <T extends FieldValues>(
-    form: UseFormReturn<T>
+    form: UseFormReturn<T>,
+    optionalFields?: string[]
 ) => {
     const values = form.getValues();
-    const defaultValues = form.formState.defaultValues || {};
 
     return !Object.entries(values).every(([key, value]) => {
-        const isOptional =
-            !(key in defaultValues) ||
-            defaultValues[key as keyof typeof defaultValues] === undefined;
-        return (
-            isOptional ||
-            (value !== undefined && value !== "" && value !== null)
-        );
+        const isOptionalField = optionalFields?.includes(key);
+        if (isOptionalField) {
+            return true;
+        }
+
+        return value !== undefined && value !== "" && value !== null;
     });
 };
