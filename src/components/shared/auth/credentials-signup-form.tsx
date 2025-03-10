@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import PasswordStrength from "./password-strength";
 import { KEY_REGISTER } from "@/lib/constants/key";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
@@ -109,7 +110,7 @@ const CredentialsSignUpForm = () => {
                                 <div className="space-y-1.5">
                                     <Label htmlFor="phoneNumber">Phone</Label>
                                     <FormControl>
-                                        <Input
+                                        <PhoneInput 
                                             id="phoneNumber"
                                             type="text"
                                             required

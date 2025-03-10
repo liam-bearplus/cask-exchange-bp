@@ -9,7 +9,6 @@ import { TRegisterUser } from "@/types";
 import { useSearchParams } from "next/navigation";
 
 export default function ForgotPasswordModule() {
-    const resetParams = useSearchParams();
     const searchParams = useSearchParams();
     const isResetSuccess = searchParams.get("reset") === "true";
     // localhost:3000/reset-password?reset=true
