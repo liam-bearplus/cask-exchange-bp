@@ -2,6 +2,7 @@
 
 A modern web application for CaskXExchange built with Next.js, TypeScript, and Tailwind CSS.
 
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
