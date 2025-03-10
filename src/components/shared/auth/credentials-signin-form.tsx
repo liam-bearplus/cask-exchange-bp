@@ -110,20 +110,40 @@ const CredentialsSignInForm = () => {
                                 </div>
                             )}
                         />
+                        <FormField
+                            name="rememberMe"
+                            control={form.control}
+                            render={({ field }) => {
+                                return (
+                                    <div className="flex items-center justify-between">
+                                        <FormControl>
+                                            <div className="flex content-start items-start space-x-2">
+                                                <Checkbox
+                                                    id="remember"
+                                                    className="mt-0.5"
+                                                    checked={field.value}
+                                                    onCheckedChange={
+                                                        field.onChange
+                                                    }
+                                                />
+                                                <Label htmlFor="remember">
+                                                    Remember me
+                                                </Label>
+                                            </div>
+                                        </FormControl>
+                                        <Link
+                                            href="/reset-password"
+                                            target="_self"
+                                            className="text-underline text-base text-typo-body"
+                                        >
+                                            Forgot password?
+                                        </Link>
+                                    </div>
+                                );
+                            }}
+                        />
                     </div>
-                    <div className="flex items-center justify-between">
-                        <div className="flex content-start items-start space-x-2">
-                            <Checkbox id="remember" className="mt-0.5" />
-                            <Label htmlFor="remember">Remember me</Label>
-                        </div>
-                        <Link
-                            href="/reset-password"
-                            target="_self"
-                            className="text-underline text-base text-typo-body"
-                        >
-                            Forgot password?
-                        </Link>
-                    </div>
+
                     <div>
                         <SignInButton />
                     </div>

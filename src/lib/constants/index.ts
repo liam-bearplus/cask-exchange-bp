@@ -13,6 +13,7 @@ export const LATEST_PRODUCTS_LIMIT =
 export const signInDefaultValues = {
     email: "",
     password: "",
+    rememberMe: false,
 };
 
 export const signUpDefaultValues = {

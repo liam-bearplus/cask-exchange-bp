@@ -16,6 +16,7 @@ export const signInFormSchema = z.object({
         .nonempty("Email required")
         .email("Please provide a properly formatted email address"),
     password: z.string().min(6, "Password must be at 6 characters long"),
+    rememberMe: z.boolean().optional(),
 });
 
 // Schema for signing users in
