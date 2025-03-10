@@ -110,7 +110,7 @@ const CredentialsSignUpForm = () => {
                                 <div className="space-y-1.5">
                                     <Label htmlFor="phoneNumber">Phone</Label>
                                     <FormControl>
-                                        <PhoneInput 
+                                        <PhoneInput
                                             id="phoneNumber"
                                             type="text"
                                             required

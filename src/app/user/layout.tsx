@@ -3,7 +3,6 @@ import UserMainNav from "@/components/shared/user/main-nav";
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
-import TwoFactorModal from "@/components/shared/auth/2fa";
 
 export default function UserLayout({
     children,
@@ -12,7 +11,6 @@ export default function UserLayout({
 }>) {
     return (
         <>
-            <TwoFactorModal />
             <div className="flex flex-col">
                 <header className="container mx-auto border-b">
                     <div className="flex h-16 items-center px-4">

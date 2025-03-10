@@ -1,31 +1,16 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 export const OptionNextAuth: NextAuthOptions = {
     session: {
         maxAge: 24 * 60 * 60,
         strategy: "jwt",
+
         generateSessionToken() {
             return "";
         },
     },
     providers: [
-        // GoogleProvider({
-        //     clientId: process.env.NEXT_PUBLIC_GOOGLE_client_id as string,
-        //     clientSecret: process.env
-        //         .NEXT_PUBLIC_GOOGLE_client_secret as string,
-        //     authorization: {
-        //         params: {
-        //             prompt: 'consent',
-        //             access_type: 'offline',
-        //             response_type: 'code',
-        //         },
-        //     },
-        // }),
-        // GithubProvider({
-        //     clientId: process.env.NEXT_PUBLIC_GITHUB_client_id as string,
-        //     clientSecret: process.env
-        //         .NEXT_PUBLIC_GITHUB_client_secret as string,
-        // }),
         CredentialsProvider({
             id: "login",
             name: "Domain Account",
@@ -40,12 +25,6 @@ export const OptionNextAuth: NextAuthOptions = {
                 } else return null;
             },
             credentials: {
-                domain: {
-                    label: "Domain",
-                    type: "text ",
-                    placeholder: "CORPNET",
-                    value: "CORPNET",
-                },
                 username: {
                     label: "Username",
                     type: "text ",
@@ -54,32 +33,50 @@ export const OptionNextAuth: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
         }),
+        CredentialsProvider({
+            id: "intranet-credentials",
+            name: "Two Factor Auth",
+            async authorize(credentials, req) {
+                const user = {
+                    id: credentials?.["2fa-key"] as string,
+                };
+                return user;
+            },
+            credentials: {
+                username: {
+                    label: "Username",
+                    type: "text ",
+                    placeholder: "jsmith",
+                },
+                "2fa-key": { label: "2FA Key" },
+            },
+        }),
     ],
     callbacks: {
-        signIn: async ({ user, account, profile, email, credentials }) => {
-            console.log("User:", user);
-            console.log("Account:", account);
-            console.log("Profile:", profile);
+        // signIn: async ({ user, account, profile, email, credentials }) => {
+        //     console.log("User:", user);
+        //     console.log("Account:", account);
+        //     console.log("Profile:", profile);
 
-            const res = await fetch("http://localhost:3000/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: credentials?.password,
-                }),
-            });
+        //     const res = await fetch("http://localhost:3000/api/login", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             email: email,
+        //             password: credentials?.password,
+        //         }),
+        //     });
 
-            const serverResponse = await res.json();
-            console.log("serverResponse", serverResponse);
-            if (serverResponse) {
-                return true;
-            } else {
-                return false;
-            }
-        },
+        //     const serverResponse = await res.json();
+        //     console.log("serverResponse", serverResponse);
+        //     if (serverResponse) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // },
         jwt: ({ token, user }) => {
             if (user) {
                 token.id = user.id;

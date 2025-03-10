@@ -1,8 +1,21 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-
-const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from "@/components/ui/input-otp";
+import axiosInstance from "@/config/axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const TwoFactorModal = () => {
     const [otp, setOtp] = useState("");
@@ -13,16 +26,9 @@ const TwoFactorModal = () => {
 
     /* Generate a QR */
     const get2faQrCode = async () => {
-        const response = await axios.get(`${BASE_URL}api/2fa/qrcode`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (response.data.status == 200) {
-            setQrImage(response.data.data);
-            setSecret(response.data.secret);
-        }
+        const response = await axiosInstance.get("2fa/qrcode");
+        setQrImage(response.data.data);
+        setSecret(response.data.secret);
     };
 
     useEffect(() => {
@@ -35,21 +41,43 @@ const TwoFactorModal = () => {
 
         if (e.target.value.length === 6) {
             const token = e.target.value;
-            const response = await axios.post(
-                `${BASE_URL}api/2fa/verify`,
-                { secret, token },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await axiosInstance.post("2fa/verify", {
+                secret,
+                token,
+            });
 
             if (response.data.verified) {
                 // 2FA Enabled successfully
             } else {
                 setInvalidOtp(true);
             }
+        }
+    };
+    const form2FaSchema = z.object({
+        otp: z.string().min(6, {
+            message: "OTP must be 6 characters long",
+        }),
+    });
+    const form = useForm({
+        resolver: zodResolver(form2FaSchema),
+        defaultValues: {
+            otp: "",
+        },
+    });
+    const onSubmit = async (data: { otp: string }) => {
+        console.log(data);
+        setOtp(data.otp);
+
+        const token = data.otp;
+        const response = await axiosInstance.post("2fa/verify", {
+            secret,
+            token,
+        });
+
+        if (response.data.verified) {
+            // 2FA Enabled successfully
+        } else {
+            setInvalidOtp(true);
         }
     };
 
@@ -83,18 +111,46 @@ const TwoFactorModal = () => {
                         </ul>
 
                         {/* OTP Input */}
-                        <input
-                            type="text"
-                            value={otp}
-                            onChange={handleOtpChange}
-                        />
-
-                        {/* Invalid Input */}
-                        {
-                            <p className="text-red-500 mt-3 text-center text-sm">
-                                {invalidOtp && "*Invalid Code"}
-                            </p>
-                        }
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                <FormField
+                                    control={form.control}
+                                    name="otp"
+                                    render={({ field }) => (
+                                        <div className="space-y-1.5">
+                                            <FormControl>
+                                                <InputOTP
+                                                    maxLength={6}
+                                                    {...field}
+                                                >
+                                                    <InputOTPGroup>
+                                                        <InputOTPSlot
+                                                            index={0}
+                                                        />
+                                                        <InputOTPSlot
+                                                            index={1}
+                                                        />
+                                                        <InputOTPSlot
+                                                            index={2}
+                                                        />
+                                                        <InputOTPSlot
+                                                            index={3}
+                                                        />
+                                                        <InputOTPSlot
+                                                            index={4}
+                                                        />
+                                                        <InputOTPSlot
+                                                            index={5}
+                                                        />
+                                                    </InputOTPGroup>
+                                                </InputOTP>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </div>
+                                    )}
+                                />
+                            </form>
+                        </Form>
                     </div>
                 </div>
             </div>

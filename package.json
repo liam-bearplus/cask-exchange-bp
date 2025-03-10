@@ -30,6 +30,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.0.0",
+        "input-otp": "^1.4.2",
         "libphonenumber-js": "^1.12.4",
         "lucide-react": "^0.473.0",
         "motion": "^12.4.10",
@@ -54,8 +55,10 @@
         "@eslint/eslintrc": "^3",
         "@types/jest": "^29.5.14",
         "@types/node": "^20.17.16",
+        "@types/qrcode": "^1.5.5",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "@types/speakeasy": "^2.0.10",
         "@types/ws": "^8.5.14",
         "bufferutil": "^4.0.9",
         "dotenv": "^16.4.7",
@@ -70,8 +73,6 @@
         "ts-jest": "^29.2.5",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.3",
-        "typescript": "^5",
-        "@types/qrcode": "^1.5.5",
-        "@types/speakeasy": "^2.0.10"
+        "typescript": "^5"
     }
 }
