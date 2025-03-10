@@ -27,6 +27,10 @@
             rgba(0, 0, 0, 0.07) 100%
         );
     }
+    input::-ms-reveal,
+    input::-ms-clear {
+        display: none;
+    }
 
     .wrapper {
         @apply w-full max-w-7xl p-5 md:px-10 lg:mx-auto;
