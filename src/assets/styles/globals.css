@@ -173,27 +173,27 @@
         }
     }
     html {
-        scroll-behavior: smooth
+        scroll-behavior: smooth;
     }
     body {
-        @apply bg-background text-foreground overscroll-none;
+        @apply overscroll-none bg-background text-foreground;
     }
     ::-webkit-scrollbar {
         width: 0;
     }
-    
+
     ::-webkit-scrollbar-track {
-        background: transparent
+        background: transparent;
     }
-    
+
     ::-webkit-scrollbar-thumb {
         background: hsl(var(--border));
-        border-radius: 5px
+        border-radius: 5px;
     }
-    
+
     * {
         scrollbar-width: thin;
-        scrollbar-color: hsl(var(--border)) transparent
+        scrollbar-color: hsl(var(--border)) transparent;
     }
 }
 
