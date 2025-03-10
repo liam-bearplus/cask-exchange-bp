@@ -1,4 +1,5 @@
 import parsePhoneNumber, { CountryCode } from "libphonenumber-js";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
 // import { formatNumberWithDecimal } from "./utils";
 
@@ -19,55 +20,38 @@ export const signInFormSchema = z.object({
 });
 
 // Schema for signing users in
-export const signUpFormSchema = z
-    .object({
-        firstName: z
-            .string()
-            .nonempty({ message: "Please enter your first name" })
-            .min(3, "First name must be at least 3 characters long"),
-        lastName: z
-            .string()
-            .nonempty({ message: "Please enter your last name" })
-            .min(3, "Last name must be at least 3 characters long"),
-        email: z
-            .string()
-            .nonempty("Please enter your email")
-            .email("Please provide a valid email address"),
-        inviteCode: z.string().optional(),
-        password: z
-            .string()
-            .min(8, "Password must be at least 8 characters long")
-            .regex(
-                /[a-z]/,
-                "Password must include at least one lowercase letter"
-            )
-            .regex(
-                /[A-Z]/,
-                "Password must include at least one uppercase letter"
-            )
-            .regex(
-                /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
-                "Password must include at least one number or special character"
-            ),
-        phoneNumber: z.string().nonempty("Please enter your phone number"),
-        country: z.string().nonempty("Please select your country").optional(),
-        consent: z.boolean().refine((val) => val === true, {
-            message: "You must agree to the terms and conditions to proceed",
-        }),
-    })
-    .refine(
-        (data) => {
-            const phoneNumber = parsePhoneNumber(
-                data.phoneNumber,
-                data.country as CountryCode
-            );
-            return phoneNumber && phoneNumber.isValid();
-        },
-        {
-            message: "Please provide a valid phone number",
-            path: ["phoneNumber"],
-        }
-    );
+export const signUpFormSchema = z.object({
+    firstName: z
+        .string()
+        .nonempty({ message: "Please enter your first name" })
+        .min(3, "First name must be at least 3 characters long"),
+    lastName: z
+        .string()
+        .nonempty({ message: "Please enter your last name" })
+        .min(3, "Last name must be at least 3 characters long"),
+    email: z
+        .string()
+        .nonempty("Please enter your email")
+        .email("Please provide a valid email address"),
+    inviteCode: z.string().optional(),
+    password: z
+        .string()
+        .min(8, "Password must be at least 8 characters long")
+        .regex(/[a-z]/, "Password must include at least one lowercase letter")
+        .regex(/[A-Z]/, "Password must include at least one uppercase letter")
+        .regex(
+            /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
+            "Password must include at least one number or special character"
+        ),
+    phoneNumber: z
+        .string()
+        .nonempty("Please enter your phone number")
+        .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+    consent: z.boolean().refine((val) => val === true, {
+        message: "You must agree to the terms and conditions to proceed",
+    }),
+});
+
 // Schema for payment method schema
 export const paymentResultSchema = z.object({
     id: z.string(),
