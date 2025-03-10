@@ -115,7 +115,10 @@ const CredentialsSignUpForm = () => {
                                             type="text"
                                             required
                                             autoComplete="tel"
+                                            defaultCountry="US"
+                                            international={true}
                                             placeholder="000-000-000"
+                                            className="shadow-sm"
                                             {...field}
                                         />
                                     </FormControl>

@@ -19,6 +19,7 @@ const buttonVariants = cva(
                     "bg-secondary text-secondary-foreground hover:bg-secondary/80",
                 ghost: "text-typo-primary hover:bg-bg-sf1",
                 link: "text-typo-primary underline-offset-4 hover:underline",
+                input: "outline-none ring-1 ring-inset ring-input ring-offset-input hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0"
             },
             size: {
                 default: "py-2.5 min-w-32",
