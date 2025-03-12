@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const session = await getServerSession(OptionNextAuth);
     const tokenString = token.toString();
-    console.log("tokenString", tokenString);
+
     if (!session) {
         // let decrypted_secret = await decrypt(secret); // Have a function to decrypt your secret key
         const verified = speakeasy.totp.verify({

@@ -24,12 +24,13 @@ model User {
 }
 
 model Auth {
-  id       String @id @default(uuid())
-  userName String @unique
-  email    String @unique
-  password String
-
-  user User @relation(fields: [userName, email], references: [userName, email], onDelete: Cascade)
+  id               String  @id @default(uuid())
+  userName         String  @unique
+  email            String  @unique
+  password         String
+  user             User    @relation(fields: [userName, email], references: [userName, email], onDelete: Cascade)
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret  String?
 
   @@unique([userName, email])
 }

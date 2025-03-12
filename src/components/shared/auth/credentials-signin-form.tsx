@@ -79,6 +79,7 @@ const CredentialsSignInForm = () => {
                                     <Label htmlFor="email">Email</Label>
                                     <FormControl>
                                         <Input
+                                            className="text-sm"
                                             id="email"
                                             type="text"
                                             autoComplete="email"

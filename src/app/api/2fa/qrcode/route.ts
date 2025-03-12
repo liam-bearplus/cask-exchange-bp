@@ -4,10 +4,12 @@ import speakeasy from "speakeasy";
 
 export async function GET(req: NextRequest, res: NextResponse) {
     const secret = speakeasy.generateSecret({
-        name: "You can give your app name here",
+        name: "CaskExchange",
+        length: 10,
+        issuer: "CaskExchange",
     });
-    console.log("secret_______________", secret);
     const data = await QRCode.toDataURL(secret.otpauth_url!);
+
     return Response.json({
         data,
         secret: secret.base32,

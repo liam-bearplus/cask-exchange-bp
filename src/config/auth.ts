@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 export const OptionNextAuth: NextAuthOptions = {
     session: {
-        maxAge: 24 * 60 * 60,
+        maxAge: 1 * 60,
         strategy: "jwt",
 
         generateSessionToken() {
@@ -33,25 +33,8 @@ export const OptionNextAuth: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
         }),
-        CredentialsProvider({
-            id: "intranet-credentials",
-            name: "Two Factor Auth",
-            async authorize(credentials, req) {
-                const user = {
-                    id: credentials?.["2fa-key"] as string,
-                };
-                return user;
-            },
-            credentials: {
-                username: {
-                    label: "Username",
-                    type: "text ",
-                    placeholder: "jsmith",
-                },
-                "2fa-key": { label: "2FA Key" },
-            },
-        }),
     ],
+
     callbacks: {
         // signIn: async ({ user, account, profile, email, credentials }) => {
         //     console.log("User:", user);
@@ -83,6 +66,7 @@ export const OptionNextAuth: NextAuthOptions = {
             }
             return { token, user };
         },
+
         session: ({ session, token }) => {
             session.user = token;
 
