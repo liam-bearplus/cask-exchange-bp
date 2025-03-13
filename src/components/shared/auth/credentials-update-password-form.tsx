@@ -69,7 +69,11 @@ const CredentialsResetPasswordForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="update-password">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                id="update-password"
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="space-y-6">
                     <div className="space-y-4">
                         <FormField

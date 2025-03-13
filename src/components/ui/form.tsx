@@ -149,21 +149,24 @@ const FormRootError = React.forwardRef<
     React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
     const { errors } = useFormState();
+
     const rootError = errors.root;
     if (!rootError) {
         return null;
     }
     return (
-        <p
-            ref={ref}
-            className={cn(
-                "text-sm font-medium text-destructive first-letter:capitalize",
-                className
-            )}
-            {...props}
-        >
-            {rootError.message}
-        </p>
+        rootError.message && (
+            <p
+                ref={ref}
+                className={cn(
+                    "text-sm font-medium text-destructive first-letter:capitalize",
+                    className
+                )}
+                {...props}
+            >
+                {rootError.message}
+            </p>
+        )
     );
 });
 FormRootError.displayName = "FormRootError";

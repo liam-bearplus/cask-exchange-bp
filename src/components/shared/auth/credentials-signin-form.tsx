@@ -81,7 +81,11 @@ const CredentialsSignInForm = () => {
     return (
         <ErrorBoundary errorComponent={() => <FormRootError />}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    id="sign-in"
+                    onChange={() => form.clearErrors("root")}
+                >
                     <div className="space-y-6">
                         <div className="space-y-4">
                             <FormField

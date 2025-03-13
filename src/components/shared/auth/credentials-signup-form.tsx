@@ -70,7 +70,11 @@ const CredentialsSignUpForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="sign-up">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                id="sign-up"
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="space-y-6">
                     <div className="grid grid-cols-2 gap-x-3 gap-y-4">
                         <FormField
