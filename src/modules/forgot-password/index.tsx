@@ -2,18 +2,14 @@
 
 import CredentialsForgotPasswordForm from "@/components/shared/auth/credentials-forgot-password-form";
 import CredentialsHead from "@/components/shared/auth/credentials-head";
+import useGetMutationState from "@/hooks/useGetMutationState";
 import { KEY_FORGOT_PASSWORD } from "@/lib/constants/key";
 import { TRegisterUser } from "@/types";
-import { useMutationState } from "@tanstack/react-query";
 
 export default function ForgotPasswordModule() {
-    const data = useMutationState({
-        filters: { mutationKey: [KEY_FORGOT_PASSWORD] },
-        select: (mutation) => ({
-            status: mutation.state.status,
-            data: mutation.state.data as TRegisterUser,
-        }),
-    })[0];
+    const data = useGetMutationState<TRegisterUser>({
+        key: KEY_FORGOT_PASSWORD,
+    });
 
     return (
         <div className="flex flex-col">

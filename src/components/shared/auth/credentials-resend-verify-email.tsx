@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormMessage,
+    FormRootError,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { resendVerifyUser } from "@/lib/constants";
@@ -14,8 +20,7 @@ import { z } from "zod";
 
 export default function CredentialsResendVerifyEmail() {
     const resendEmailMutation = useMutation({
-        mutationFn: (data: z.infer<typeof resendVerifyUserSchema>) =>
-            resendEmailVerification(data.email),
+        mutationFn: resendEmailVerification,
         mutationKey: [KEY_RESEND_EMAIL],
     });
 
@@ -25,11 +30,23 @@ export default function CredentialsResendVerifyEmail() {
     });
     const isDisabled = useDisableButtonForm(form);
     const onSubmit = async (data: z.infer<typeof resendVerifyUserSchema>) => {
-        resendEmailMutation.mutate(data);
+        try {
+            await resendEmailMutation.mutateAsync(data.email);
+        } catch (error) {
+            form.setError("root", {
+                type: "manual",
+                message:
+                    (error as { message?: string })?.message ||
+                    "Something went wrong",
+            });
+        }
     };
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="flex flex-col items-center space-y-6">
                     <div className="w-full space-y-4">
                         <FormField
@@ -48,6 +65,7 @@ export default function CredentialsResendVerifyEmail() {
                                 );
                             }}
                         />
+                        <FormRootError />
                     </div>
                     <Button
                         disabled={isDisabled || form.formState.isSubmitting}
