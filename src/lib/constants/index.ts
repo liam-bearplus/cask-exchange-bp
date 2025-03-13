@@ -15,7 +15,9 @@ export const signInDefaultValues = {
     password: "",
     rememberMe: false,
 };
-
+export const resendVerifyUser = {
+    email: "",
+};
 export const signUpDefaultValues = {
     firstName: "",
     lastName: "",

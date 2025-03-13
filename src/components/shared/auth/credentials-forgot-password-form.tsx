@@ -22,12 +22,11 @@ import { useForm } from "react-hook-form";
 const CredentialsForgotPasswordForm = () => {
     const forgotPasswordMutation = useMutation({
         mutationKey: [KEY_FORGOT_PASSWORD],
-        mutationFn: ({ data: data }: { data: TForgotPassword }) =>
-            forgotPassword(data),
+        mutationFn: forgotPassword,
     });
 
     const onSubmit = (data: TForgotPassword) => {
-        forgotPasswordMutation.mutate({ data });
+        forgotPasswordMutation.mutate(data);
     };
 
     const form = useForm({

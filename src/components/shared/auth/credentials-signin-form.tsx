@@ -1,165 +1,184 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Form,
     FormControl,
     FormField,
     FormMessage,
+    FormRootError,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { signInDefaultValues } from "@/lib/constants";
 import { signInFormSchema } from "@/lib/validators";
-import { loginUser } from "@/services/auth";
 import { TLoginUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { KEY_LOGIN } from "@/lib/constants/key";
+import { ROUTE_AUTH } from "@/lib/constants/route";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const CredentialsSignInForm = () => {
-    const loginMutation = useMutation({
-        mutationKey: [KEY_LOGIN],
-        mutationFn: ({ data: data }: { data: TLoginUser }) => loginUser(data),
+    const { setValue: setRememberLS, getValue: getRememberLS } =
+        useLocalStorage({
+            key: "rememberMe",
+            defaultValue: false,
+        });
+    const { setValue: setEmailLS, getValue: getEmailLS } = useLocalStorage({
+        key: "email",
+        defaultValue: "",
     });
-    const onSubmit = (data: TLoginUser) => {
-        loginMutation.mutate(
-            { data },
-            {
-                onSuccess: () => {
-                    signIn("login", {
-                        ...data,
-                        redirect: true,
-                        callbackUrl: "/",
-                    });
-                },
-                // onError: (error) => {
-                //   console.log("error", error);
-                // },
-            }
-        );
-    };
 
     const form = useForm({
         resolver: zodResolver(signInFormSchema),
-        defaultValues: signInDefaultValues,
+        defaultValues: {
+            ...signInDefaultValues,
+            rememberMe: getRememberLS(),
+            email: getEmailLS(),
+        },
     });
 
     const isDisableButton = useDisableButtonForm(form);
 
+    const onSubmit = async (data: TLoginUser) => {
+        const result = await signIn("login", {
+            ...data,
+            redirect: false,
+        });
+
+        if (result?.status === 401) {
+            form.setError("root", {
+                type: "manual",
+                message: result?.error || "Invalid email or password",
+            });
+        } else if (result?.status === 200 || result?.status === 201) {
+            setRememberLS(!!data?.rememberMe);
+            setEmailLS(data?.email);
+            redirect("/");
+        }
+    };
+
     const SignInButton = () => {
         return (
             <Button
-                disabled={isDisableButton || loginMutation.isPending}
+                disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
                 variant="default"
                 type="submit"
             >
-                {loginMutation.isPending ? "Logging In..." : "Login"}
+                {form.formState.isSubmitting ? "Logging In..." : "Login"}
             </Button>
         );
     };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
-                <div className="space-y-6">
-                    <div className="space-y-4">
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="email">Email</Label>
-                                    <FormControl>
-                                        <Input
-                                            id="email"
-                                            type="text"
-                                            autoComplete="email"
-                                            placeholder="Ex: johndoe@gmail.com"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </div>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <div className="space-y-1.5">
-                                    <Label htmlFor="password">Password</Label>
-                                    <FormControl>
-                                        <Input
-                                            id="password"
-                                            type="password"
-                                            variant="password"
-                                            autoComplete="password"
-                                            placeholder="•••••••••"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </div>
-                            )}
-                        />
-                        <FormField
-                            name="rememberMe"
-                            control={form.control}
-                            render={({ field }) => {
-                                return (
-                                    <div className="flex items-center justify-between">
+        <ErrorBoundary errorComponent={() => <FormRootError />}>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} id="sign-in">
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="email">Email</Label>
                                         <FormControl>
-                                            <div className="flex content-start items-start space-x-2">
-                                                <Checkbox
-                                                    id="remember"
-                                                    className="mt-0.5"
-                                                    checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
-                                                />
-                                                <Label htmlFor="remember">
-                                                    Remember me
-                                                </Label>
-                                            </div>
+                                            <Input
+                                                id="email"
+                                                type="text"
+                                                autoComplete="email"
+                                                placeholder="Ex: johndoe@gmail.com"
+                                                {...field}
+                                            />
                                         </FormControl>
-                                        <Link
-                                            href="/reset-password"
-                                            target="_self"
-                                            className="text-underline text-base text-typo-body"
-                                        >
-                                            Forgot password?
-                                        </Link>
+                                        <FormMessage />
                                     </div>
-                                );
-                            }}
-                        />
-                    </div>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="password">
+                                            Password
+                                        </Label>
+                                        <FormControl>
+                                            <Input
+                                                id="password"
+                                                type="password"
+                                                variant="password"
+                                                autoComplete="password"
+                                                placeholder="•••••••••"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </div>
+                                )}
+                            />
+                            <FormRootError />
+                            <FormField
+                                name="rememberMe"
+                                control={form.control}
+                                render={({ field }) => {
+                                    return (
+                                        <div className="flex items-center justify-between">
+                                            <FormControl>
+                                                <div className="flex content-start items-start space-x-2">
+                                                    <Checkbox
+                                                        id="remember"
+                                                        className="mt-0.5"
+                                                        checked={field.value}
+                                                        onCheckedChange={
+                                                            field.onChange
+                                                        }
+                                                    />
+                                                    <Label htmlFor="remember">
+                                                        Remember me
+                                                    </Label>
+                                                </div>
+                                            </FormControl>
+                                            <Link
+                                                href={
+                                                    ROUTE_AUTH.FORGOT_PASSWORD
+                                                }
+                                                target="_self"
+                                                className="text-underline text-base text-typo-body"
+                                            >
+                                                Forgot password?
+                                            </Link>
+                                        </div>
+                                    );
+                                }}
+                            />
+                        </div>
 
-                    <div>
-                        <SignInButton />
+                        <div>
+                            <SignInButton />
+                        </div>
+                        <div className="text-center text-base text-typo-disable">
+                            Don&apos;t have an account?{" "}
+                            <Link
+                                href="/sign-up"
+                                target="_self"
+                                className="text-underline text-typo-body"
+                            >
+                                Sign up
+                            </Link>{" "}
+                        </div>
                     </div>
-                    <div className="text-center text-base text-typo-disable">
-                        Don&apos;t have an account?{" "}
-                        <Link
-                            href="/sign-up"
-                            target="_self"
-                            className="text-underline text-typo-body"
-                        >
-                            Sign up
-                        </Link>{" "}
-                    </div>
-                </div>
-            </form>
-        </Form>
+                </form>
+            </Form>
+        </ErrorBoundary>
     );
 };
 
