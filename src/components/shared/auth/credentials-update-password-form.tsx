@@ -6,29 +6,25 @@ import {
     FormControl,
     FormField,
     FormMessage,
+    FormRootError,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { UpdatePasswordDefaultValues } from "@/lib/constants";
-import { KEY_UPDATE_PASSWORD } from "@/lib/constants/key";
+import { KEY_RESET_PASSWORD } from "@/lib/constants/key";
 import { updatePasswordFormSchema } from "@/lib/validators";
-import { updatePassword } from "@/services/auth";
+import { resetPassword } from "@/services/auth";
 import { TUpdatePassword } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import PasswordStrength from "./password-strength";
 
-const CredentialsUpdatePasswordForm = () => {
-    const updatePasswordMutation = useMutation({
-        mutationKey: [KEY_UPDATE_PASSWORD],
-        mutationFn: ({ data: data }: { data: TUpdatePassword }) =>
-            updatePassword(data),
-    });
-    const onSubmit = (data: TUpdatePassword) => {
-        updatePasswordMutation.mutate({ data });
-    };
+const CredentialsResetPasswordForm = () => {
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
 
     const form = useForm({
         resolver: zodResolver(updatePasswordFormSchema),
@@ -37,22 +33,47 @@ const CredentialsUpdatePasswordForm = () => {
 
     const isDisableButton = useDisableButtonForm(form);
 
+    const resetPasswordMutation = useMutation({
+        mutationKey: [KEY_RESET_PASSWORD],
+        mutationFn: resetPassword,
+    });
+    const onSubmit = async (data: TUpdatePassword) => {
+        const params = {
+            token: token || "",
+            password: data.newPassword,
+        };
+        try {
+            await resetPasswordMutation.mutateAsync(params);
+        } catch (error) {
+            form.setError("root", {
+                type: "manual",
+                message:
+                    (error as { message?: string })?.message ||
+                    "Something went wrong",
+            });
+        }
+    };
+
     const UpdatePasswordButton = () => {
         return (
             <Button
-                disabled={isDisableButton || updatePasswordMutation.isPending}
+                disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
                 variant="default"
                 type="submit"
             >
-                {updatePasswordMutation.isPending ? "Submitting..." : "Done"}
+                {form.formState.isSubmitting ? "Submitting..." : "Done"}
             </Button>
         );
     };
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="update-password">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                id="update-password"
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="space-y-6">
                     <div className="space-y-4">
                         <FormField
@@ -102,6 +123,7 @@ const CredentialsUpdatePasswordForm = () => {
                                 </div>
                             )}
                         />
+                        <FormRootError />
                     </div>
                     <div>
                         <UpdatePasswordButton />
@@ -112,4 +134,4 @@ const CredentialsUpdatePasswordForm = () => {
     );
 };
 
-export default CredentialsUpdatePasswordForm;
+export default CredentialsResetPasswordForm;

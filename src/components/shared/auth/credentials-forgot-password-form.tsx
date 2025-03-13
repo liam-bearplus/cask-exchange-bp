@@ -6,6 +6,7 @@ import {
     FormControl,
     FormField,
     FormMessage,
+    FormRootError,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,38 +23,52 @@ import { useForm } from "react-hook-form";
 const CredentialsForgotPasswordForm = () => {
     const forgotPasswordMutation = useMutation({
         mutationKey: [KEY_FORGOT_PASSWORD],
-        mutationFn: ({ data: data }: { data: TForgotPassword }) =>
-            forgotPassword(data),
+        mutationFn: forgotPassword,
     });
-
-    const onSubmit = (data: TForgotPassword) => {
-        forgotPasswordMutation.mutate({ data });
-    };
-
     const form = useForm({
         resolver: zodResolver(forgotPasswordFormSchema),
         defaultValues: ForgotPasswordDefaultValues,
     });
 
     const isDisableButton = useDisableButtonForm(form);
+    const onSubmit = async (data: TForgotPassword) => {
+        try {
+            await forgotPasswordMutation.mutateAsync(data);
+        } catch (error) {
+            form.setError("root", {
+                type: "manual",
+                message:
+                    (error as { message?: string })?.message ||
+                    "Something went wrong",
+            });
+        }
+    };
 
     const ForgotPasswordButton = () => {
         return (
             <Button
-                disabled={isDisableButton || forgotPasswordMutation.isPending}
+                disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
                 variant="default"
             >
-                {forgotPasswordMutation.isPending
-                    ? "Submitting..."
-                    : "Continue"}
+                {form.formState.isSubmitting ? "Submitting..." : "Continue"}
             </Button>
         );
     };
-
+    // const handleResend = async () => {
+    //     try {
+    //         await resendEmailVerification(form.getValues("email"));
+    //     } catch (error) {
+    //         console.log("error", error);
+    //     }
+    // };
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="forgot-password">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                id="forgot-password"
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="space-y-6">
                     <div className="space-y-4">
                         <FormField
@@ -75,6 +90,7 @@ const CredentialsForgotPasswordForm = () => {
                                 </div>
                             )}
                         />
+                        <FormRootError />
                     </div>
                     <div>
                         <ForgotPasswordButton />

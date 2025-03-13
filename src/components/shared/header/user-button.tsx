@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -7,11 +9,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { UserIcon } from "lucide-react";
-import { getServerSession } from "next-auth";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
-const UserButton = async () => {
-    const session = await getServerSession();
+const UserButton = () => {
+    const { data: session } = useSession();
+
     if (!session)
         return (
             <Button asChild>
@@ -70,16 +73,28 @@ const UserButton = async () => {
                             </Button>
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="mb-1 p-0" asChild>
-                        {/* //TODO: Signout <form action={signOutUser} className="w-full">
-              <Button
-                className="w-full py-4 px-2 h-4 justify-start"
-                variant={"ghost"}
-              >
-                Sign Out
-              </Button>
-            </form> */}
-                    </DropdownMenuItem>
+                    {session.user && (
+                        <DropdownMenuItem className="mb-1 p-0">
+                            <form
+                                action={() => {
+                                    signOut();
+                                }}
+                                className="w-full"
+                            >
+                                <Button
+                                    type="submit"
+                                    className="h-4 w-full justify-start px-2 py-4"
+                                    variant={"ghost"}
+                                >
+                                    Sign Out
+                                </Button>
+                            </form>
+                        </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem
+                        className="mb-1 p-0"
+                        asChild
+                    ></DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

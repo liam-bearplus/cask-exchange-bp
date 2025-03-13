@@ -24,11 +24,11 @@ export const signUpFormSchema = z.object({
     firstName: z
         .string()
         .nonempty({ message: "Please enter your first name" })
-        .min(3, "First name must be at least 3 characters long"),
+        .min(2, "First name must be at least 2 characters long"),
     lastName: z
         .string()
         .nonempty({ message: "Please enter your last name" })
-        .min(3, "Last name must be at least 3 characters long"),
+        .min(2, "Last name must be at least 2 characters long"),
     email: z
         .string()
         .nonempty("Please enter your email")
@@ -52,6 +52,13 @@ export const signUpFormSchema = z.object({
     }),
 });
 
+export const resendVerifyUserSchema = z.object({
+    email: z
+        .string()
+        .nonempty("Please enter your email")
+        .email("Please provide a valid email address"),
+});
+
 // Schema for payment method schema
 export const paymentResultSchema = z.object({
     id: z.string(),
@@ -62,15 +69,15 @@ export const paymentResultSchema = z.object({
 
 // Schema for shipping address
 export const updateProfileSchema = z.object({
-    name: z.string().min(3, "Name must be at least 3 characters long"),
-    email: z.string().min(3, "Email must be at least 3 characters long"),
+    name: z.string().min(2, "Name must be at least 2 characters long"),
+    email: z.string().min(2, "Email must be at least 2 characters long"),
 });
 
 // User schema based on the User interface
 export const userSchema = z.object({
     email: z.string().email("Invalid email address").nonempty("Email required"),
     firstName: z.string().nonempty("First name is required"),
-    id: z.number(),
+    id: z.string(),
     lastName: z.string().nonempty("Last name is required"),
     phoneNumber: z.string().nonempty("Phone number is required"),
     createdDate: z.string().nonempty("Created date is required"),

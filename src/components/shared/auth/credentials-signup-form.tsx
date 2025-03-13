@@ -1,64 +1,80 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
     FormField,
     FormMessage,
+    FormRootError,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
-import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { signUpDefaultValues } from "@/lib/constants";
+import { KEY_SIGNUP } from "@/lib/constants/key";
+import { signUpFormSchema } from "@/lib/validators";
 import { registerUser } from "@/services/auth";
 import { TRegisterUser } from "@/types";
-import { signUpFormSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import PasswordStrength from "./password-strength";
-import { KEY_REGISTER } from "@/lib/constants/key";
-import { PhoneInput } from "@/components/ui/phone-input";
 
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
-        mutationKey: [KEY_REGISTER],
-
-        mutationFn: ({ data: data }: { data: TRegisterUser }) =>
-            registerUser(data),
+        mutationKey: [KEY_SIGNUP],
+        mutationFn: registerUser,
+        retry: false,
     });
-    const onSubmit = (data: TRegisterUser) => {
-        registrationMutation.mutate({ data });
-    };
 
     const form = useForm({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: signUpDefaultValues,
     });
 
+    const onSubmit = async (data: TRegisterUser) => {
+        try {
+            await registrationMutation.mutateAsync(data);
+        } catch (error) {
+            form.setError("root", {
+                type: "manual",
+                message:
+                    (error as { message?: string })?.message ||
+                    "Something went wrong",
+            });
+        }
+    };
+
     const isDisableButton = useDisableButtonForm(form, ["inviteCode"]);
 
     const SignUpButton = () => {
         return (
             <Button
-                disabled={isDisableButton || registrationMutation.isPending}
+                disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
                 variant="default"
+                type="submit"
             >
-                {registrationMutation.isPending
+                {form.formState.isSubmitting
                     ? "Submitting..."
                     : "Create new account"}
             </Button>
         );
     };
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} id="sign-up">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                id="sign-up"
+                onChange={() => form.clearErrors("root")}
+            >
                 <div className="space-y-6">
                     <div className="grid grid-cols-2 gap-x-3 gap-y-4">
                         <FormField
@@ -110,7 +126,7 @@ const CredentialsSignUpForm = () => {
                                 <div className="space-y-1.5">
                                     <Label htmlFor="phoneNumber">Phone</Label>
                                     <FormControl>
-                                        <PhoneInput 
+                                        <PhoneInput
                                             id="phoneNumber"
                                             type="text"
                                             required
@@ -193,7 +209,6 @@ const CredentialsSignUpForm = () => {
                             )}
                         />
                     </div>
-
                     <FormField
                         name="consent"
                         control={form.control}
@@ -234,7 +249,7 @@ const CredentialsSignUpForm = () => {
                             </div>
                         )}
                     />
-                    <div className="flex content-start items-start space-x-2"></div>
+                    <FormRootError />
                     <div>
                         <SignUpButton />
                     </div>
