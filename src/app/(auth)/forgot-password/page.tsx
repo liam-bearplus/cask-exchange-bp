@@ -1,13 +1,13 @@
-import ResetPasswordModule from "@/modules/reset-password";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import ForgotPasswordModule from "@/modules/forgot-password";
 
 export const metadata: Metadata = {
-    title: "Reset Password",
+    title: "Forgot Password",
 };
 
-const ResetPasswordPage = async (props: {
+const ForgotPasswordPage = async (props: {
     searchParams: Promise<{
         callbackUrl: string;
     }>;
@@ -20,7 +20,7 @@ const ResetPasswordPage = async (props: {
         return redirect(callbackUrl || "/");
     }
 
-    return <ResetPasswordModule />;
+    return <ForgotPasswordModule />;
 };
 
-export default ResetPasswordPage;
+export default ForgotPasswordPage;

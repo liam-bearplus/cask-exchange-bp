@@ -1,10 +1,10 @@
 import {
-  paymentResultSchema,
-  signUpFormSchema,
-  updatePasswordFormSchema,
-  userSchema,
-  signInFormSchema,
-  forgotPasswordFormSchema,
+    paymentResultSchema,
+    signUpFormSchema,
+    updatePasswordFormSchema,
+    userSchema,
+    signInFormSchema,
+    forgotPasswordFormSchema,
 } from "@/lib/validators";
 import { z } from "zod";
 
@@ -20,3 +20,4 @@ export type TRegisterUser = z.infer<typeof signUpFormSchema>;
 export type TLoginUser = z.infer<typeof signInFormSchema>;
 export type TForgotPassword = z.infer<typeof forgotPasswordFormSchema>;
 export type TUpdatePassword = z.infer<typeof updatePasswordFormSchema>;
+export type TVerifyUser = { token?: string };

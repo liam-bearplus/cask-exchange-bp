@@ -6,9 +6,6 @@ const queryClientConfig = new QueryClient({
             refetchOnWindowFocus: false,
             retry: 3,
         },
-        mutations: {
-            throwOnError: true,
-        },
     },
 });
 export default queryClientConfig;
