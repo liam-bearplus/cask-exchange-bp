@@ -22,6 +22,10 @@ export const OptionNextAuth: NextAuthOptions = {
                     placeholder: "Please enter your email",
                 },
                 password: { label: "Password", type: "password" },
+                accessToken: {
+                    label: "accessToken",
+                    type: "password",
+                },
             },
             async authorize(credentials) {
                 const user = await loginUser({
@@ -34,6 +38,8 @@ export const OptionNextAuth: NextAuthOptions = {
                         id: user.id,
                         name: `${user.firstName} ${user.lastName}`,
                         email: user.email,
+                        accessToken: user.accessToken,
+                        refreshToken: user.refreshToken,
                     };
                 }
                 return null;
@@ -49,7 +55,8 @@ export const OptionNextAuth: NextAuthOptions = {
         },
         session: ({ session, token }) => {
             session.user = token;
-
+            console.log("session", session);
+            console.log("token", token);
             return session;
         },
     },

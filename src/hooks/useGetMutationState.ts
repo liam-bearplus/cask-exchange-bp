@@ -1,4 +1,4 @@
-import { useMutationState, useQueryClient } from "@tanstack/react-query";
+import { useMutationState } from "@tanstack/react-query";
 
 export default function useGetMutationState<T>({ key }: { key: string }) {
     const data = useMutationState({
