@@ -24,6 +24,7 @@ const CredentialsForgotPasswordForm = () => {
     const forgotPasswordMutation = useMutation({
         mutationKey: [KEY_FORGOT_PASSWORD],
         mutationFn: forgotPassword,
+        gcTime: Infinity,
     });
     const form = useForm({
         resolver: zodResolver(forgotPasswordFormSchema),
@@ -55,13 +56,7 @@ const CredentialsForgotPasswordForm = () => {
             </Button>
         );
     };
-    // const handleResend = async () => {
-    //     try {
-    //         await resendEmailVerification(form.getValues("email"));
-    //     } catch (error) {
-    //         console.log("error", error);
-    //     }
-    // };
+
     return (
         <Form {...form}>
             <form
