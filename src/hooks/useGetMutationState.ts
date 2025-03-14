@@ -1,4 +1,4 @@
-import { useMutationState } from "@tanstack/react-query";
+import { useMutationState, useQueryClient } from "@tanstack/react-query";
 
 export default function useGetMutationState<T>({ key }: { key: string }) {
     const data = useMutationState({
@@ -7,7 +7,7 @@ export default function useGetMutationState<T>({ key }: { key: string }) {
             status: mutation.state.status,
             data: mutation.state.data as T,
         }),
-    })[0];
+    });
 
-    return data;
+    return data[data.length - 1];
 }

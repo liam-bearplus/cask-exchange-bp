@@ -30,7 +30,6 @@ const CredentialsForgotPasswordForm = () => {
         resolver: zodResolver(forgotPasswordFormSchema),
         defaultValues: ForgotPasswordDefaultValues,
     });
-
     const isDisableButton = useDisableButtonForm(form);
     const onSubmit = async (data: TForgotPassword) => {
         try {

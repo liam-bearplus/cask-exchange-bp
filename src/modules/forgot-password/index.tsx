@@ -10,7 +10,6 @@ export default function ForgotPasswordModule() {
     const data = useGetMutationState<TRegisterUser>({
         key: KEY_FORGOT_PASSWORD,
     });
-
     return (
         <div className="flex flex-col">
             {data?.status === "success" ? (

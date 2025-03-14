@@ -1,5 +1,7 @@
-// "use client"
+"use client";
+
 import SplashScreen from "@/components/shared/auth/splash-screen";
+import useClearCacheMutation from "@/hooks/useClearCacheMutation";
 import { APP_NAME } from "@/lib/constants";
 
 export default function AuthLayout({
@@ -7,9 +9,10 @@ export default function AuthLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    useClearCacheMutation();
     return (
         <div className="min-h-screen w-full">
-            <div className="grid h-full min-h-screen w-full grid-cols-2 relative">
+            <div className="relative grid h-full min-h-screen w-full grid-cols-2">
                 <SplashScreen />
                 <div className="flex-center relative flex-col py-28">
                     <div className="grid w-full grid-cols-12 gap-4 px-5">
