@@ -34,7 +34,7 @@ export default function ImagePlaceholder({ src, imgClassName, ...props }: IProps
                     src={src}
                     onLoad={() => setIsLoaded(true)}
                     alt={props.alt as string}
-                    className="img-h relative inset-0 z-10"
+                    className={cn("img-h relative inset-0 z-10", imgClassName)}
                     loading="eager"
                     width={100}
                     height={100}

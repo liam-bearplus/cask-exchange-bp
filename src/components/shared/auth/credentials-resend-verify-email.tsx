@@ -23,7 +23,6 @@ export default function CredentialsResendVerifyEmail({
 }: {
     setIsChangeValue?: Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const queryClient = useQueryClient();
     const resendEmailMutation = useMutation({
         mutationFn: resendEmailVerification,
         gcTime: Infinity,
@@ -46,13 +45,14 @@ export default function CredentialsResendVerifyEmail({
             });
         }
     };
+
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 onChange={() => {
                     form.clearErrors("root");
-                    setIsChangeValue && setIsChangeValue(true);
+                    setIsChangeValue?.(true);
                 }}
             >
                 <div className="flex flex-col items-center space-y-6">
