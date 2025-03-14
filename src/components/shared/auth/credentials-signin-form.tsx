@@ -24,6 +24,7 @@ import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { ROUTE_AUTH } from "@/lib/constants/route";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useEffect, useState } from "react";
 
 const CredentialsSignInForm = () => {
     const { setValue: setRememberLS, getValue: getRememberLS } =
@@ -40,8 +41,6 @@ const CredentialsSignInForm = () => {
         resolver: zodResolver(signInFormSchema),
         defaultValues: {
             ...signInDefaultValues,
-            rememberMe: getRememberLS(),
-            email: getEmailLS(),
         },
     });
 
@@ -77,6 +76,11 @@ const CredentialsSignInForm = () => {
             </Button>
         );
     };
+
+    useEffect(() => {
+        form.setValue("email", getEmailLS());
+        form.setValue("rememberMe", getRememberLS());
+    }, [getEmailLS(), getRememberLS()]);
 
     return (
         <ErrorBoundary errorComponent={() => <FormRootError />}>

@@ -1,15 +1,15 @@
 "use client";
 
+import ImagePlaceholder from "@/components/shared/image-placeholder";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
-import Image from "next/image";
 
 const NotFoundPage = () => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center">
-            <Image
+            <ImagePlaceholder
                 alt={`${APP_NAME} logo`}
-                src="/images/logo.svg"
+                src="/icons/logo.svg"
                 height={48}
                 width={48}
                 priority

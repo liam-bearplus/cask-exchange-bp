@@ -10,19 +10,38 @@ import { verifyUser } from "@/services/auth";
 import { TVerifyUser } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { redirect, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export default function VerifyModule() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
-    const { error, isSuccess } = useQuery({
+    const [timer, setTimer] = useState<number>(5);
+    const timerNode = useRef<NodeJS.Timeout>(null);
+    const { error, isSuccess, isFetching } = useQuery({
         queryKey: [KEY_VERIFY],
         queryFn: () => verifyUser({ token } as TVerifyUser),
         retry: false,
         enabled: !!token,
     });
-    if (isSuccess) {
-        redirect(ROUTE_AUTH.SIGNIN);
-    }
+
+    useEffect(() => {
+        if (timer > 0 && isSuccess) {
+            timerNode.current = setInterval(() => {
+                console.log("timer", timer);
+                setTimer((prev) => {
+                    if (prev === 0) {
+                        redirect(ROUTE_AUTH.SIGNIN);
+                        return prev;
+                    }
+                    return (prev -= 1);
+                });
+            }, 1000);
+
+            return () => {
+                timerNode.current && clearInterval(timerNode.current);
+            };
+        }
+    }, [timer, isSuccess]);
 
     const data = useGetMutationState<TVerifyUser>({
         key: KEY_RESEND_EMAIL,
@@ -34,8 +53,20 @@ export default function VerifyModule() {
 
     return (
         <div className="flex flex-col">
-            <CredentialsHead title="Verify Account" isLoading />
-            {error && (
+            {isSuccess ? (
+                <CredentialsHead
+                    title="Verify Account is Success"
+                    desc={`You will be redirected to the sign in page in ${timer} seconds`}
+                    isLoading
+                />
+            ) : (
+                <CredentialsHead
+                    title="Verify Account"
+                    isLoading={isFetching}
+                    desc="Please wait, we are verifying your account"
+                />
+            )}
+            {error && !isSuccess && (
                 <div className="flex flex-col gap-4">
                     <div className="text-center text-sm font-medium text-destructive">
                         {error.message}

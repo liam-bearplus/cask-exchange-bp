@@ -1,7 +1,7 @@
 import Menu from "@/components/shared/header/menu";
+import ImagePlaceholder from "@/components/shared/image-placeholder";
 import UserMainNav from "@/components/shared/user/main-nav";
 import { APP_NAME } from "@/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function UserLayout({
@@ -15,9 +15,9 @@ export default function UserLayout({
                 <header className="container mx-auto border-b">
                     <div className="flex h-16 items-center px-4">
                         <Link href="/" className="flex-start">
-                            <Image
+                            <ImagePlaceholder
                                 alt={`${APP_NAME} logo`}
-                                src="/images/logo.svg"
+                                src="/icons/logo.svg"
                                 height={48}
                                 width={48}
                                 priority
