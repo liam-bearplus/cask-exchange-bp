@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const useLocalStorage = <T>({
     key,
@@ -7,22 +7,47 @@ export const useLocalStorage = <T>({
     key: string;
     defaultValue: T;
 }) => {
-    const [value, setValue] = useState(() => {
-        const storedValue = localStorage.getItem(key);
-        if (storedValue) {
-            return JSON.parse(storedValue);
-        }
-        return defaultValue;
-    });
+    const [value, setValue] = useState<T>(defaultValue);
 
     useEffect(() => {
-        if (value === undefined) return;
-        localStorage.setItem(key, JSON.stringify(value));
-    }, [value, key]);
-    const getValue = () => {
-        const storedValue = localStorage.getItem(key);
-        return storedValue ? JSON.parse(storedValue) : null;
-    };
+        if (typeof window === "undefined") return;
+
+        try {
+            const storedValue = localStorage.getItem(key);
+            if (storedValue !== null) {
+                setValue(JSON.parse(storedValue));
+            }
+        } catch (error) {
+            console.warn(`Error parsing localStorage key "${key}":`, error);
+        }
+    }, [key]);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        try {
+            if (value === undefined) {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
+        } catch (error) {
+            console.warn(`Error setting localStorage key "${key}":`, error);
+        }
+    }, [key, value]);
+
+    const getValue = useCallback(() => {
+        if (typeof window === "undefined") return defaultValue;
+        try {
+            const storedValue = localStorage.getItem(key);
+            return storedValue !== null
+                ? JSON.parse(storedValue)
+                : defaultValue;
+        } catch (error) {
+            console.warn(`Error parsing localStorage key "${key}":`, error);
+            return defaultValue;
+        }
+    }, [key, defaultValue]);
 
     return { value, setValue, getValue };
 };

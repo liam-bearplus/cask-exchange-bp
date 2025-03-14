@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import { APP_NAME } from "@/lib/constants";
+import Link from "next/link";
+import ImagePlaceholder from "../image-placeholder";
 import Menu from "./menu";
 
 const Header = () => {
@@ -9,16 +9,14 @@ const Header = () => {
             <div className="wrapper flex-between">
                 <div className="flex-start">
                     <Link href="/" className="flex-start">
-                        <Image
+                        <ImagePlaceholder
                             alt={`${APP_NAME} logo`}
-                            src="/images/logo.svg"
+                            src="/icons/logo.svg"
                             height={48}
                             width={48}
                             priority
+                            className="h-12 w-12"
                         />
-                        <span className="ml-6 hidden text-2xl font-bold lg:block">
-                            {APP_NAME}
-                        </span>
                     </Link>
                 </div>
                 <Menu />

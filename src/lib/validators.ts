@@ -92,10 +92,34 @@ export const updatePasswordFormSchema = z
     .object({
         newPassword: z
             .string()
-            .min(6, "New password must be at least 6 characters long"),
+            .min(8, "Password must be at least 8 characters long")
+            .regex(
+                /[a-z]/,
+                "Password must include at least one lowercase letter"
+            )
+            .regex(
+                /[A-Z]/,
+                "Password must include at least one uppercase letter"
+            )
+            .regex(
+                /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
+                "Password must include at least one number or special character"
+            ),
         confirmPassword: z
             .string()
-            .min(6, "Confirm password must be at least 6 characters long"),
+            .min(8, "Confirm Password must be at least 8 characters long")
+            .regex(
+                /[a-z]/,
+                "Confirm Password must include at least one lowercase letter"
+            )
+            .regex(
+                /[A-Z]/,
+                "Confirm Password must include at least one uppercase letter"
+            )
+            .regex(
+                /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
+                "Confirm Password must include at least one number or special character"
+            ),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
         message: "Passwords do not match",

@@ -1,19 +1,15 @@
-import Image from "next/image";
-import LogoFull from "@/assets/images/logo-full.png";
-import Barrel from "@/assets/images/barrel.png";
-import Background from "@/assets/images/splash-bg.svg";
+import ImagePlaceholder from "../image-placeholder";
 
 export default function SplashScreen() {
     return (
-        <div className="overflow-hidden bg-bg-dark-main h-screen sticky top-0">
+        <div className="sticky top-0 h-screen overflow-hidden bg-bg-dark-main">
             <div className="flex-start relative z-20 h-full flex-col">
-                <div className="mt-[8.6vh] h-5">
-                    <Image
+                <div className="mt-[8.6vh] h-5 w-[13.875rem]">
+                    <ImagePlaceholder
                         alt="Logo"
-                        src={LogoFull}
-                        width={LogoFull.width}
-                        height={LogoFull.height}
-                        className="img-basic"
+                        src={"/images/logo-full.png"}
+                        width={440}
+                        height={40}
                     />
                 </div>
                 <div className="my-auto pb-[3.7vh] text-center">
@@ -25,23 +21,24 @@ export default function SplashScreen() {
                     </div>
                 </div>
                 <div className="w-full max-w-[37.625rem]">
-                    <Image
+                    <ImagePlaceholder
                         alt="Barrel"
-                        src={Barrel}
-                        width={Barrel.width}
-                        height={Barrel.height}
-                        className="img-basic"
-                        priority
+                        src={"/images/barrel.png"}
+                        width={600}
+                        height={327}
+                        className="aspect-[600/327]"
                     />
                 </div>
             </div>
             <div className="absolute inset-0 z-10">
-                <Image
+                <ImagePlaceholder
                     alt="Background"
-                    src={Background}
-                    fill
+                    src={"/images/splash-bg.svg"}
                     style={{ objectFit: "cover" }}
-                    className="img-basic"
+                    className="absolute inset-0 z-10"
+                    imgClassName="h-full"
+                    width={864}
+                    height={1080}
                     unoptimized={true}
                 />
             </div>
