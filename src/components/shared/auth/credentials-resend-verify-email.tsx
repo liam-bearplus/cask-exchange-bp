@@ -13,7 +13,7 @@ import { KEY_RESEND_EMAIL } from "@/lib/constants/key";
 import { resendVerifyUserSchema } from "@/lib/validators";
 import { resendEmailVerification } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
