@@ -1,22 +1,21 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams, redirect } from "next/navigation";
 import CredentialsHead from "@/components/shared/auth/credentials-head";
 import CredentialsResendVerifyEmail from "@/components/shared/auth/credentials-resend-verify-email";
 import ResendSuccess from "@/components/shared/auth/resend-success";
 import useGetMutationState from "@/hooks/useGetMutationState";
-import { KEY_RESEND_EMAIL, KEY_VERIFY } from "@/lib/constants/key";
-import { ROUTE_AUTH } from "@/lib/constants/route";
 import { verifyUser } from "@/services/auth";
+import { KEY_VERIFY, KEY_RESEND_EMAIL } from "@/lib/constants/key";
+import { ROUTE_AUTH } from "@/lib/constants/route";
 import { TVerifyUser } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { redirect, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 
 export default function VerifyModule() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
-    const [timer, setTimer] = useState<number>(5);
-    const timerNode = useRef<NodeJS.Timeout>(null);
+
     const { error, isSuccess, isFetching } = useQuery({
         queryKey: [KEY_VERIFY],
         queryFn: () => verifyUser({ token } as TVerifyUser),
@@ -24,53 +23,57 @@ export default function VerifyModule() {
         enabled: !!token,
     });
 
+    const [timer, setTimer] = useState(5);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
     useEffect(() => {
-        if (timer > 0 && isSuccess) {
-            timerNode.current = setInterval(() => {
-                console.log("timer", timer);
-                setTimer((prev) => {
-                    if (prev === 0) {
-                        redirect(ROUTE_AUTH.SIGNIN);
-                        return prev;
-                    }
-                    return (prev -= 1);
-                });
-            }, 1000);
+        if (!isSuccess || timer <= 0) return;
 
-            return () => {
-                timerNode.current && clearInterval(timerNode.current);
-            };
-        }
-    }, [timer, isSuccess]);
+        timerRef.current = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerRef.current!);
+                    redirect(ROUTE_AUTH.SIGNIN);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
 
-    const data = useGetMutationState<TVerifyUser>({
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, [isSuccess, timer]);
+
+    const resendData = useGetMutationState<TVerifyUser>({
         key: KEY_RESEND_EMAIL,
     });
 
-    if (data?.status === "success") {
+    if (resendData?.status === "success") {
         return <ResendSuccess />;
     }
 
+    const isVerifying = isFetching && !isSuccess;
+    const hasError = error && !isSuccess;
+
     return (
-        <div className="flex flex-col">
-            {isSuccess ? (
-                <CredentialsHead
-                    title="Verify Account is Success"
-                    desc={`You will be redirected to the sign in page in ${timer} seconds`}
-                    isLoading
-                />
-            ) : (
-                <CredentialsHead
-                    title="Verify Account"
-                    isLoading={isFetching}
-                    desc="Please wait, we are verifying your account"
-                />
-            )}
-            {error && !isSuccess && (
+        <div className="flex flex-col gap-4">
+            <CredentialsHead
+                title={
+                    isSuccess ? "Verify Account is Success" : "Verify Account"
+                }
+                desc={
+                    isSuccess
+                        ? `You will be redirected to the sign in page in ${timer} seconds`
+                        : "Please wait, we are verifying your account"
+                }
+                isLoading={isVerifying}
+            />
+            {hasError && (
                 <div className="flex flex-col gap-4">
-                    <div className="text-center text-sm font-medium text-destructive">
+                    <p className="text-center text-sm font-medium text-destructive">
                         {error.message}
-                    </div>
+                    </p>
                     <CredentialsResendVerifyEmail />
                 </div>
             )}
