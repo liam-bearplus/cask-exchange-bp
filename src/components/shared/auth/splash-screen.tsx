@@ -35,7 +35,6 @@ export default function SplashScreen() {
                     alt="Background"
                     src={"/images/splash-bg.svg"}
                     style={{ objectFit: "cover" }}
-                    className="img-basic"
                     width={864}
                     height={1080}
                     unoptimized={true}

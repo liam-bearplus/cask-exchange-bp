@@ -13,17 +13,22 @@ import { KEY_RESEND_EMAIL } from "@/lib/constants/key";
 import { resendVerifyUserSchema } from "@/lib/validators";
 import { resendEmailVerification } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Dispatch } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export default function CredentialsResendVerifyEmail() {
+export default function CredentialsResendVerifyEmail({
+    setIsChangeValue,
+}: {
+    setIsChangeValue?: Dispatch<React.SetStateAction<boolean>>;
+}) {
+    const queryClient = useQueryClient();
     const resendEmailMutation = useMutation({
         mutationFn: resendEmailVerification,
+        gcTime: Infinity,
         mutationKey: [KEY_RESEND_EMAIL],
     });
-
     const form = useForm({
         resolver: zodResolver(resendVerifyUserSchema),
         defaultValues: resendVerifyUser,
@@ -45,7 +50,10 @@ export default function CredentialsResendVerifyEmail() {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                onChange={() => form.clearErrors("root")}
+                onChange={() => {
+                    form.clearErrors("root");
+                    setIsChangeValue && setIsChangeValue(true);
+                }}
             >
                 <div className="flex flex-col items-center space-y-6">
                     <div className="w-full space-y-4">
