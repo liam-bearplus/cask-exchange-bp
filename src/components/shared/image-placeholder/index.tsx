@@ -7,12 +7,13 @@ type IProps = {
     src: string;
     unoptimized?: boolean;
     priority?: boolean;
+    imgClassName?: string;
 } & React.DetailedHTMLProps<
     React.ImgHTMLAttributes<HTMLImageElement>,
     HTMLImageElement
 >;
 
-export default function ImagePlaceholder({ src, ...props }: IProps) {
+export default function ImagePlaceholder({ src, imgClassName, ...props }: IProps) {
     const [isLoaded, setIsLoaded] = useState(false);
     return (
         <div className={cn("relative h-full w-full", props.className)}>
@@ -20,7 +21,7 @@ export default function ImagePlaceholder({ src, ...props }: IProps) {
                 <Image
                     {...props}
                     src={src}
-                    className="img-basic absolute inset-0 z-20"
+                    className={cn("img-basic absolute inset-0 z-20", imgClassName)}
                     width={props.width as number}
                     height={props.height as number}
                     alt={props.alt as string}
