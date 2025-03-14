@@ -4,7 +4,7 @@ export default function SplashScreen() {
     return (
         <div className="sticky top-0 h-screen overflow-hidden bg-bg-dark-main">
             <div className="flex-start relative z-20 h-full flex-col">
-                <div className="mt-[8.6vh] h-8 w-[22rem]">
+                <div className="mt-[8.6vh] h-5 w-[13.875rem]">
                     <ImagePlaceholder
                         alt="Logo"
                         src={"/images/logo-full.png"}
@@ -35,6 +35,8 @@ export default function SplashScreen() {
                     alt="Background"
                     src={"/images/splash-bg.svg"}
                     style={{ objectFit: "cover" }}
+                    className="absolute inset-0 z-10"
+                    imgClassName="h-full"
                     width={864}
                     height={1080}
                     unoptimized={true}

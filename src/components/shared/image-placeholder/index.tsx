@@ -7,12 +7,17 @@ type IProps = {
     src: string;
     unoptimized?: boolean;
     priority?: boolean;
+    imgClassName?: string;
 } & React.DetailedHTMLProps<
     React.ImgHTMLAttributes<HTMLImageElement>,
     HTMLImageElement
 >;
 
-export default function ImagePlaceholder({ src, ...props }: IProps) {
+export default function ImagePlaceholder({
+    src,
+    imgClassName,
+    ...props
+}: IProps) {
     const [isLoaded, setIsLoaded] = useState(false);
     return (
         <div className={cn("relative h-full w-full", props.className)}>
