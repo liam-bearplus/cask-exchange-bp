@@ -1,8 +1,8 @@
-import XIcon from "@/assets/images/x-icon.svg";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ImagePlaceholder from "../image-placeholder";
+
 export default function CredentialsHead({
     title = "Page Title",
     desc,
@@ -26,10 +26,10 @@ export default function CredentialsHead({
             ) : (
                 <div className="max-w-[15rem] pb-6">
                     <ImagePlaceholder
-                        src={XIcon}
+                        src={"/icons/logo.svg"}
                         alt="X Icon"
-                        width={XIcon.width}
-                        height={XIcon.height}
+                        width={60}
+                        height={60}
                         className="h-[6rem] w-[6rem]"
                     />
                 </div>
