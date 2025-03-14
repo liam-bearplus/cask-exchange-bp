@@ -6,13 +6,13 @@ export default function SignupSuccess({ name }: { name: string }) {
     return (
         <div className="flex-center flex-col space-y-8">
             <div className="h-20 w-20">
-                {/* <ImagePlaceholder
+                <ImagePlaceholder
                     alt="Signup success"
                     src={"/icons/signup-success.svg"}
                     width={80}
                     height={80}
                     className="img-basic"
-                /> */}
+                />
             </div>
             <div className="text-center">
                 <div className="mb-2 text-2xl font-semibold text-typo-primary">

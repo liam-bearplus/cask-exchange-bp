@@ -15,6 +15,8 @@ import { TVerifyUser } from "@/types";
 export default function VerifyModule() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
+    const [isChangeValue, setIsChangeValue] = useState(false);
+    const [timer, setTimer] = useState(5);
 
     const { error, isSuccess, isFetching } = useQuery({
         queryKey: [KEY_VERIFY],
@@ -22,8 +24,9 @@ export default function VerifyModule() {
         retry: false,
         enabled: !!token,
     });
-
-    const [timer, setTimer] = useState(5);
+    const resendData = useGetMutationState<TVerifyUser>({
+        key: KEY_RESEND_EMAIL,
+    });
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
@@ -45,10 +48,6 @@ export default function VerifyModule() {
         };
     }, [isSuccess, timer]);
 
-    const resendData = useGetMutationState<TVerifyUser>({
-        key: KEY_RESEND_EMAIL,
-    });
-
     if (resendData?.status === "success") {
         return <ResendSuccess />;
     }
@@ -57,7 +56,7 @@ export default function VerifyModule() {
     const hasError = error && !isSuccess;
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
             <CredentialsHead
                 title={
                     isSuccess ? "Verify Account is Success" : "Verify Account"
@@ -71,10 +70,15 @@ export default function VerifyModule() {
             />
             {hasError && (
                 <div className="flex flex-col gap-4">
-                    <p className="text-center text-sm font-medium text-destructive">
-                        {error.message}
-                    </p>
-                    <CredentialsResendVerifyEmail />
+                    {!isChangeValue && (
+                        <p className="text-center text-sm font-medium text-destructive">
+                            {error.message}
+                        </p>
+                    )}
+
+                    <CredentialsResendVerifyEmail
+                        setIsChangeValue={setIsChangeValue}
+                    />
                 </div>
             )}
         </div>

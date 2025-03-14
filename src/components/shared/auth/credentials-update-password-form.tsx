@@ -36,6 +36,7 @@ const CredentialsResetPasswordForm = () => {
     const resetPasswordMutation = useMutation({
         mutationKey: [KEY_RESET_PASSWORD],
         mutationFn: resetPassword,
+        gcTime: Infinity,
     });
     const onSubmit = async (data: TUpdatePassword) => {
         const params = {

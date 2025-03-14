@@ -30,9 +30,8 @@ const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
         mutationKey: [KEY_SIGNUP],
         mutationFn: registerUser,
-        retry: false,
+        gcTime: Infinity,
     });
-
     const form = useForm({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: signUpDefaultValues,
