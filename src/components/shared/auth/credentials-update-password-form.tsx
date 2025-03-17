@@ -14,7 +14,7 @@ import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { UpdatePasswordDefaultValues } from "@/lib/constants";
 import { KEY_RESET_PASSWORD } from "@/lib/constants/key";
 import { updatePasswordFormSchema } from "@/lib/validators";
-import { resetPassword } from "@/services/auth";
+import authService from "@/services/auth";
 import { TUpdatePassword } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -35,7 +35,7 @@ const CredentialsResetPasswordForm = () => {
 
     const resetPasswordMutation = useMutation({
         mutationKey: [KEY_RESET_PASSWORD],
-        mutationFn: resetPassword,
+        mutationFn: authService.resetPassword,
         gcTime: Infinity,
     });
     const onSubmit = async (data: TUpdatePassword) => {

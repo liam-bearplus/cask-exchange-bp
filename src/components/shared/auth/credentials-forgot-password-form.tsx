@@ -14,7 +14,7 @@ import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { ForgotPasswordDefaultValues } from "@/lib/constants";
 import { KEY_FORGOT_PASSWORD } from "@/lib/constants/key";
 import { forgotPasswordFormSchema } from "@/lib/validators";
-import { forgotPassword } from "@/services/auth";
+import authService from "@/services/auth";
 import { TForgotPassword } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 const CredentialsForgotPasswordForm = () => {
     const forgotPasswordMutation = useMutation({
         mutationKey: [KEY_FORGOT_PASSWORD],
-        mutationFn: forgotPassword,
+        mutationFn: authService.forgotPassword,
         gcTime: Infinity,
     });
     const form = useForm({

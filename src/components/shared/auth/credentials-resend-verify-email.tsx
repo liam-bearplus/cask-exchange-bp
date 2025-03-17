@@ -11,7 +11,7 @@ import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { resendVerifyUser } from "@/lib/constants";
 import { KEY_RESEND_EMAIL } from "@/lib/constants/key";
 import { resendVerifyUserSchema } from "@/lib/validators";
-import { resendEmailVerification } from "@/services/auth";
+import authService from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch } from "react";
@@ -24,7 +24,7 @@ export default function CredentialsResendVerifyEmail({
     setIsChangeValue?: Dispatch<React.SetStateAction<boolean>>;
 }) {
     const resendEmailMutation = useMutation({
-        mutationFn: resendEmailVerification,
+        mutationFn: authService.resendEmailVerification,
         gcTime: Infinity,
         mutationKey: [KEY_RESEND_EMAIL],
     });

@@ -1,25 +1,11 @@
 import ResetPasswordModule from "@/modules/reset-password";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Reset Password",
 };
 
-const ResetPasswordPage = async (props: {
-    searchParams: Promise<{
-        callbackUrl: string;
-    }>;
-}) => {
-    const { callbackUrl } = await props.searchParams;
-
-    const session = await getServerSession();
-
-    if (session) {
-        return redirect(callbackUrl || "/");
-    }
-
+const ResetPasswordPage = async () => {
     return <ResetPasswordModule />;
 };
 

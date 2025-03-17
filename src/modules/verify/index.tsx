@@ -7,10 +7,10 @@ import CredentialsHead from "@/components/shared/auth/credentials-head";
 import CredentialsResendVerifyEmail from "@/components/shared/auth/credentials-resend-verify-email";
 import ResendSuccess from "@/components/shared/auth/resend-success";
 import useGetMutationState from "@/hooks/useGetMutationState";
-import { verifyUser } from "@/services/auth";
 import { KEY_VERIFY, KEY_RESEND_EMAIL } from "@/lib/constants/key";
 import { ROUTE_AUTH } from "@/lib/constants/route";
 import { TVerifyUser } from "@/types";
+import authService from "@/services/auth";
 
 export default function VerifyModule() {
     const searchParams = useSearchParams();
@@ -20,7 +20,7 @@ export default function VerifyModule() {
 
     const { error, isSuccess, isFetching } = useQuery({
         queryKey: [KEY_VERIFY],
-        queryFn: () => verifyUser({ token } as TVerifyUser),
+        queryFn: () => authService.verifyUser({ token } as TVerifyUser),
         retry: false,
         enabled: !!token,
     });

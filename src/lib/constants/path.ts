@@ -1,3 +1,3 @@
 const PATH_AUTH = "/auth";
-
-export { PATH_AUTH };
+const PATH_CASKS = "/casks";
+export { PATH_AUTH, PATH_CASKS };
