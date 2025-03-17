@@ -1,5 +1,5 @@
 import { ROUTE_AUTH } from "@/lib/constants/route";
-import { loginUser } from "@/services/auth";
+import authService from "@/services/auth";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -28,11 +28,10 @@ export const OptionNextAuth: NextAuthOptions = {
                 },
             },
             async authorize(credentials) {
-                const user = await loginUser({
+                const user = await authService.loginUser({
                     email: credentials?.email || "",
                     password: credentials?.password || "",
                 });
-
                 if (user) {
                     return {
                         id: user.id,
@@ -40,6 +39,7 @@ export const OptionNextAuth: NextAuthOptions = {
                         email: user.email,
                         accessToken: user.accessToken,
                         refreshToken: user.refreshToken,
+                        role: user.role,
                     };
                 }
                 return null;
@@ -47,16 +47,20 @@ export const OptionNextAuth: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        jwt: ({ token, user }) => {
+        async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.name = user.name as string;
+                token.accessToken = user.accessToken;
+                token.refreshToken = user.refreshToken;
             }
-            return { token, user };
+            return token;
         },
-        session: ({ session, token }) => {
-            session.user = token;
-            console.log("session", session);
-            console.log("token", token);
+        async session({ session, token }) {
+            session.user.id = token.id;
+            session.user.name = token.name;
+            session.user.accessToken = token.accessToken;
+            session.user.refreshToken = token.refreshToken;
             return session;
         },
     },

@@ -1,15 +1,19 @@
 "use client";
 
-// import axiosInstance from "@/config/axios";
+import ListCask from "@/components/shared/list-casks";
+import { MOCKUP_CASKS } from "@/lib/constants/mockup.data";
+// import caskServices from "@/services/cask";
 // import { useQuery } from "@tanstack/react-query";
+// import { KEY_LIST_CASK } from "@/lib/constants/key";
 
 export default function HomeModule() {
-    // const whoami = useQuery({
-    //     queryKey: ["list"],
-    //     queryFn: () => {
-    //         axiosInstance.get("/auth/whoami");
-    //     },
+    // const recentReview = useQuery({
+    //     queryKey: [`${KEY_LIST_CASK}_recent`],
+    //     queryFn: caskServices.getAllCasks,
     // });
-    // console.log("whoami", whoami);
-    return <div>HomeModule</div>;
+    return (
+        <div>
+            <ListCask lists={MOCKUP_CASKS} title="Recent Review" />
+        </div>
+    );
 }

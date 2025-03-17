@@ -1,6 +1,7 @@
 import axiosInstance from "@/config/axios";
 import {
     KEY_FORGOT_PASSWORD,
+    KEY_REFRESH_TOKEN,
     KEY_RESEND_EMAIL,
     KEY_RESET_PASSWORD,
     KEY_SIGNIN,
@@ -10,87 +11,91 @@ import {
 import { PATH_AUTH } from "@/lib/constants/path";
 import { handleRequest } from "@/lib/utils";
 import {
-    TLoginUser,
-    TUpdatePassword,
-    TRegisterUser,
-    TUserSchema,
     TForgotPassword,
+    TLoginUser,
+    TRegisterUser,
+    TToken,
+    TUserSchema,
     TVerifyUser,
 } from "@/types";
 
-export const registerUser = async (
-    data: TRegisterUser
-): Promise<TUserSchema> => {
-    return handleRequest(
-        axiosInstance.post<TUserSchema>(`${PATH_AUTH}/${KEY_SIGNUP}`, data)
-    );
-};
-export const verifyUser = async (data: TVerifyUser) => {
-    return handleRequest(
-        axiosInstance.post(`${PATH_AUTH}/${KEY_VERIFY}`, data)
-    );
-};
+class AuthService {
+    async registerUser(data: TRegisterUser): Promise<TUserSchema> {
+        return handleRequest(
+            axiosInstance.post<TUserSchema>(`${PATH_AUTH}/${KEY_SIGNUP}`, data)
+        );
+    }
 
-export const loginUser = async (data: TLoginUser): Promise<TUserSchema> => {
-    return handleRequest(
-        axiosInstance.post<TUserSchema>(`${PATH_AUTH}/${KEY_SIGNIN}`, data)
-    );
-};
-export const resendEmailVerification = async (email: string) => {
-    return handleRequest(
-        axiosInstance.post(`${PATH_AUTH}/${KEY_RESEND_EMAIL} `, { email })
-    );
-};
+    async verifyUser(data: TVerifyUser): Promise<void> {
+        return handleRequest(
+            axiosInstance.post(`${PATH_AUTH}/${KEY_VERIFY}`, data)
+        );
+    }
 
-export const updatePassword = async (data: TUpdatePassword) => {
-    return handleRequest(axiosInstance.put("/user/change-password", data));
-};
+    async loginUser(data: TLoginUser): Promise<TUserSchema> {
+        return handleRequest(
+            axiosInstance.post<TUserSchema>(`${PATH_AUTH}/${KEY_SIGNIN}`, data)
+        );
+    }
 
-export const updateUser = async (
-    data: Partial<TUserSchema>
-): Promise<TUserSchema> => {
-    return handleRequest(
-        axiosInstance.put<TUserSchema>("/api/user/update", data)
-    );
-};
+    async resendEmailVerification(email: string): Promise<void> {
+        return handleRequest(
+            axiosInstance.post(`${PATH_AUTH}/${KEY_RESEND_EMAIL}`, { email })
+        );
+    }
 
-export const fetchUser = async (): Promise<TUserSchema> => {
-    return handleRequest(axiosInstance.get<TUserSchema>("/user/get-info"));
-};
+    async updateUser(data: Partial<TUserSchema>): Promise<TUserSchema> {
+        return handleRequest(
+            axiosInstance.put<TUserSchema>("/api/user/update", data)
+        );
+    }
 
-export const forgotPassword = async (data: TForgotPassword) => {
-    return handleRequest(
-        axiosInstance.post(`${PATH_AUTH}/${KEY_FORGOT_PASSWORD}`, data)
-    );
-};
+    async fetchUser(): Promise<TUserSchema> {
+        return handleRequest(axiosInstance.get<TUserSchema>("/user/get-info"));
+    }
 
-export const resetPassword = async (data: {
-    token: string;
-    password: string;
-}) => {
-    return handleRequest(
-        axiosInstance.post(`${PATH_AUTH}/${KEY_RESET_PASSWORD} `, data)
-    );
-};
+    async forgotPassword(data: TForgotPassword): Promise<void> {
+        return handleRequest(
+            axiosInstance.post(`${PATH_AUTH}/${KEY_FORGOT_PASSWORD}`, data)
+        );
+    }
 
-export const getUserList = async (params: {
-    search: string;
-    page?: number;
-    pageSize?: number;
-    sortField?: string;
-    sortOrder?: string;
-}): Promise<unknown> => {
-    return handleRequest(
-        axiosInstance.get<unknown>("/api/user-management", { params })
-    );
-};
+    async resetPassword(data: {
+        token: string;
+        password: string;
+    }): Promise<void> {
+        return handleRequest(
+            axiosInstance.post(`${PATH_AUTH}/${KEY_RESET_PASSWORD}`, data)
+        );
+    }
 
-export const getUserDetail = async (id: number): Promise<TUserSchema> => {
-    return handleRequest(
-        axiosInstance.get<TUserSchema>(`/api/user-management/${id}`)
-    );
-};
+    async getUserList(params: {
+        search: string;
+        page?: number;
+        pageSize?: number;
+        sortField?: string;
+        sortOrder?: string;
+    }): Promise<unknown> {
+        return handleRequest(
+            axiosInstance.get<unknown>("/api/user-management", { params })
+        );
+    }
 
-export const updateFcmToken = async (webFcmToken: string) => {
-    return handleRequest(axiosInstance.put("/api/user/fcm", { webFcmToken }));
-};
+    async getUserDetail(id: number): Promise<TUserSchema> {
+        return handleRequest(
+            axiosInstance.get<TUserSchema>(`/api/user-management/${id}`)
+        );
+    }
+
+    async refreshToken(data: { refreshToken: string }): Promise<TToken> {
+        return handleRequest(
+            axiosInstance.post<TToken>(
+                `${PATH_AUTH}/${KEY_REFRESH_TOKEN}`,
+                data
+            )
+        );
+    }
+}
+
+const authService = new AuthService();
+export default authService;

@@ -166,3 +166,15 @@ export const handleRequest = async <T>(
         throw new Error("An unexpected error occurred");
     }
 };
+
+export const isEmpty = <T>(value: T): boolean => {
+    return (
+        value === undefined ||
+        value === null ||
+        (typeof value === "string" && value === "") ||
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === "object" &&
+            value !== null &&
+            Object.keys(value).length === 0)
+    );
+};

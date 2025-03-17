@@ -18,7 +18,7 @@ import { useDisableButtonForm } from "@/hooks/useDisableButtonForm";
 import { signUpDefaultValues } from "@/lib/constants";
 import { KEY_SIGNUP } from "@/lib/constants/key";
 import { signUpFormSchema } from "@/lib/validators";
-import { registerUser } from "@/services/auth";
+import authService from "@/services/auth";
 import { TRegisterUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -29,7 +29,7 @@ import PasswordStrength from "./password-strength";
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
         mutationKey: [KEY_SIGNUP],
-        mutationFn: registerUser,
+        mutationFn: authService.registerUser,
         gcTime: Infinity,
     });
     const form = useForm({

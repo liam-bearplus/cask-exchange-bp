@@ -11,7 +11,6 @@ export default function SignupSuccess({ name }: { name: string }) {
                     src={"/icons/signup-success.svg"}
                     width={80}
                     height={80}
-                    className="img-basic"
                 />
             </div>
             <div className="text-center">

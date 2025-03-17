@@ -4,4 +4,7 @@ const ROUTE_AUTH = {
     VERIFY: "/verify-user",
     FORGOT_PASSWORD: "/forgot-password",
 };
-export { ROUTE_AUTH };
+const ROUTE_PUBLIC = {
+    HOME: "/",
+};
+export { ROUTE_AUTH, ROUTE_PUBLIC };
