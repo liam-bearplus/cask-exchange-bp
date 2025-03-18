@@ -38,6 +38,7 @@ const CredentialsResetPasswordForm = () => {
         mutationFn: authService.resetPassword,
         gcTime: Infinity,
     });
+    const status = resetPasswordMutation.status;
     const onSubmit = async (data: TUpdatePassword) => {
         const params = {
             token: token || "",

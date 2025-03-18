@@ -1,5 +1,6 @@
 import axiosInstance from "@/config/axios";
 import {
+    KEY_CHECK_RESET_PASSWORD,
     KEY_FORGOT_PASSWORD,
     KEY_REFRESH_TOKEN,
     KEY_RESEND_EMAIL,
@@ -26,9 +27,14 @@ class AuthService {
         );
     }
 
-    async verifyUser(data: TVerifyUser): Promise<void> {
+    async verifyUser(data: TVerifyUser): Promise<{ email: string }> {
         return handleRequest(
             axiosInstance.post(`${PATH_AUTH}/${KEY_VERIFY}`, data)
+        );
+    }
+    async verifyTokenResetPassword(data: { token: string }) {
+        return handleRequest(
+            axiosInstance.post(`${PATH_AUTH}/${KEY_CHECK_RESET_PASSWORD}`, data)
         );
     }
 

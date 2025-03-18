@@ -19,6 +19,7 @@ export default {
             "2xl": ["1.5rem", { lineHeight: "2rem" }],
             "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
         },
+
         colors: {
             transparent: "transparent",
             current: "currentColor",
@@ -166,6 +167,9 @@ export default {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+            },
+            animation: {
+                "spin-slow": "spin 3s linear infinite",
             },
         },
     },

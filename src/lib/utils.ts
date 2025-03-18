@@ -1,4 +1,4 @@
-import { AxiosResponse, isAxiosError } from "axios";
+import { AxiosError, AxiosResponse, isAxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
@@ -159,11 +159,19 @@ export const handleRequest = async <T>(
         return response.data;
     } catch (error: unknown) {
         if (isAxiosError(error)) {
-            throw new Error(
-                error?.response?.data?.message || "Something went wrong"
+            const axiosError = error as AxiosError;
+            throw (
+                axiosError.response?.data || {
+                    message: axiosError.message || "Request failed",
+                    status: axiosError.response?.status,
+                }
             );
         }
-        throw new Error("An unexpected error occurred");
+        throw new Error(
+            error instanceof Error
+                ? error.message
+                : "An unexpected error occurred"
+        );
     }
 };
 
