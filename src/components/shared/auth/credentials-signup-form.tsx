@@ -25,6 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import PasswordStrength from "./password-strength";
+import { ROUTE_AUTH } from "@/lib/constants/route";
 
 const CredentialsSignUpForm = () => {
     const registrationMutation = useMutation({
@@ -255,11 +256,11 @@ const CredentialsSignUpForm = () => {
                     <div className="text-center text-base text-typo-disable">
                         Already have an account?{" "}
                         <Link
-                            href="/sign-in"
+                            href={ROUTE_AUTH.LOGIN}
                             target="_self"
                             className="text-underline text-typo-body"
                         >
-                            Sign in
+                            Log in
                         </Link>
                     </div>
                 </div>

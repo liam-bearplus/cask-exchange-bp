@@ -1,18 +1,16 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import ImagePlaceholder from "../image-placeholder";
 import { cn } from "@/lib/utils";
+import { PropsWithChildren } from "react";
+import ImagePlaceholder from "../image-placeholder";
 
 type TAuthStatus = {
     status: "success" | "error" | "pending" | "resend" | "idle";
     title?: string;
-    description?: string;
     buttonText?: string;
     action?: () => void;
     isDisableButton?: boolean;
-    isShowSignin?: boolean;
     messageError?: string;
-};
+} & PropsWithChildren;
 
 export default function AuthStatus({ status, ...data }: TAuthStatus) {
     const imageWithStatus = {
@@ -20,7 +18,7 @@ export default function AuthStatus({ status, ...data }: TAuthStatus) {
         error: "/icons/signup-error.svg",
         pending: "/icons/signup-pending.svg",
         idle: "",
-        resend: "",
+        resend: "/icons/sign-up-email.svg",
     };
     return (
         <div className="flex-center flex-col space-y-8">
@@ -43,9 +41,7 @@ export default function AuthStatus({ status, ...data }: TAuthStatus) {
                 <div className="mb-2 text-2xl font-semibold text-typo-primary">
                     {data.title}
                 </div>
-                <div className="text-base text-typo-body">
-                    {data.description}
-                </div>
+                <div className="text-base text-typo-body">{data.children}</div>
             </div>
 
             <Button
@@ -64,18 +60,6 @@ export default function AuthStatus({ status, ...data }: TAuthStatus) {
                 >
                     {data.messageError}
                 </p>
-            )}
-            {data.isShowSignin && (
-                <div className="!mt-4 text-center text-base text-typo-disable">
-                    Already have an account?{" "}
-                    <Link
-                        href="/sign-in"
-                        target="_self"
-                        className="text-underline text-typo-body"
-                    >
-                        Log in
-                    </Link>
-                </div>
             )}
         </div>
     );

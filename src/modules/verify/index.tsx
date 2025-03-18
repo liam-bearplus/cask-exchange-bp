@@ -1,7 +1,7 @@
 "use client";
 
 import AuthStatus from "@/components/shared/auth/auth-status";
-import { TIMER_REDIRECT, TIMER_RESEND_SECONDS } from "@/lib/constants";
+import { TIMER_REDIRECT } from "@/lib/constants";
 import { KEY_RESEND_EMAIL, KEY_VERIFY } from "@/lib/constants/key";
 import { ROUTE_AUTH } from "@/lib/constants/route";
 import authService from "@/services/auth";
@@ -14,10 +14,8 @@ export default function VerifyModule() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
     const [timer, setTimer] = useState(TIMER_REDIRECT);
-    const [timerResend, setTimerResend] = useState(TIMER_RESEND_SECONDS);
     const [isSuccessResend, setIsLoadedResend] = useState<boolean>(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-    const timeResendRef = useRef<NodeJS.Timeout | null>(null);
 
     // Data Fetching
     const verifyUser = useQuery({
@@ -37,51 +35,67 @@ export default function VerifyModule() {
     const schema = {
         success: {
             title: "Account Verified",
-            description: `You’ll be redirected to the login page in ${timer} seconds.`,
-            buttonText: "Login now",
-            action: () => redirect(ROUTE_AUTH.SIGNIN),
-            isShowSignin: false,
+            description: (
+                <div className="flex items-center">
+                    You&apos;ll be redirected to the login page in
+                    <span className="font-medium">&nbsp;{timer}&nbsp;</span>
+                    seconds.
+                </div>
+            ),
+            buttonText: "Log in now",
+            action: () => redirect(ROUTE_AUTH.LOGIN),
+
             isDisableButton: false,
             messageError: "",
         },
         pending: {
             title: "Account Verifying...",
-            description:
-                "We're confirming your details. This might take a moment.",
+            description: (
+                <div className="flex items-center">
+                    We&apos;re confirming your details. This might take a
+                    moment.
+                </div>
+            ),
             buttonText: "Verifying...",
             action: () => {
                 return;
             },
-            isShowSignin: false,
+
             isDisableButton: true,
             messageError: "",
         },
         error: {
             title: "Link Expired",
-            description:
-                "Your verification link has expired. Get a new link sent to your email.",
+            description: (
+                <div className="flex items-center">
+                    Your verification link has expired. Get a new link sent to
+                    your email.
+                </div>
+            ),
             buttonText: resendEmailMutation.isPending
                 ? "Resending..."
                 : "Resend",
             action: () =>
                 resendEmailMutation.mutate(verifyUser.error?.data?.email),
-            isShowSignin: true,
+
             isDisableButton: resendEmailMutation.isPending,
             messageError: resendEmailMutation.error?.message || "",
         },
         resend: {
-            title: "Check your mail box",
-            description:
-                "Please follow the instructions in your mailbox to verify your account.",
-            buttonText: `Resend${timerResend === 0 || resendEmailMutation.isIdle ? "" : ` in ${timerResend}s`}`,
+            title: "Check your mailbox",
+            description: (
+                <div className="flex items-center">
+                    Please follow the instructions in your mailbox to verify
+                    your account. If you don’t see it, check your spam folder or
+                    your credentials.
+                </div>
+            ),
+            buttonText: "Back to sign up",
             action: () => {
-                resendEmailMutation.mutate(verifyUser.error?.data?.email);
-                setTimerResend(TIMER_REDIRECT);
+                redirect(ROUTE_AUTH.SIGNUP);
             },
-            isShowSignin: true,
-            isDisableButton:
-                (timerResend > 0 && !resendEmailMutation.isIdle) ||
-                resendEmailMutation.isPending,
+
+            isDisableButton: false,
             messageError: "",
         },
     };
@@ -94,7 +108,7 @@ export default function VerifyModule() {
             status: isSuccess ? "success" : status,
             data: isSuccess ? schema.success : schema[status],
         }),
-        [timer, timerResend, resendEmailMutation]
+        [timer, resendEmailMutation]
     );
 
     const determineRenderStatus = () => {
@@ -114,7 +128,7 @@ export default function VerifyModule() {
             setTimer((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerRef.current!);
-                    redirect(ROUTE_AUTH.SIGNIN);
+                    redirect(ROUTE_AUTH.LOGIN);
                 }
                 return prev - 1;
             });
@@ -126,21 +140,6 @@ export default function VerifyModule() {
     }, [status, timer]);
 
     useEffect(() => {
-        if (timerResend <= 0) return;
-
-        timeResendRef.current = setInterval(() => {
-            setTimerResend((prev) => {
-                if (prev <= 1) clearInterval(timeResendRef.current!);
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => {
-            if (timeResendRef.current) clearInterval(timeResendRef.current);
-        };
-    }, [timerResend, resendEmailMutation.status]);
-
-    useEffect(() => {
         if (resendEmailMutation?.status === "success") {
             setIsLoadedResend(true);
         }
@@ -148,7 +147,9 @@ export default function VerifyModule() {
     // Render
     return (
         <div className="flex flex-col">
-            <AuthStatus {...data} status={status} />
+            <AuthStatus {...data} status={status}>
+                {data.description}
+            </AuthStatus>
         </div>
     );
 }

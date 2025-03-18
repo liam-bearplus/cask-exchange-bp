@@ -4,7 +4,6 @@ import AuthStatus from "@/components/shared/auth/auth-status";
 import CredentialsHead from "@/components/shared/auth/credentials-head";
 import CredentialsResetPasswordForm from "@/components/shared/auth/credentials-update-password-form";
 import useGetMutationState from "@/hooks/useGetMutationState";
-import { TIMER_RESEND_SECONDS } from "@/lib/constants";
 import {
     KEY_CHECK_RESET_PASSWORD,
     KEY_FORGOT_PASSWORD,
@@ -14,15 +13,13 @@ import { ROUTE_AUTH } from "@/lib/constants/route";
 import authService from "@/services/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { redirect, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ResetPasswordModule() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
 
     // State and Refs
-    const [timerResend, setTimerResend] = useState(TIMER_RESEND_SECONDS);
-    const timeResendRef = useRef<NodeJS.Timeout | null>(null);
     const [isSuccessResend, setIsLoadedResend] = useState<boolean>(false);
 
     // Data Fetching
@@ -48,9 +45,9 @@ export default function ResetPasswordModule() {
         success: {
             title: "Password Reset Successfully",
             description: "Log in to your account with your new password.",
-            buttonText: "Login now",
-            action: () => redirect(ROUTE_AUTH.SIGNIN),
-            isShowSignin: false,
+            buttonText: "Log in now",
+            action: () => redirect(ROUTE_AUTH.LOGIN),
+
             isDisableButton: false,
             messageError: "",
         },
@@ -60,7 +57,7 @@ export default function ResetPasswordModule() {
                 "We're confirming your details. This might take a moment.",
             buttonText: "Verifying...",
             action: () => {},
-            isShowSignin: false,
+
             isDisableButton: true,
             messageError: "",
         },
@@ -75,26 +72,20 @@ export default function ResetPasswordModule() {
                 resendForgotPassword.mutate({
                     email: validToken.error?.data?.email,
                 }),
-            isShowSignin: true,
+
             isDisableButton: resendForgotPassword.isPending,
             messageError: resendForgotPassword.error?.message || "",
         },
         resend: {
-            title: "Check your mail box",
+            title: "Check your mailbox",
             description:
-                "Please follow the instructions in your mailbox to reset your password.",
-            buttonText: `Resend${timerResend === 0 || resendForgotPassword.isIdle ? "" : ` in ${timerResend}s`}`,
+                "Please follow the instructions in your mailbox to verify your account. If you don’t see it, check your spam folder or your credentials.",
+            buttonText: "Back to log in",
             action: () => {
-                resendForgotPassword.mutate({
-                    email: validToken.error?.data?.email,
-                });
-                setTimerResend(TIMER_RESEND_SECONDS);
+                redirect(ROUTE_AUTH.LOGIN);
             },
-            isShowSignin: true,
-            isDisableButton:
-                (timerResend > 0 && !resendForgotPassword.isIdle) ||
-                resendForgotPassword.isPending,
-            messageError: resendForgotPassword.error?.message || "",
+
+            isDisableButton: false,
         },
     };
 
@@ -104,7 +95,7 @@ export default function ResetPasswordModule() {
             status,
             data: schema[status],
         }),
-        [timerResend, resendForgotPassword, validToken, isSuccessResend]
+        [resendForgotPassword, validToken, isSuccessResend]
     );
     const determineRenderStatus = () => {
         // Otherwise, handle forgot password success or token validation status
@@ -115,33 +106,6 @@ export default function ResetPasswordModule() {
     };
 
     const { status, data } = determineRenderStatus();
-
-    // Timer Effect
-    useEffect(() => {
-        if (
-            resendForgotPassword?.status !== "success" ||
-            resetPasswordMutation?.status === "success" ||
-            timerResend <= 0
-        )
-            return;
-
-        timeResendRef.current = setInterval(() => {
-            setTimerResend((prev) => {
-                if (prev <= 1) {
-                    clearInterval(timeResendRef.current!);
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => {
-            if (timeResendRef.current) clearInterval(timeResendRef.current);
-        };
-    }, [
-        timerResend,
-        resendForgotPassword.status,
-        resetPasswordMutation?.status,
-    ]);
 
     useEffect(() => {
         if (resendForgotPassword?.status === "success") {
@@ -158,7 +122,9 @@ export default function ResetPasswordModule() {
     return (
         <div className="flex flex-col">
             {shouldShowAuthStatus ? (
-                <AuthStatus status={status} {...data} />
+                <AuthStatus status={status} {...data}>
+                    {data.description}
+                </AuthStatus>
             ) : (
                 <>
                     <CredentialsHead title="Reset password" breadcrumb />
