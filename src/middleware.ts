@@ -1,7 +1,6 @@
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { ROUTE_AUTH } from "./lib/constants/route";
-import { PATH_AUTH } from "./lib/constants/path";
 
 export default withAuth({
     pages: {
