@@ -18,6 +18,7 @@ declare module "next-auth" {
             refreshToken?: string;
             email?: string;
             name?: string;
+            image?: string;
         };
     }
 

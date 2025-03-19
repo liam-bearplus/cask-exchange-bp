@@ -49,7 +49,7 @@ const CredentialsForgotPasswordForm = () => {
             <Button
                 disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
-                variant="default"
+                variant="secondary"
             >
                 {form.formState.isSubmitting ? "Submitting..." : "Continue"}
             </Button>

@@ -2,7 +2,7 @@
 
 import AuthStatus from "@/components/shared/auth/auth-status";
 import CredentialsHead from "@/components/shared/auth/credentials-head";
-import CredentialsResetPasswordForm from "@/components/shared/auth/credentials-update-password-form";
+import CredentialsResetPasswordForm from "@/components/shared/auth/credentials-reset-password-form";
 import useGetMutationState from "@/hooks/useGetMutationState";
 import {
     KEY_CHECK_RESET_PASSWORD,
@@ -127,7 +127,7 @@ export default function ResetPasswordModule() {
                 </AuthStatus>
             ) : (
                 <>
-                    <CredentialsHead title="Reset password" breadcrumb />
+                    <CredentialsHead title="Reset password" />
                     <CredentialsResetPasswordForm />
                 </>
             )}

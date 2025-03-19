@@ -105,3 +105,66 @@ export const passwordConstraintContent: {
         regex: /^(?=.*[0-9!@#$%^&*(),.?":{}|<>]).*$/,
     },
 ];
+
+export const MENU_NAVIGATIONS = [
+    {
+        title: "All cask",
+        href: "/casks",
+        isNewWindow: false,
+        icon: "/icons/cask-icon.svg",
+    },
+    {
+        title: "Dashboard",
+        href: "/dashboard",
+        isNewWindow: false,
+    },
+    {
+        title: "My Portfolio",
+        href: "/profile",
+        isNewWindow: false,
+    },
+    {
+        title: "Buying",
+        href: "/markets",
+        isNewWindow: false,
+        subItems: [
+            {
+                title: "Content 1",
+                href: "#",
+                isNewWindow: false,
+            },
+            {
+                title: "Content 2",
+                href: "#",
+                isNewWindow: false,
+            },
+            {
+                title: "Content 3",
+                href: "#",
+                isNewWindow: false,
+            },
+        ],
+    },
+    {
+        title: "Selling",
+        href: "/selling",
+        isNewWindow: false,
+        subItems: [
+            {
+                title: "Content 1",
+                href: "#",
+                isNewWindow: false,
+            },
+            {
+                title: "Content 2",
+                href: "#",
+                isNewWindow: false,
+            },
+            {
+                title: "Content 3",
+                href: "#",
+                isNewWindow: false,
+            },
+        ],
+    },
+];

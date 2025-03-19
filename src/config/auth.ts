@@ -40,6 +40,7 @@ export const OptionNextAuth: NextAuthOptions = {
                         accessToken: user.accessToken,
                         refreshToken: user.refreshToken,
                         role: user.role,
+                        image: user?.avatar,
                     };
                 }
                 return null;
@@ -53,6 +54,7 @@ export const OptionNextAuth: NextAuthOptions = {
                 token.name = user.name as string;
                 token.accessToken = user.accessToken;
                 token.refreshToken = user.refreshToken;
+                token.picture = user.image;
             }
             return token;
         },
@@ -61,6 +63,7 @@ export const OptionNextAuth: NextAuthOptions = {
             session.user.name = token.name;
             session.user.accessToken = token.accessToken;
             session.user.refreshToken = token.refreshToken;
+            session.user.image = token.picture || "";
             return session;
         },
     },

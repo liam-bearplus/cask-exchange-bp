@@ -13,7 +13,7 @@ import { z } from "zod";
 export const signInFormSchema = z.object({
     email: z
         .string()
-        .nonempty("Email required")
+        .nonempty("Email is required")
         .email("Please provide a properly formatted email address"),
     password: z.string().min(6, "Password must be at 6 characters long"),
     rememberMe: z.boolean().optional(),
@@ -32,7 +32,7 @@ export const signUpFormSchema = z.object({
     email: z
         .string()
         .nonempty("Please enter your email")
-        .email("Please provide a valid email address"),
+        .email("Please provide a properly formatted email address"),
     inviteCode: z.string().optional(),
     password: z
         .string()
@@ -56,7 +56,7 @@ export const resendVerifyUserSchema = z.object({
     email: z
         .string()
         .nonempty("Please enter your email")
-        .email("Please provide a valid email address"),
+        .email("Please provide a properly formatted email address"),
 });
 
 // Schema for payment method schema
@@ -75,7 +75,10 @@ export const updateProfileSchema = z.object({
 
 // User schema based on the User interface
 export const userSchema = z.object({
-    email: z.string().email("Invalid email address").nonempty("Email required"),
+    email: z
+        .string()
+        .email("Invalid email address")
+        .nonempty("Email is required"),
     firstName: z.string().nonempty("First name is required"),
     id: z.string(),
     lastName: z.string().nonempty("Last name is required"),
@@ -84,7 +87,10 @@ export const userSchema = z.object({
 });
 
 export const forgotPasswordFormSchema = z.object({
-    email: z.string().email("Invalid email address").nonempty("Email required"),
+    email: z
+        .string()
+        .nonempty("Email is required")
+        .email("Please provide a properly formatted email address"),
 });
 
 // UpdatePasswordFormValue schema based on the UpdatePasswordFormValue type
@@ -125,3 +131,6 @@ export const updatePasswordFormSchema = z
         message: "Passwords do not match",
         path: ["confirmPassword"],
     });
+export const searchSchema = z.object({
+    search: z.string().optional(),
+});

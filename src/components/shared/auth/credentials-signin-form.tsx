@@ -69,10 +69,10 @@ const CredentialsSignInForm = () => {
             <Button
                 disabled={isDisableButton || form.formState.isSubmitting}
                 className="w-full"
-                variant="default"
+                variant="secondary"
                 type="submit"
             >
-                {form.formState.isSubmitting ? "Logging In..." : "Login"}
+                {form.formState.isSubmitting ? "Logging in..." : "Log in"}
             </Button>
         );
     };

@@ -1,4 +1,3 @@
-import Menu from "@/components/shared/header/menu";
 import ImagePlaceholder from "@/components/shared/image-placeholder";
 import UserMainNav from "@/components/shared/user/main-nav";
 import { APP_NAME } from "@/lib/constants";
@@ -24,9 +23,7 @@ export default function UserLayout({
                             />
                         </Link>
                         <UserMainNav className="mx-6" />
-                        <div className="ml-auto flex items-center space-x-4">
-                            <Menu />
-                        </div>
+                        <div className="ml-auto flex items-center space-x-4"></div>
                     </div>
                 </header>
                 <div className="container mx-auto flex-1 space-y-4 p-8 pt-6">

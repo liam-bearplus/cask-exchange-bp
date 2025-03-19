@@ -10,7 +10,7 @@ export default function ListCask({
     title?: string;
 }) {
     return (
-        <div className="flex flex-col gap-6">
+        <div className="mt-[6.25rem] flex flex-col gap-6">
             {title && (
                 <h2 className="text-3xl font-semibold text-typo-primary">
                     {title}
