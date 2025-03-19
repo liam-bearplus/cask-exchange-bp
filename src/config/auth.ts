@@ -67,7 +67,7 @@ export const OptionNextAuth: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
 
     pages: {
-        signIn: ROUTE_AUTH.SIGNIN,
+        signIn: ROUTE_AUTH.LOGIN,
         signOut: "/signout",
         error: "/error",
     },

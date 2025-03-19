@@ -4,12 +4,12 @@ import { ROUTE_AUTH } from "./lib/constants/route";
 
 export default withAuth({
     pages: {
-        signIn: "/sign-in",
+        signIn: ROUTE_AUTH.LOGIN,
     },
 });
 export async function middleware(req: NextRequest) {
     const sessionToken = req.cookies.get("next-auth.session-token");
-    if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.SIGNIN) {
+    if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.LOGIN) {
         const referer = req.headers.get("referer") || "/";
         return NextResponse.redirect(new URL(referer, req.url));
     }

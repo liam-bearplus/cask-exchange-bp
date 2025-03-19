@@ -176,7 +176,7 @@ const CredentialsSignInForm = () => {
                         <div className="text-center text-base text-typo-disable">
                             Don&apos;t have an account?{" "}
                             <Link
-                                href="/sign-up"
+                                href={ROUTE_AUTH.SIGNUP}
                                 target="_self"
                                 className="text-underline text-typo-body"
                             >

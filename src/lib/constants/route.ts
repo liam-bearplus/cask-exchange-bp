@@ -1,5 +1,5 @@
 const ROUTE_AUTH = {
-    SIGNIN: "/sign-in",
+    LOGIN: "/log-in",
     SIGNUP: "/sign-up",
     VERIFY: "/verify-user",
     FORGOT_PASSWORD: "/forgot-password",

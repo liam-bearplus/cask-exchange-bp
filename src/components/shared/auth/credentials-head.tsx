@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { ROUTE_AUTH, ROUTE_PUBLIC } from "@/lib/constants/route";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ImagePlaceholder from "../image-placeholder";
-import { ROUTE_AUTH } from "@/lib/constants/route";
 
 export default function CredentialsHead({
     title = "Page Title",
@@ -18,22 +18,24 @@ export default function CredentialsHead({
     return (
         <div className="flex-center flex-col pb-8 text-center">
             {breadcrumb ? (
-                <Link href={ROUTE_AUTH.SIGNIN}>
+                <Link href={ROUTE_AUTH.LOGIN}>
                     <Button variant="ghost" className="mb-8 min-w-0" size="sm">
                         <ChevronLeft className="h-4 w-4" />
                         Back
                     </Button>
                 </Link>
             ) : (
-                <div className="max-w-[15rem] pb-6">
-                    <ImagePlaceholder
-                        src={"/icons/logo.svg"}
-                        alt="X Icon"
-                        width={60}
-                        height={60}
-                        className="h-[6rem] w-[6rem]"
-                    />
-                </div>
+                <Link href={ROUTE_PUBLIC.HOME}>
+                    <div className="max-w-[15rem] pb-6">
+                        <ImagePlaceholder
+                            src={"/icons/logo.svg"}
+                            alt="X Icon"
+                            width={60}
+                            height={60}
+                            className="h-[3.75rem] w-[3.75rem]"
+                        />
+                    </div>
+                </Link>
             )}
             <h1 className="inline-flex text-2xl font-semibold text-typo-primary">
                 {title}
