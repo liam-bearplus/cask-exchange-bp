@@ -4,7 +4,7 @@ import { ROUTE_AUTH } from "./lib/constants/route";
 
 export default withAuth({
     pages: {
-        signIn: "/sign-in",
+        signIn: ROUTE_AUTH.LOGIN,
     },
 });
 export async function middleware(req: NextRequest) {

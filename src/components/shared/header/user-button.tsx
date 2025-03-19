@@ -7,6 +7,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ROUTE_AUTH } from "@/lib/constants/route";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { UserIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -18,7 +19,7 @@ const UserButton = () => {
     if (!session)
         return (
             <Button asChild>
-                <Link href="/sign-in">
+                <Link href={ROUTE_AUTH.LOGIN}>
                     <UserIcon />
                     Sign in
                 </Link>
