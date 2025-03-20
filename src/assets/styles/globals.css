@@ -54,7 +54,7 @@
     }
 
     .h1-bold {
-        @apply lg:text-4xl text-3xl font-bold;
+        @apply text-3xl font-bold lg:text-4xl;
     }
 
     .h2-bold {

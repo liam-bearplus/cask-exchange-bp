@@ -12,7 +12,7 @@ export const PrimaryBanner: React.FC<{ data: TBannerItem }> = ({ data }) => (
             className="absolute inset-0 -z-10"
         />
         <div className={`flex flex-col ${data.maxWidthClass}`}>
-            <h1 className="text-5xl text-white-main mb-6 font-medium">
+            <h1 className="mb-6 text-5xl font-medium text-white-main">
                 {data.title}
             </h1>
             <div className="mb-12 text-base text-typo-dark-body">

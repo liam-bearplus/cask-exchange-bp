@@ -46,7 +46,7 @@ export default function UserAction() {
                                     width={80}
                                 />
                             </div>
-                            <div className="border-white-main absolute -bottom-[0.1rem] -right-[0.1rem] h-[0.8125rem] w-[0.8125rem] overflow-hidden rounded-full border-[0.1rem] border-solid bg-success" />
+                            <div className="absolute -bottom-[0.1rem] -right-[0.1rem] h-[0.8125rem] w-[0.8125rem] overflow-hidden rounded-full border-[0.1rem] border-solid border-white-main bg-success" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-32">

@@ -1,1 +1,1 @@
-npx prettier --write . && npm run build
+npx tsc --noEmit && npm run build . && npx prettier --write .

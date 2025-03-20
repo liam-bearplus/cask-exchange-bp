@@ -13,7 +13,7 @@ export const SecondaryBanner: React.FC<{ data: TBannerItem }> = ({ data }) => (
             className="absolute inset-0 -z-10"
         />
         <div className={`mt-auto flex flex-col ${data.maxWidthClass}`}>
-            <h2 className="text-white-main mb-4 text-3xl font-medium">
+            <h2 className="mb-4 text-3xl font-medium text-white-main">
                 {data.title}
             </h2>
             <Button
