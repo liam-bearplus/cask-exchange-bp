@@ -36,9 +36,8 @@ app.prepare().then(() => {
                 return handler(req, res);
             } else if (apiPath.includes("/2fa")) {
                 return handler(req, res);
-            } else {
-                res.end(JSON.stringify({ error: "API endpoint not found" }));
-                res.writeHead(404);
+            } else if (apiPath.includes("/checkout")) {
+                return handler(req, res);
             }
             return;
         } else {
