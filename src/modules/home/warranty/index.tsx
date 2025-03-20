@@ -34,7 +34,7 @@ export default function Warranty() {
                 alt="warranty-thumb"
                 className="absolute -bottom-8 left-0 h-[40.9375rem] w-[58.8125rem]"
             />
-            <div className="grid-cols-16 container grid">
+            <div className="container grid grid-cols-16">
                 <h2 className="col-span-4 col-start-2 -ml-4 max-w-[26.625rem] text-3xl font-medium text-typo-dark-primary">
                     Ensuring Trust & Transparency in Cask Investments
                 </h2>
