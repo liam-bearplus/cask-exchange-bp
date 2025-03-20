@@ -3,6 +3,7 @@ const ROUTE_AUTH = {
     SIGNUP: "/sign-up",
     VERIFY: "/verify-user",
     FORGOT_PASSWORD: "/forgot-password",
+    RESET_PASSWORD: "/reset-password",
 };
 const ROUTE_PUBLIC = {
     HOME: "/",

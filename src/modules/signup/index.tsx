@@ -17,7 +17,7 @@ export default function SignUpModule() {
             <AuthStatus
                 status="success"
                 title={`Welcome aboard, ${data?.data?.firstName}!`}
-                buttonText="Back to sign up"
+                buttonText="Back to log in"
                 action={() => redirect(ROUTE_AUTH.LOGIN)}
             >
                 To activate your account and start exploring CaskExchange

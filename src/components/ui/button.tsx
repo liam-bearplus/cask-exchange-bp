@@ -9,27 +9,27 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default:
-                    "bg-bg-dark-main text-typo-dark-primary hover:bg-brand hover:text-typo-primary active:bg-brand-darker",
                 destructive:
                     "bg-destructive text-destructive-foreground hover:bg-destructive/90",
                 outline:
                     "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
                 secondary:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    "bg-bg-dark-main text-typo-dark-primary hover:bg-brand hover:text-typo-primary active:bg-brand-darker",
                 ghost: "text-typo-primary hover:bg-bg-sf1",
-                link: "text-typo-primary underline-offset-4 hover:underline",
-                input: "outline-none ring-1 ring-inset ring-input ring-offset-input hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0"
+                link: "text-typo-primary min-w-unset flex flex-row gap-1 !p-0 flex-start rounded-none border-b  border-current !min-w-fit",
+                input: "outline-none ring-1 ring-inset ring-input ring-offset-input hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                icon: "rounded-full bg-bg-dark-sf1 text-typo-dark-primary bg-bg-dark-sf1 p-0",
+                primary: "bg-brand text-typo-primary hover:bg-brand-darker",
             },
             size: {
                 default: "py-2.5 min-w-32",
-                sm: "py-1.5 min-w-40",
-                lg: "py-3.5 min-w-24",
+                sm: "py-1.5 min-w-24",
+                lg: "py-3.5 min-w-40",
                 icon: "h-10 w-10",
             },
         },
         defaultVariants: {
-            variant: "default",
+            variant: "primary",
             size: "default",
         },
     }

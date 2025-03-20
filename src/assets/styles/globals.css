@@ -36,7 +36,10 @@
     }
 
     .wrapper {
-        @apply w-full max-w-7xl p-5 md:px-10 lg:mx-auto;
+        @apply mx-auto w-full max-w-[108rem] px-[3.875rem] lg:mx-auto;
+    }
+    .container {
+        @apply mx-auto w-full max-w-[108rem] px-[3.875rem] lg:mx-auto;
     }
 
     .flex-start {
@@ -51,7 +54,7 @@
     }
 
     .h1-bold {
-        @apply lg:text-4xl text-3xl font-bold;
+        @apply text-3xl font-bold lg:text-4xl;
     }
 
     .h2-bold {
@@ -61,10 +64,17 @@
     .h3-bold {
         @apply text-xl font-bold lg:text-2xl;
     }
+    .input-dark {
+        --input: var(--white-300);
+        --ring: var(--white-500);
+
+        @apply border-white-300 bg-bg-dark-sf1 text-typo-dark-disable hover:!ring-bd-dark-sf2;
+    }
 }
 
 @layer base {
     :root {
+        --white: 0 0% 100%;
         --white-100: 210 8% 19%;
         --white-200: 214 6% 24%;
         --white-300: 214 5% 28%;
@@ -86,6 +96,7 @@
         --dark-900: 210 11% 15%;
 
         --black: 0 0% 5%;
+        --black-darker: 0 0% 4%;
 
         --brand: 44 88% 61%;
         --brand-darker: 37 65% 52%;
@@ -104,7 +115,7 @@
         --warn-lighter: 44 98% 77%;
 
         --success: 152 77% 39%;
-        --success: 85 85% 35%;
+        /* --success: 85 85% 35%; */
         --success-darker: 153 91% 30%;
         --success-darkest: 155 90% 24%;
         --success-lighter: 144 68% 80%;
@@ -140,7 +151,7 @@
         --chart-3: 197 37% 24%;
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
+        --radius: 0.625rem;
     }
     .dark {
         --background: 222.2 84% 4.9%;
@@ -202,6 +213,38 @@
         scrollbar-width: thin;
         scrollbar-color: hsl(var(--border)) transparent;
     }
+
+    .animate-loading {
+        @apply animate-spin-slow;
+    }
+    .animate-loading div div {
+        transform-origin: bottom;
+        animation: lds-spinner 1.4s linear infinite;
+    }
+    .animate-loading div:nth-child(1) div {
+        animation-delay: 0s;
+    }
+    .animate-loading div:nth-child(2) div {
+        animation-delay: -0.2s;
+    }
+    .animate-loading div:nth-child(3) div {
+        animation-delay: -0.4s;
+    }
+    .animate-loading div:nth-child(4) div {
+        animation-delay: -0.6s;
+    }
+    .animate-loading div:nth-child(5) div {
+        animation-delay: -0.8s;
+    }
+    .animate-loading div:nth-child(6) div {
+        animation-delay: -1s;
+    }
+    .animate-loading div:nth-child(7) div {
+        animation-delay: -1.2s;
+    }
+    .animate-loading div:nth-child(8) div {
+        animation-delay: -1.4s;
+    }
 }
 
 @layer base {
@@ -213,5 +256,16 @@
     }
     ::-webkit-scrollbar {
         width: 5px;
+    }
+}
+@keyframes lds-spinner {
+    0%,
+    80%,
+    20%,
+    100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(0.1);
     }
 }

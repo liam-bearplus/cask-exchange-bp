@@ -11,14 +11,17 @@ export default {
     ],
     theme: {
         fontSize: {
-            xs: ["0.75rem", { lineHeight: "1rem" }],
-            sm: ["0.875rem", { lineHeight: "1.25rem" }],
-            base: ["1rem", { lineHeight: "1.5rem" }],
-            lg: ["1.125rem", { lineHeight: "1.75rem" }],
-            xl: ["1.25rem", { lineHeight: "1.75rem" }],
-            "2xl": ["1.5rem", { lineHeight: "2rem" }],
-            "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
-            "7xl": ["4.5rem", { lineHeight: "4.75rem" }],
+            xs: ["0.75rem", { lineHeight: "1.5" }], // 12px
+            sm: ["0.875rem", { lineHeight: "1.4285" }], // 14px
+            base: ["1rem", { lineHeight: "1.5" }], // 16px
+            lg: ["1.125rem", { lineHeight: "1.55" }], // 18px
+            xl: ["1.25rem", { lineHeight: "1.5" }], // 20px
+            "2xl": ["1.5rem", { lineHeight: "1.333" }], // 24px
+            "3xl": ["1.875rem", { lineHeight: "1.266" }], // 30px
+            "4xl": ["2.25rem", { lineHeight: "1.22" }], // 36px
+            "5xl": ["3rem", { lineHeight: "1.25" }], // 48px
+            "6xl": ["3.75rem", { lineHeight: "1.2" }], // 60px
+            "7xl": ["4.5rem", { lineHeight: "1.055" }], // 72px
         },
 
         colors: {
@@ -33,7 +36,7 @@ export default {
                 dark: {
                     brand: "hsl(var(--brand))",
                     disable: "hsl(var(--white-600))",
-                    primary: "hsl(var(--white-900))",
+                    primary: "hsl(var(--white))",
                     body: "hsl(var(--white-800))",
                     sub: "hsl(var(--white-700))",
                 },
@@ -65,8 +68,10 @@ export default {
                     sf2: "hsl(var(--white-200))",
                     sf3: "hsl(var(--white-300))",
                 },
+                darker: "hsl(var(--black-darker))",
             },
             white: {
+                main: "hsl(var(--white))",
                 100: "hsl(var(--white-100))",
                 200: "hsl(var(--white-200))",
                 300: "hsl(var(--white-300))",
@@ -122,6 +127,16 @@ export default {
             DEFAULT: "250ms",
         },
         extend: {
+            gridTemplateColumns: {
+                "16": "repeat(16, minmax(0, 1fr))",
+            },
+
+            gridColumn: {
+                "span-13": "span 13 / span 13",
+                "span-14": "span 14 / span 14",
+                "span-15": "span 15 / span 15",
+                "span-16": "span 16 / span 16",
+            },
             colors: {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
