@@ -38,6 +38,9 @@
     .wrapper {
         @apply mx-auto w-full max-w-[108rem] px-[3.875rem] lg:mx-auto;
     }
+    .container {
+        @apply mx-auto w-full max-w-[108rem] px-[3.875rem] lg:mx-auto;
+    }
 
     .flex-start {
         @apply flex items-center justify-start;
@@ -148,7 +151,7 @@
         --chart-3: 197 37% 24%;
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
+        --radius: 0.625rem;
     }
     .dark {
         --background: 222.2 84% 4.9%;

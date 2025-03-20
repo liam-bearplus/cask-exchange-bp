@@ -3,9 +3,11 @@ import { APP_NAME } from "@/lib/constants";
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (
-        <footer className="border-t">
-            <div className="flex-center p-5">
-                {currentYear} {APP_NAME}. All Rights Reserved.
+        <footer className="bg-bg-dark-main">
+            <div className="flex-center p-4 text-base text-typo-disable">
+                Copyright © &nbsp;
+                <span className="uppercase">{APP_NAME} PLATFORM</span>,{" "}
+                {currentYear}
             </div>
         </footer>
     );

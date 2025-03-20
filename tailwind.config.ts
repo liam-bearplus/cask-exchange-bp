@@ -36,7 +36,7 @@ export default {
                 dark: {
                     brand: "hsl(var(--brand))",
                     disable: "hsl(var(--white-600))",
-                    primary: "hsl(var(--white-900))",
+                    primary: "hsl(var(--white))",
                     body: "hsl(var(--white-800))",
                     sub: "hsl(var(--white-700))",
                 },
@@ -127,6 +127,16 @@ export default {
             DEFAULT: "250ms",
         },
         extend: {
+            gridTemplateColumns: {
+                "16": "repeat(16, minmax(0, 1fr))",
+            },
+
+            gridColumn: {
+                "span-13": "span 13 / span 13",
+                "span-14": "span 14 / span 14",
+                "span-15": "span 15 / span 15",
+                "span-16": "span 16 / span 16",
+            },
             colors: {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
