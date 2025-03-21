@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
         req.nextUrl.pathname
     );
 
-    if (sessionToken) {
+    if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.LOGIN) {
         return NextResponse.redirect(ROUTE_PUBLIC.HOME);
     } else if (
         !sessionToken &&
