@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
         req.nextUrl.pathname
     );
 
-    if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.LOGIN) {
+    if (sessionToken && includesAuth) {
         const referer = req.headers.get("referer") || ROUTE_PUBLIC.HOME;
         return NextResponse.redirect(new URL(referer, req.url));
     } else if (!sessionToken && !includesAuth) {
