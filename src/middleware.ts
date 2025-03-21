@@ -4,7 +4,7 @@ import { ROUTE_AUTH, ROUTE_PUBLIC } from "./lib/constants/route";
 
 export async function middleware(req: NextRequest) {
     const sessionToken = await getToken({ req });
-    const includesAuth = req.nextUrl.pathname.includes(ROUTE_AUTH.LOGIN);
+    const includesAuth = ROUTE_AUTH.LOGIN.includes(req.nextUrl.pathname);
     if (sessionToken) {
         return NextResponse.redirect(ROUTE_PUBLIC.HOME);
     } else if (
