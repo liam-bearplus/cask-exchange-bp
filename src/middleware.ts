@@ -9,12 +9,9 @@ export async function middleware(req: NextRequest) {
     );
 
     if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.LOGIN) {
-        return NextResponse.redirect(ROUTE_PUBLIC.HOME);
-    } else if (
-        !sessionToken &&
-        !includesAuth &&
-        req.nextUrl.pathname !== ROUTE_AUTH.LOGIN
-    ) {
+        const referer = req.headers.get("referer") || ROUTE_PUBLIC.HOME;
+        return NextResponse.redirect(new URL(referer, req.url));
+    } else if (!sessionToken && !includesAuth) {
         return NextResponse.redirect(new URL(ROUTE_AUTH.LOGIN, req.url));
     }
     return NextResponse.next();
