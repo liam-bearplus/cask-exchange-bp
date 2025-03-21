@@ -22,12 +22,10 @@ import { TLoginUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const CredentialsSignInForm = () => {
-    const router = useRouter();
     const { setValue: setRememberLS, getValue: getRememberLS } =
         useLocalStorage({
             key: "rememberMe",
@@ -53,7 +51,6 @@ const CredentialsSignInForm = () => {
             redirect: false,
             callbackUrl: ROUTE_PUBLIC.HOME,
         });
-        console.log("result", result);
 
         if (result?.status === 401) {
             form.setError("root", {
@@ -62,9 +59,10 @@ const CredentialsSignInForm = () => {
             });
         }
         if (result?.ok) {
-            router.push(ROUTE_PUBLIC.HOME);
             setRememberLS(!!data?.rememberMe);
             setEmailLS(data?.email);
+            // redirect(ROUTE_PUBLIC.HOME);
+            window.location.reload();
         }
     };
 

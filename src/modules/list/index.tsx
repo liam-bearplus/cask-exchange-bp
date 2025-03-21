@@ -47,7 +47,7 @@ export default function ListModule() {
     console.log("filterList", filterList);
     return (
         <div className="container">
-            <div className="grid-cols-16 relative grid gap-7">
+            <div className="relative grid grid-cols-16 gap-7">
                 <div className="sticky top-0 col-start-1 col-end-4 h-max min-h-[50vh] rounded-lg bg-white-900">
                     {filterList && (
                         <Popover open={open} onOpenChange={setOpen}>
