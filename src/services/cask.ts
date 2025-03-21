@@ -18,6 +18,11 @@ class CaskServices {
     async updateDetailCask(id: number, data: unknown) {
         return handleRequest(axiosInstance.put(`${PATH_CASKS}/${id}`, data));
     }
+    async searchCasks(search: string) {
+        return handleRequest(
+            axiosInstance.get<TCask[]>(`${PATH_CASKS}/search?q=${search}`)
+        );
+    }
 }
 
 const caskServices = new CaskServices();

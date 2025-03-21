@@ -32,4 +32,18 @@ const Label = React.forwardRef<
 });
 Label.displayName = LabelPrimitive.Root.displayName;
 
-export { Label };
+const LabelSimple = React.forwardRef<
+    React.ElementRef<typeof LabelPrimitive.Root>,
+    React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+        VariantProps<typeof labelVariants>
+>(({ className, ...props }, ref) => {
+    return (
+        <LabelPrimitive.Root
+            ref={ref}
+            className={cn(labelVariants(), className)}
+            {...props}
+        />
+    );
+});
+LabelSimple.displayName = "LabelSimple";
+export { Label, LabelSimple };

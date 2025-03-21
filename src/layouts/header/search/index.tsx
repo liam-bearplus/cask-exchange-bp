@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { searchSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -18,6 +17,7 @@ export default function Search() {
     const onSubmit = (data: z.infer<typeof searchSchema>) => {
         console.log("data", data);
     };
+
     return (
         <div className="w w-[calc(576 /1604 * 100%] h-10 w-full max-w-[36rem]">
             <Form {...form}>
