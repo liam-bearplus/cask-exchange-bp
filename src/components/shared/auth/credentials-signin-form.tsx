@@ -61,8 +61,8 @@ const CredentialsSignInForm = () => {
         if (result?.ok) {
             setRememberLS(!!data?.rememberMe);
             setEmailLS(data?.email);
-            // redirect(ROUTE_PUBLIC.HOME);
-            window.location.reload();
+            // window.location.reload();
+            window.location.href = ROUTE_PUBLIC.HOME;
         }
     };
 
