@@ -46,7 +46,7 @@ const bannerData: TBannerItem[] = [
 
 export default function Banner() {
     return (
-        <div className="tablet:grid-cols-2 tablet:h-[60rem] tablet:grid-rows-5 container mb-[6.25rem] grid h-[38.125rem] grid-cols-[1002fr_587fr] grid-rows-2 gap-4">
+        <div className="container mb-[6.25rem] grid h-[38.125rem] grid-cols-[1002fr_587fr] grid-rows-2 gap-4 tablet:h-[60rem] tablet:grid-cols-2 tablet:grid-rows-5">
             {bannerData.map((banner, index) =>
                 banner.isPrimary ? (
                     <PrimaryBanner key={index} data={banner} />

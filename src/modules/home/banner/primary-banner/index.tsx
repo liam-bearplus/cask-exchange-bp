@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { TBannerItem } from "..";
 
 export const PrimaryBanner: React.FC<{ data: TBannerItem }> = ({ data }) => (
-    <div className="tablet:col-span-2 tablet:row-span-3 relative row-span-2 flex items-center overflow-hidden rounded-[0.625rem] p-[3.75rem]">
+    <div className="relative row-span-2 flex items-center overflow-hidden rounded-[0.625rem] p-[3.75rem] tablet:col-span-2 tablet:row-span-3">
         <ImagePlaceholder
             src={data.imageSrc}
             alt="primary-banner"
@@ -12,7 +12,7 @@ export const PrimaryBanner: React.FC<{ data: TBannerItem }> = ({ data }) => (
             className="absolute inset-0 -z-10"
         />
         <div className={`flex flex-col ${data.maxWidthClass}`}>
-            <h1 className="text-white-main mb-6 text-5xl font-medium">
+            <h1 className="mb-6 text-5xl font-medium text-white-main">
                 {data.title}
             </h1>
             <div className="mb-12 text-base text-typo-dark-body">
