@@ -179,6 +179,14 @@ export default {
                     "5": "hsl(var(--chart-5))",
                 },
             },
+            screens: {
+                mobile: { max: "767px" },
+                // => @media (max-width: 767px) { ... }
+                tablet: { max: "991px" },
+                // => @media (max-width: 991px) { ... }
+                desktop: { min: "992px" },
+                // => @media (min-width: 992px) { ... }
+            },
             borderRadius: {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
