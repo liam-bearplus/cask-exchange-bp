@@ -13,7 +13,7 @@ export default function HomeModule() {
     //     queryFn: caskServices.getAllCasks,
     // });
     return (
-        <div>
+        <div className="bg-bg-darker pt-10 text-typo-dark-primary">
             <Banner />
             <ListCask lists={MOCKUP_CASKS} title="Recent Review" />
             <ListCask lists={MOCKUP_CASKS} title="New and Noteworthy" />

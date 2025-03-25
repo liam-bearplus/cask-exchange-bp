@@ -134,3 +134,27 @@ export const updatePasswordFormSchema = z
 export const searchSchema = z.object({
     search: z.string().optional(),
 });
+export const filterSchema = z.object({
+    distillery: z.array(z.string()),
+    caskType: z.array(z.string()),
+    year: z.object({
+        from: z.number(),
+        to: z.number(),
+    }),
+    abv: z.object({
+        from: z.number(),
+        to: z.number(),
+    }),
+    rla: z.object({
+        from: z.number(),
+        to: z.number(),
+    }),
+    ola: z.object({
+        from: z.number(),
+        to: z.number(),
+    }),
+    bottles: z.object({
+        from: z.number(),
+        to: z.number(),
+    }),
+});

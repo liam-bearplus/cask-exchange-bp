@@ -6,6 +6,7 @@ const KEY_FORGOT_PASSWORD = "forgot-password";
 const KEY_VERIFY = "verify-user";
 const KEY_RESEND_EMAIL = "resend-verification";
 const KEY_REFRESH_TOKEN = "refresh-token";
+const KEY_LOG_OUT = "signout";
 const KEY_LIST_CASK = "list-cask";
 const KEY_CHECK_RESET_PASSWORD = "check-reset-password";
 
@@ -17,6 +18,7 @@ export {
     KEY_FORGOT_PASSWORD,
     KEY_VERIFY,
     KEY_RESEND_EMAIL,
+    KEY_LOG_OUT,
     KEY_REFRESH_TOKEN,
     KEY_LIST_CASK,
     KEY_CHECK_RESET_PASSWORD,

@@ -168,3 +168,50 @@ export const MENU_NAVIGATIONS = [
         ],
     },
 ];
+export const filterCaskValues: {
+    distillery: string[];
+    caskType: string[];
+    year: {
+        from: number;
+        to: number;
+    };
+    abv: {
+        from: number;
+        to: number;
+    };
+    rla: {
+        from: number;
+        to: number;
+    };
+    ola: {
+        from: number;
+        to: number;
+    };
+    bottles: {
+        from: number;
+        to: number;
+    };
+} = {
+    distillery: [],
+    caskType: [],
+    year: {
+        from: 1930,
+        to: 2050,
+    },
+    abv: {
+        from: 0,
+        to: 45,
+    },
+    rla: {
+        from: 0,
+        to: 45,
+    },
+    ola: {
+        from: 0,
+        to: 45,
+    },
+    bottles: {
+        from: 0,
+        to: 45,
+    },
+};

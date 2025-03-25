@@ -12,7 +12,7 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
     return (
         <div
             className={cn(
-                "relative w-[17.0625rem] flex-none overflow-hidden rounded-[0.625rem] bg-bg-sf1",
+                "group relative w-[17.0625rem] flex-none cursor-pointer overflow-hidden rounded-[0.625rem] bg-white-100/50",
                 className
             )}
         >
@@ -26,7 +26,7 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
                 />
                 <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col">
-                        <h3 className="mb-1 text-lg font-medium text-typo-primary">
+                        <h3 className="mb-1 text-lg font-medium text-typo-dark-primary">
                             {data.name}
                         </h3>
                         <div className="text-sm text-typo-sub">
@@ -38,7 +38,7 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
                             <div className="text-sm text-typo-disable">
                                 Lowest Ask
                             </div>
-                            <div className="text-lg font-medium">
+                            <div className="text-lg font-medium text-typo-brand">
                                 {data.currentValuation}
                             </div>
                         </div>
@@ -51,7 +51,7 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex-center absolute right-[0.625rem] top-[0.625rem] z-20 flex h-10 w-10 rounded-full bg-[#2D3135]">
+            <div className="flex-center pointer-events-none absolute right-[0.625rem] top-[0.625rem] z-20 flex h-10 w-10 rounded-full bg-[#2D3135] opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
                 <Heart className="h-4 w-4 text-typo-dark-primary" />
             </div>
         </div>

@@ -9,6 +9,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import authService from "@/services/auth";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
@@ -46,12 +47,13 @@ export default function UserAction() {
                                     width={80}
                                 />
                             </div>
-                            <div className="absolute -bottom-[0.1rem] -right-[0.1rem] h-[0.8125rem] w-[0.8125rem] overflow-hidden rounded-full border-[0.1rem] border-solid border-white-main bg-success" />
+                            <div className="border-white-main absolute -bottom-[0.1rem] -right-[0.1rem] h-[0.8125rem] w-[0.8125rem] overflow-hidden rounded-full border-[0.1rem] border-solid bg-success" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-32">
                         <DropdownMenuItem
-                            onClick={() => {
+                            onClick={async () => {
+                                await authService.signOut();
                                 signOut();
                             }}
                         >

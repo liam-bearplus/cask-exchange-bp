@@ -2,6 +2,7 @@ import axiosInstance from "@/config/axios";
 import {
     KEY_CHECK_RESET_PASSWORD,
     KEY_FORGOT_PASSWORD,
+    KEY_LOG_OUT,
     KEY_REFRESH_TOKEN,
     KEY_RESEND_EMAIL,
     KEY_RESET_PASSWORD,
@@ -100,6 +101,9 @@ class AuthService {
                 data
             )
         );
+    }
+    async signOut() {
+        return handleRequest(axiosInstance.post(`${PATH_AUTH}/${KEY_LOG_OUT}`));
     }
 }
 
