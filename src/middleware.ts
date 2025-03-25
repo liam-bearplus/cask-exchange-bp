@@ -1,13 +1,18 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import { ROUTE_AUTH } from "./lib/constants/route";
+import { ROUTE_AUTH, ROUTE_PUBLIC } from "./lib/constants/route";
 
 export async function middleware(req: NextRequest) {
     const sessionToken = await getToken({ req });
+    const includesAuth = Object.values(ROUTE_AUTH).includes(
+        req.nextUrl.pathname
+    );
 
-    if (sessionToken && req.nextUrl.pathname === ROUTE_AUTH.LOGIN) {
-        const referer = req.headers.get("referer") || "/";
+    if (sessionToken && includesAuth) {
+        const referer = req.headers.get("referer") || ROUTE_PUBLIC.HOME;
         return NextResponse.redirect(new URL(referer, req.url));
+    } else if (!sessionToken && !includesAuth) {
+        return NextResponse.redirect(new URL(ROUTE_AUTH.LOGIN, req.url));
     }
     return NextResponse.next();
 }
