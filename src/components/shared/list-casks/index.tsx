@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
     Carousel,
     CarouselContent,
-    CarouselItem,
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
@@ -39,7 +38,7 @@ export default function ListCask({
                 </div>
                 <CarouselContent className="flex flex-row gap-7">
                     {lists?.map((cask) => {
-                        return <CaskCardItem data={cask} />;
+                        return <CaskCardItem data={cask} key={cask.id} />;
                     })}
                 </CarouselContent>
             </Carousel>

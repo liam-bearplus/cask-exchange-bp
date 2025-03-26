@@ -8,21 +8,21 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { LabelSimple } from "@/components/ui/label";
-import { filterCaskValues } from "@/lib/constants";
+import { filterCaskValDefault } from "@/lib/constants";
 import { ControllerRenderProps, Path } from "react-hook-form";
 
 // Define the generic type for options
 type FilterOptions<T> = T extends "checkbox"
-    ? { label: string; value: string }[]
-    : { from: number; to: number };
+    ? { label: string; value: string; checked: boolean }[]
+    : number[];
 
 // Main input filter type
 type TInputFilter<T extends "checkbox" | "range" = "checkbox" | "range"> = {
     type: T;
     title: string;
     field: ControllerRenderProps<
-        typeof filterCaskValues,
-        Path<typeof filterCaskValues>
+        typeof filterCaskValDefault,
+        Path<typeof filterCaskValDefault>
     >;
     options: FilterOptions<T>;
 };
@@ -73,17 +73,21 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                                     value={item.value}
                                     onCheckedChange={(checked) => {
                                         if (checked) {
-                                            Array.isArray(field.value)
-                                                ? field.onChange([
-                                                      ...field.value,
-                                                      item.value,
-                                                  ])
-                                                : field.onChange([item.value]);
+                                            // Remove empty expression to fix linting error
+                                            field.onChange(
+                                                Array.isArray(field.value)
+                                                    ? [
+                                                          ...field.value,
+                                                          item.value,
+                                                      ]
+                                                    : [item.value]
+                                            );
                                         } else {
                                             if (Array.isArray(field.value)) {
                                                 const indexOf =
-                                                    field.value.indexOf(
-                                                        item.value as string
+                                                    field.value.findIndex(
+                                                        (val) =>
+                                                            val === item.value
                                                     );
                                                 if (indexOf > -1) {
                                                     field.onChange([
@@ -133,38 +137,38 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                             <Button size={"sm"} variant="input">
                                 <Input
                                     type="number"
-                                    placeholder={`${options?.from}`}
+                                    placeholder={`${options?.[0]}`}
                                     value={
-                                        typeof field?.value === "object" &&
-                                        "from" in field.value
-                                            ? field.value.from
+                                        Array.isArray(field.value)
+                                            ? field.value?.[0]
                                             : undefined
                                     }
                                     onChange={(e) => {
-                                        field.onChange({
-                                            ...(field.value as { to: number }),
-                                            from: parseInt(e.target.value),
-                                        });
+                                        field.onChange([
+                                            parseInt(e.target.value),
+                                            Array.isArray(field.value)
+                                                ? field.value[1]
+                                                : undefined,
+                                        ]);
                                     }}
                                 />
                             </Button>
                             <Button size={"sm"} variant="input">
                                 <Input
                                     type="number"
-                                    placeholder={`${options.to}`}
+                                    placeholder={`${options?.[1]}`}
                                     value={
-                                        typeof field?.value === "object" &&
-                                        "from" in field.value
-                                            ? field.value.to
+                                        Array.isArray(field.value)
+                                            ? field.value?.[1]
                                             : undefined
                                     }
                                     onChange={(e) => {
-                                        field.onChange({
-                                            ...(field.value as {
-                                                from: number;
-                                            }),
-                                            to: parseInt(e.target.value),
-                                        });
+                                        field.onChange([
+                                            Array.isArray(field.value)
+                                                ? field.value[0]
+                                                : undefined,
+                                            parseInt(e.target.value),
+                                        ]);
                                     }}
                                 />
                             </Button>

@@ -9,6 +9,7 @@ const KEY_REFRESH_TOKEN = "refresh-token";
 const KEY_LOG_OUT = "signout";
 const KEY_LIST_CASK = "list-cask";
 const KEY_CHECK_RESET_PASSWORD = "check-reset-password";
+const KEY_GET_CASK = "get-casks";
 
 export {
     KEY_SIGNUP,
@@ -22,4 +23,5 @@ export {
     KEY_REFRESH_TOKEN,
     KEY_LIST_CASK,
     KEY_CHECK_RESET_PASSWORD,
+    KEY_GET_CASK,
 };

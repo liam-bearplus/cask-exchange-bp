@@ -168,50 +168,102 @@ export const MENU_NAVIGATIONS = [
         ],
     },
 ];
-export const filterCaskValues: {
+export const filterCaskValDefault: {
     distillery: string[];
     caskType: string[];
-    year: {
-        from: number;
-        to: number;
-    };
-    abv: {
-        from: number;
-        to: number;
-    };
-    rla: {
-        from: number;
-        to: number;
-    };
-    ola: {
-        from: number;
-        to: number;
-    };
-    bottles: {
-        from: number;
-        to: number;
-    };
+    year: number[];
+    abv: number[];
+    rla: number[];
+    ola: number[];
+    bottles: number[];
 } = {
     distillery: [],
     caskType: [],
+    year: [1930, 2050],
+    abv: [0, 45],
+    rla: [0, 45],
+    ola: [0, 45],
+    bottles: [0, 45],
+};
+export const MAP_KEY_FILTER_CASK = {
+    distillery: "distillery.name",
+    caskType: "cask.type",
+    year: "cask.vintageYear",
+    abv: "cask.abv",
+    rla: "cask.rla",
+    ola: "cask.ola",
+    bottles: "cask.bottles",
+};
+export const DATA_FILTER_CASKS: {
+    [key: string]: {
+        title: string;
+        name: string;
+        type: "checkbox" | "range";
+        options:
+            | Array<{ label: string; value: string; checked: boolean }>
+            | number[];
+    };
+} = {
+    distillery: {
+        title: "Distillery",
+        name: "distillery",
+        type: "checkbox",
+        options: [
+            { label: "All", value: "all", checked: false },
+            { label: "Anberargie", value: "anberargie", checked: false },
+            { label: "Aberflour", value: "aberflour", checked: false },
+        ],
+    },
+    caskType: {
+        title: "CaskType",
+        name: "caskType",
+        type: "checkbox",
+        options: [
+            {
+                label: "All",
+                value: "all",
+                checked: false,
+            },
+            {
+                label: "Sherry Burn",
+                value: "sherry-burn",
+                checked: false,
+            },
+            {
+                label: "Hogshead",
+                value: "hogshead",
+                checked: false,
+            },
+        ],
+    },
     year: {
-        from: 1930,
-        to: 2050,
+        title: "Year",
+        type: "range",
+        name: "year",
+        options: [1930, 2050],
     },
     abv: {
-        from: 0,
-        to: 45,
+        title: "ABV",
+        type: "range",
+        name: "abv",
+        options: [0, 45],
     },
     rla: {
-        from: 0,
-        to: 45,
+        title: "RLA",
+        type: "range",
+        name: "rla",
+        options: [0, 45],
     },
     ola: {
-        from: 0,
-        to: 45,
+        title: "OLA",
+        type: "range",
+        name: "ola",
+        options: [0, 45],
     },
     bottles: {
-        from: 0,
-        to: 45,
+        title: "Bottles",
+        type: "range",
+        name: "bottles",
+        options: [0, 100],
     },
 };
