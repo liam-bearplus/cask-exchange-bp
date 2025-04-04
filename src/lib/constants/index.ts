@@ -168,15 +168,7 @@ export const MENU_NAVIGATIONS = [
         ],
     },
 ];
-export const filterCaskValDefault: {
-    distillery: string[] | undefined;
-    caskType: string[] | undefined;
-    year: number[] | undefined;
-    abv: number[] | undefined;
-    rla: number[] | undefined;
-    ola: number[] | undefined;
-    bottles: number[] | undefined;
-} = {
+export const filterCaskValDefault = {
     distillery: [],
     caskType: [],
     year: [],
@@ -184,6 +176,7 @@ export const filterCaskValDefault: {
     rla: [],
     ola: [],
     bottles: [],
+    price: [],
 };
 export const MAP_KEY_FILTER_CASK = {
     distillery: "distilleryIds",
