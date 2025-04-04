@@ -8,13 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { LabelSimple } from "@/components/ui/label";
-import { filterCaskValDefault } from "@/lib/constants";
+import {
+    filterCaskValDefault,
+    TOptionCheckBox,
+    TOptionRange,
+} from "@/lib/constants";
 import { ControllerRenderProps, Path } from "react-hook-form";
 
 // Define the generic type for options
-type FilterOptions<T> = T extends "checkbox"
-    ? { label: string; value: string; checked: boolean }[]
-    : number[];
+type FilterOptions<T> = T extends "checkbox" ? TOptionCheckBox[] : TOptionRange;
 
 // Main input filter type
 type TInputFilter<T extends "checkbox" | "range" = "checkbox" | "range"> = {
@@ -55,7 +57,7 @@ export default function InputFilter<T extends "checkbox" | "range">({
 const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
     return (
         <div>
-            <Accordion type="single" collapsible>
+            <Accordion type="multiple">
                 <AccordionItem value="item-1">
                     <AccordionTrigger>
                         <h3 className="text-xl font-medium text-typo-primary">
@@ -69,25 +71,25 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                                 className="flex flex-row items-center gap-2"
                             >
                                 <Checkbox
-                                    id={item.label}
-                                    value={item.value}
+                                    id={item.id}
+                                    value={item.id}
+                                    checked={
+                                        Array.isArray(field.value) &&
+                                        field.value.includes(item.id as never)
+                                    }
                                     onCheckedChange={(checked) => {
                                         if (checked) {
                                             // Remove empty expression to fix linting error
                                             field.onChange(
                                                 Array.isArray(field.value)
-                                                    ? [
-                                                          ...field.value,
-                                                          item.value,
-                                                      ]
-                                                    : [item.value]
+                                                    ? [...field.value, item.id]
+                                                    : [item.id]
                                             );
                                         } else {
                                             if (Array.isArray(field.value)) {
                                                 const indexOf =
                                                     field.value.findIndex(
-                                                        (val) =>
-                                                            val === item.value
+                                                        (val) => val === item.id
                                                     );
                                                 if (indexOf > -1) {
                                                     field.onChange([
@@ -126,7 +128,7 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
     return (
         <div className="flex flex-col gap-4">
             <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
+                <AccordionItem value={field.name}>
                     <AccordionTrigger>
                         <h3 className="text-xl font-medium text-typo-primary">
                             {title}
@@ -137,18 +139,19 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                             <Button size={"sm"} variant="input">
                                 <Input
                                     type="number"
+                                    isHideError
                                     placeholder={`${options?.[0]}`}
                                     value={
                                         Array.isArray(field.value)
                                             ? field.value?.[0]
-                                            : undefined
+                                            : options?.[0]
                                     }
                                     onChange={(e) => {
                                         field.onChange([
                                             parseInt(e.target.value),
                                             Array.isArray(field.value)
                                                 ? field.value[1]
-                                                : undefined,
+                                                : options?.[1],
                                         ]);
                                     }}
                                 />
@@ -157,16 +160,17 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                                 <Input
                                     type="number"
                                     placeholder={`${options?.[1]}`}
+                                    isHideError
                                     value={
                                         Array.isArray(field.value)
                                             ? field.value?.[1]
-                                            : undefined
+                                            : options?.[1]
                                     }
                                     onChange={(e) => {
                                         field.onChange([
                                             Array.isArray(field.value)
                                                 ? field.value[0]
-                                                : undefined,
+                                                : options?.[0],
                                             parseInt(e.target.value),
                                         ]);
                                     }}

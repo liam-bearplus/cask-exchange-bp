@@ -58,7 +58,8 @@ export function round2(value: number | string): number {
 const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
     currency: "USD",
     style: "currency",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
 });
 
 // Format currency using the formater above
@@ -174,7 +175,10 @@ export const handleRequest = async <T>(
         );
     }
 };
-
+export const convertStringToLabel = (input: string): string => {
+    const words = input.toLocaleLowerCase().split(" ");
+    return words.join("-");
+};
 export const isEmpty = <T>(value: T): boolean => {
     return (
         value === undefined ||

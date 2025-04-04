@@ -3,7 +3,7 @@ export type TCask = {
     id: string | number;
     caskReference: string;
     name: string;
-    distillery: string;
+    distillery: TDistillery;
     distilleryId: string;
     distillationDate: string;
     vintageYear: number;
@@ -39,7 +39,23 @@ export type TCask = {
     createdAt: Date;
     updatedAt: Date;
 };
-
+export type TDistillery = {
+    createAt: Date;
+    description: string;
+    id: string;
+    name: string;
+    region: string;
+    updatedAt: Date;
+    website: string;
+};
+export type TCaskRangeType = {
+    abv: { min: number; max: number };
+    estimatedBottleCount: { min: number; max: number };
+    ola: { min: number; max: number };
+    price: { min: number; max: number };
+    rla: { min: number; max: number };
+    vintageYear: { min: number; max: number };
+};
 export type CaskCreateInput = Omit<
     TCask,
     | "id"

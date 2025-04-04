@@ -135,11 +135,12 @@ export const searchSchema = z.object({
     search: z.string().optional(),
 });
 export const filterSchema = z.object({
-    distillery: z.array(z.string()),
-    caskType: z.array(z.string()),
-    year: z.array(z.number()).length(2),
-    abv: z.array(z.number()).length(2),
-    rla: z.array(z.number()).length(2),
-    ola: z.array(z.number()).length(2),
-    bottles: z.array(z.number()).length(2),
+    distillery: z.array(z.string()).optional(),
+    caskType: z.array(z.string()).optional(),
+    year: z.array(z.number()).optional(),
+    abv: z.array(z.number()).optional(),
+    rla: z.array(z.number()).optional(),
+    ola: z.array(z.number()).optional(),
+    bottles: z.array(z.number()).optional(),
+    price: z.array(z.number()).optional(),
 });

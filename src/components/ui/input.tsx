@@ -5,10 +5,11 @@ import { useFormField } from "./form";
 
 interface InputProps extends React.ComponentProps<"input"> {
     variant?: "password" | "default";
+    isHideError?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, variant, ...props }, ref) => {
+    ({ className, type, variant, isHideError, ...props }, ref) => {
         const [showPassword, setShowPassword] = React.useState(false);
         const { error } = useFormField();
 
@@ -25,6 +26,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     className={cn(
                         "peer col-span-2 flex h-10 w-full rounded-lg bg-background px-3 py-2 text-base text-typo-primary shadow-sm outline-none ring-1 ring-inset ring-input ring-offset-input transition-all placeholder:text-typo-disable hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-bg-disable",
                         error &&
+                            !isHideError &&
                             "border-error ring-error hover:ring-error-darker focus-visible:ring-error",
                         className
                     )}
@@ -40,11 +42,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     >
                         {showPassword ? (
                             <EyeIcon
-                                className={cn("h-4 w-4", error && "text-error")}
+                                className={cn(
+                                    "h-4 w-4",
+                                    error && !isHideError && "text-error"
+                                )}
                             />
                         ) : (
                             <EyeOff
-                                className={cn("h-4 w-4", error && "text-error")}
+                                className={cn(
+                                    "h-4 w-4",
+                                    error && !isHideError && "text-error"
+                                )}
                             />
                         )}
                     </button>

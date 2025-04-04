@@ -10,6 +10,10 @@ const KEY_LOG_OUT = "signout";
 const KEY_LIST_CASK = "list-cask";
 const KEY_CHECK_RESET_PASSWORD = "check-reset-password";
 const KEY_GET_CASK = "get-casks";
+const KEY_FILTER_CASK_TYPE = "cask-types";
+const KEY_FILTER_DISTILLERIES = "distilleries-list";
+const KEY_FILTER_CASK_RANGE = "ranges";
+const KEY_CASK_LISTING = "listing";
 
 export {
     KEY_SIGNUP,
@@ -24,4 +28,8 @@ export {
     KEY_LIST_CASK,
     KEY_CHECK_RESET_PASSWORD,
     KEY_GET_CASK,
+    KEY_FILTER_CASK_TYPE,
+    KEY_FILTER_DISTILLERIES,
+    KEY_FILTER_CASK_RANGE,
+    KEY_CASK_LISTING,
 };

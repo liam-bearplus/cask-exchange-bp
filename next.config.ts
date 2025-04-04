@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "thumbs.vivino.com",
             },
+            {
+                protocol: "https",
+                hostname: "example.com",
+                port: "",
+                pathname: "/cask-images/**",
+            },
         ],
     },
     async headers() {

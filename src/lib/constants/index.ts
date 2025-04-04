@@ -169,49 +169,87 @@ export const MENU_NAVIGATIONS = [
     },
 ];
 export const filterCaskValDefault: {
-    distillery: string[];
-    caskType: string[];
-    year: number[];
-    abv: number[];
-    rla: number[];
-    ola: number[];
-    bottles: number[];
+    distillery: string[] | undefined;
+    caskType: string[] | undefined;
+    year: number[] | undefined;
+    abv: number[] | undefined;
+    rla: number[] | undefined;
+    ola: number[] | undefined;
+    bottles: number[] | undefined;
 } = {
     distillery: [],
     caskType: [],
-    year: [1930, 2050],
-    abv: [0, 45],
-    rla: [0, 45],
-    ola: [0, 45],
-    bottles: [0, 45],
+    year: [],
+    abv: [],
+    rla: [],
+    ola: [],
+    bottles: [],
 };
 export const MAP_KEY_FILTER_CASK = {
-    distillery: "distillery.name",
-    caskType: "cask.type",
-    year: "cask.vintageYear",
-    abv: "cask.abv",
-    rla: "cask.rla",
-    ola: "cask.ola",
-    bottles: "cask.bottles",
+    distillery: "distilleryIds",
+    caskType: "caskTypeIds",
+    year: {
+        min: "minVintageYear",
+        max: "maxVintageYear",
+    },
+    abv: {
+        min: "minAbv",
+        max: "maxAbv",
+    },
+    rla: {
+        min: "minRla",
+        max: "maxRla",
+    },
+    ola: {
+        min: "minOla",
+        max: "maxOla",
+    },
+    bottles: {
+        min: "minEstimatedBottleCount",
+        max: "maxEstimatedBottleCount",
+    },
+    price: {
+        min: "minPrice",
+        max: "maxPrice",
+    },
 };
-export const DATA_FILTER_CASKS: {
+export type TOptionCheckBox = {
+    label: string;
+    value: string;
+    checked: boolean;
+    id?: string;
+};
+export type TOptionRange = number[];
+
+type FilterTypes = {
+    checkbox: TOptionCheckBox[];
+    range: TOptionRange;
+};
+
+export type TDataFilterCask<T extends keyof FilterTypes = keyof FilterTypes> = {
     [key: string]: {
         title: string;
         name: string;
-        type: "checkbox" | "range";
-        options:
-            | Array<{ label: string; value: string; checked: boolean }>
-            | number[];
+        type: T;
+        options: FilterTypes[T];
     };
-} = {
+};
+export type TOptions<T extends keyof FilterTypes> = FilterTypes[T];
+
+export const DATA_FILTER_CASKS: TDataFilterCask = {
     distillery: {
         title: "Distillery",
         name: "distillery",
-        type: "checkbox",
+        type: "checkbox" as const,
         options: [
-            { label: "All", value: "all", checked: false },
-            { label: "Anberargie", value: "anberargie", checked: false },
-            { label: "Aberflour", value: "aberflour", checked: false },
+            {
+                label: "All",
+                value: "all",
+                checked: false,
+                id: "all",
+            },
+            // { label: "Anberargie", value: "anberargie", checked: false },
+            // { label: "Aberflour", value: "aberflour", checked: false },
         ],
     },
     caskType: {
@@ -223,47 +261,54 @@ export const DATA_FILTER_CASKS: {
                 label: "All",
                 value: "all",
                 checked: false,
+                id: "all",
             },
-            {
-                label: "Sherry Burn",
-                value: "sherry-burn",
-                checked: false,
-            },
-            {
-                label: "Hogshead",
-                value: "hogshead",
-                checked: false,
-            },
+            // {
+            //     label: "Sherry Burn",
+            //     value: "sherry-burn",
+            //     checked: false,
+            // },
+            // {
+            //     label: "Hogshead",
+            //     value: "hogshead",
+            //     checked: false,
+            // },
         ],
     },
     year: {
         title: "Year",
         type: "range",
         name: "year",
-        options: [1930, 2050],
+        options: [0, 0],
     },
     abv: {
         title: "ABV",
         type: "range",
         name: "abv",
-        options: [0, 45],
+        options: [0, 0],
     },
     rla: {
         title: "RLA",
         type: "range",
         name: "rla",
-        options: [0, 45],
+        options: [0, 0],
     },
     ola: {
         title: "OLA",
         type: "range",
         name: "ola",
-        options: [0, 45],
+        options: [0, 0],
+    },
+    price: {
+        title: "Price",
+        type: "range",
+        name: "price",
+        options: [0, 0],
     },
     bottles: {
         title: "Bottles",
         type: "range",
         name: "bottles",
-        options: [0, 100],
+        options: [0, 0],
     },
 };
