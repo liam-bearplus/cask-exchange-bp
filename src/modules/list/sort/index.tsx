@@ -11,7 +11,9 @@ import { PARAMS } from "@/lib/constants/route";
 import { useEffect, useMemo, useState } from "react";
 
 export function SortFilter() {
-    const { updateParams, valueParams } = useUpdateSearchParams(PARAMS.sortBy);
+    const { updateParams, valueParamsUpdate } = useUpdateSearchParams(
+        PARAMS.sortBy
+    );
     const [valueSelect, setValueSelect] = useState<string | undefined>(
         undefined
     );
@@ -32,7 +34,7 @@ export function SortFilter() {
         },
         []
     );
-    const defaultParams = handleRevertParams(valueParams);
+    const defaultParams = handleRevertParams(valueParamsUpdate);
     const handleSplitParams = (value: string) => {
         const splitParams = value.split("_");
         const newParams = splitParams
