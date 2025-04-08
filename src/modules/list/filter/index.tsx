@@ -1,5 +1,6 @@
 import InputFilter from "@/components/shared/input-filter";
 import { Form, FormControl, FormField } from "@/components/ui/form";
+import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams.ts";
 import {
     DATA_FILTER_CASKS,
     filterCaskValDefault,
@@ -11,24 +12,20 @@ import {
     KEY_FILTER_CASK_TYPE,
     KEY_FILTER_DISTILLERIES,
 } from "@/lib/constants/key";
+import { PARAMS } from "@/lib/constants/route";
 import { convertStringToLabel, isEmpty } from "@/lib/utils";
 import { filterSchema } from "@/lib/validators";
 import caskServices from "@/services/cask";
 import distilleriesServices from "@/services/distilleries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 export default function FormFilter() {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
+    const { updateParams, valueParams } = useUpdateSearchParams(PARAMS.filter);
     const [dataFilter, setDataFilter] =
         useState<typeof DATA_FILTER_CASKS>(DATA_FILTER_CASKS);
-    const filterData = searchParams.get("filter?");
 
     const caskTypeQuery = useQuery({
         queryKey: [KEY_FILTER_CASK_TYPE],
@@ -49,15 +46,6 @@ export default function FormFilter() {
         mode: "onSubmit",
     });
 
-    const createQueryString = useCallback(
-        (name: string, value: string) => {
-            const params = new URLSearchParams(searchParams.toString());
-            params.set(name, value);
-            return params.toString();
-        },
-        [searchParams]
-    );
-
     const handleConvertOriginal = (data: z.infer<typeof filterSchema>) => {
         const result = Object.entries(data).reduce(
             (acc: { [key: string]: string }, [key, value]) => {
@@ -65,7 +53,13 @@ export default function FormFilter() {
                     MAP_KEY_FILTER_CASK[
                         key as keyof typeof MAP_KEY_FILTER_CASK
                     ];
-                if (isEmpty(value)) return acc; // if havent value return acc
+                // Early return if value is empty or contains "all"
+                if (
+                    isEmpty(value) ||
+                    (Array.isArray(value) && value.includes("all" as never))
+                ) {
+                    return acc; // Return accumulated result without processing this value
+                }
 
                 // replace key to key search, ex: caskType => casktypeId, destillery => distilleryId
                 if (typeof keySearch === "string") {
@@ -88,7 +82,6 @@ export default function FormFilter() {
             },
             {}
         );
-
         const dataParams = Object.entries(result)
             .map(([key, value]) => `${key}=${value}`)
             .join("&");
@@ -112,7 +105,7 @@ export default function FormFilter() {
             {}
         );
 
-        //key real,
+        //Update key real,
         const mapFormKey = Object.entries(MAP_KEY_FILTER_CASK).reduce(
             (acc: { [key: string]: Array<string | never> }, [key, value]) => {
                 if (typeof value === "string") {
@@ -137,27 +130,7 @@ export default function FormFilter() {
         );
         return mapFormKey;
     };
-    const dataReverts = handleConvertReverse(filterData ?? "");
-
-    useEffect(() => {
-        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
-        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
-        if (dataReverts?.distillery)
-            form.setValue("distillery", dataReverts.distillery);
-        if (dataReverts?.caskType)
-            form.setValue("caskType", dataReverts.caskType);
-        if (dataReverts?.year) form.setValue("year", dataReverts.year);
-        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
-        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
-        if (dataReverts?.price) form.setValue("price", dataReverts.price);
-    }, [DATA_FILTER_CASKS]);
-
-    const handleSubmit = (data: z.infer<typeof filterSchema>) => {
-        const params = handleConvertOriginal(data);
-        if (params)
-            router.push(`${pathname}?${createQueryString("filter?", params)}`);
-        return;
-    };
+    const dataReverts = handleConvertReverse(valueParams ?? "");
     useEffect(() => {
         if (caskTypeQuery.data && distilleryQuery.data && caskRangeQuery.data) {
             // Create a deep copy of DATA_FILTER_CASKS to avoid mutating the original
@@ -214,6 +187,25 @@ export default function FormFilter() {
         }
     }, [caskTypeQuery.data, distilleryQuery.data, caskRangeQuery.data]);
 
+    //set value first with params search
+    useEffect(() => {
+        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
+        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
+        if (dataReverts?.distillery)
+            form.setValue("distillery", dataReverts.distillery);
+        if (dataReverts?.caskType)
+            form.setValue("caskType", dataReverts.caskType);
+        if (dataReverts?.year) form.setValue("year", dataReverts.year);
+        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
+        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
+        if (dataReverts?.price) form.setValue("price", dataReverts.price);
+    }, [DATA_FILTER_CASKS]);
+
+    const handleSubmit = (data: z.infer<typeof filterSchema>) => {
+        const params = handleConvertOriginal(data);
+        updateParams(params);
+    };
+
     return (
         <div className="relative col-span-4">
             <div className="sticky top-[10vh] h-[80vh] overflow-scroll pr-4">
@@ -235,17 +227,7 @@ export default function FormFilter() {
                                                 <InputFilter
                                                     key={value.title}
                                                     {...value}
-                                                    field={{
-                                                        ...field,
-                                                        name: field.name as
-                                                            | "distillery"
-                                                            | "caskType"
-                                                            | "year"
-                                                            | "abv"
-                                                            | "rla"
-                                                            | "ola"
-                                                            | "bottles",
-                                                    }}
+                                                    field={field}
                                                 />
                                             </FormControl>
                                         );

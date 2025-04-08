@@ -8,4 +8,11 @@ const ROUTE_AUTH = {
 const ROUTE_PUBLIC = {
     HOME: "/",
 };
-export { ROUTE_AUTH, ROUTE_PUBLIC };
+const PARAMS = {
+    sortOrder: "sortOrder",
+    sortBy: "sortBy",
+    limit: "limit",
+    page: "page",
+    filter: "filter?",
+};
+export { ROUTE_AUTH, ROUTE_PUBLIC, PARAMS };

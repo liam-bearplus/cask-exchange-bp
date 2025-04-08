@@ -13,7 +13,9 @@ import {
     TOptionCheckBox,
     TOptionRange,
 } from "@/lib/constants";
+import { filterSchema } from "@/lib/validators";
 import { ControllerRenderProps, Path } from "react-hook-form";
+import { z } from "zod";
 
 // Define the generic type for options
 type FilterOptions<T> = T extends "checkbox" ? TOptionCheckBox[] : TOptionRange;
@@ -23,7 +25,7 @@ type TInputFilter<T extends "checkbox" | "range" = "checkbox" | "range"> = {
     type: T;
     title: string;
     field: ControllerRenderProps<
-        typeof filterCaskValDefault,
+        z.infer<typeof filterSchema>,
         Path<typeof filterCaskValDefault>
     >;
     options: FilterOptions<T>;
@@ -80,9 +82,21 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                                     onCheckedChange={(checked) => {
                                         if (checked) {
                                             // Remove empty expression to fix linting error
+                                            const isAll = item.id === "all";
+                                            if (isAll) {
+                                                field.onChange([item.id]);
+                                                return;
+                                            }
+
                                             field.onChange(
                                                 Array.isArray(field.value)
-                                                    ? [...field.value, item.id]
+                                                    ? [
+                                                          ...field.value.filter(
+                                                              (val) =>
+                                                                  val !== "all"
+                                                          ),
+                                                          item.id,
+                                                      ]
                                                     : [item.id]
                                             );
                                         } else {

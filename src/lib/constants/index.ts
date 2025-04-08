@@ -237,12 +237,10 @@ export const DATA_FILTER_CASKS: TDataFilterCask = {
         options: [
             {
                 label: "All",
-                value: "all",
+                value: "all", // empty is for all
                 checked: false,
                 id: "all",
             },
-            // { label: "Anberargie", value: "anberargie", checked: false },
-            // { label: "Aberflour", value: "aberflour", checked: false },
         ],
     },
     caskType: {
@@ -252,20 +250,10 @@ export const DATA_FILTER_CASKS: TDataFilterCask = {
         options: [
             {
                 label: "All",
-                value: "all",
+                value: "all", // empty is for all
                 checked: false,
                 id: "all",
             },
-            // {
-            //     label: "Sherry Burn",
-            //     value: "sherry-burn",
-            //     checked: false,
-            // },
-            // {
-            //     label: "Hogshead",
-            //     value: "hogshead",
-            //     checked: false,
-            // },
         ],
     },
     year: {
