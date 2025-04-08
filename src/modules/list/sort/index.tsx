@@ -51,8 +51,8 @@ export function SortFilter() {
         setValueSelect(defaultParams);
     }, [defaultParams]);
     return (
-        <div className="relative">
-            <div className="sticky top-[10vh] col-span-3">
+        <div className="relative col-span-3">
+            <div className="sticky top-[10vh]">
                 <Select
                     value={valueSelect}
                     defaultValue={defaultParams}
