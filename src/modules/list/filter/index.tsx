@@ -19,7 +19,7 @@ import caskServices from "@/services/cask";
 import distilleriesServices from "@/services/distilleries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 export default function FormFilter() {
@@ -43,7 +43,7 @@ export default function FormFilter() {
     const form = useForm<z.infer<typeof filterSchema>>({
         resolver: zodResolver(filterSchema),
         defaultValues: filterCaskValDefault,
-        mode: "onSubmit",
+        // mode: "onSubmit",
     });
 
     const handleConvertOriginal = (data: z.infer<typeof filterSchema>) => {
@@ -89,48 +89,67 @@ export default function FormFilter() {
     };
 
     // Reverse function to convert filter string back to object
-    const handleConvertReverse = (
-        filterString: string
-    ): z.infer<typeof filterSchema> => {
-        if (!filterString) return filterCaskValDefault;
+    const handleConvertReverse = useCallback(
+        (filterString: string): z.infer<typeof filterSchema> => {
+            if (!filterString) return filterCaskValDefault;
 
-        const filterStringArr = filterString.split("&");
+            const filterStringArr = filterString.split("&");
 
-        const filterStringObj = filterStringArr.reduce(
-            (acc: { [key: string]: string }, val) => {
-                const [key, value] = val.split("=");
-                acc[key] = value;
-                return acc;
-            },
-            {}
-        );
+            const filterStringObj = filterStringArr.reduce(
+                (acc: { [key: string]: string }, val) => {
+                    const [key, value] = val.split("=");
+                    acc[key] = value;
+                    return acc;
+                },
+                {}
+            );
 
-        //Update key real,
-        const mapFormKey = Object.entries(MAP_KEY_FILTER_CASK).reduce(
-            (acc: { [key: string]: Array<string | never> }, [key, value]) => {
-                if (typeof value === "string") {
-                    const findValue = Object.entries(filterStringObj).find(
-                        ([keyFind]) => value === keyFind
-                    );
-                    acc[key] = findValue ? findValue[1].split(",") : [];
-                } else {
-                    if (
-                        isEmpty(filterStringObj[value.min]) ||
-                        isEmpty(filterStringObj[value.max])
-                    )
-                        return acc;
-                    acc[key] = [
-                        filterStringObj[value.min],
-                        filterStringObj[value.max],
-                    ];
-                }
-                return acc;
-            },
-            {}
-        );
-        return mapFormKey;
-    };
+            //Update key real,
+            const mapFormKey = Object.entries(MAP_KEY_FILTER_CASK).reduce(
+                (
+                    acc: { [key: string]: Array<number | string | never> },
+                    [key, value]
+                ) => {
+                    if (typeof value === "string") {
+                        const findValue = Object.entries(filterStringObj).find(
+                            ([keyFind]) => value === keyFind
+                        );
+                        acc[key] = findValue ? findValue[1].split(",") : [];
+                    } else {
+                        if (
+                            isEmpty(filterStringObj[value.min]) ||
+                            isEmpty(filterStringObj[value.max])
+                        )
+                            return acc;
+                        acc[key] = [
+                            Number(filterStringObj[value.min]),
+                            Number(filterStringObj[value.max]),
+                        ];
+                    }
+                    return acc;
+                },
+                {}
+            );
+            return mapFormKey;
+        },
+        []
+    );
+
     const dataReverts = handleConvertReverse(valueParams ?? "");
+
+    useEffect(() => {
+        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
+        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
+        if (dataReverts?.distillery)
+            form.setValue("distillery", dataReverts.distillery);
+        if (dataReverts?.caskType)
+            form.setValue("caskType", dataReverts.caskType);
+        if (dataReverts?.year) form.setValue("year", dataReverts.year);
+        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
+        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
+        if (dataReverts?.price) form.setValue("price", dataReverts.price);
+    }, [valueParams]);
+
     useEffect(() => {
         if (caskTypeQuery.data && distilleryQuery.data && caskRangeQuery.data) {
             // Create a deep copy of DATA_FILTER_CASKS to avoid mutating the original
@@ -186,20 +205,7 @@ export default function FormFilter() {
             setDataFilter(updatedDataFilter);
         }
     }, [caskTypeQuery.data, distilleryQuery.data, caskRangeQuery.data]);
-
     //set value first with params search
-    useEffect(() => {
-        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
-        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
-        if (dataReverts?.distillery)
-            form.setValue("distillery", dataReverts.distillery);
-        if (dataReverts?.caskType)
-            form.setValue("caskType", dataReverts.caskType);
-        if (dataReverts?.year) form.setValue("year", dataReverts.year);
-        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
-        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
-        if (dataReverts?.price) form.setValue("price", dataReverts.price);
-    }, [DATA_FILTER_CASKS]);
 
     const handleSubmit = (data: z.infer<typeof filterSchema>) => {
         const params = handleConvertOriginal(data);

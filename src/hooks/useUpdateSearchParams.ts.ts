@@ -5,12 +5,12 @@ export const useUpdateSearchParams = (name: string) => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
-    const [valueParams, setValueParams] = useState<string | undefined>(
-        undefined
-    );
+    const [valueParamsUpdate, setValueParamsUpdate] = useState<
+        string | undefined
+    >(undefined);
 
     useEffect(() => {
-        setValueParams(searchParams.get(name) || "");
+        setValueParamsUpdate(searchParams.get(name) || "");
     }, [searchParams]);
 
     const createQueryString = useCallback(
@@ -36,6 +36,7 @@ export const useUpdateSearchParams = (name: string) => {
 
     return {
         updateParams,
-        valueParams,
+        valueParamsUpdate,
+        valueParams: searchParams.get(name) || "", // Add this line to return the value from searchParams
     };
 };

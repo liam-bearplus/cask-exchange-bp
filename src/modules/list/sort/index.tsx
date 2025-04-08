@@ -51,86 +51,88 @@ export function SortFilter() {
         setValueSelect(defaultParams);
     }, [defaultParams]);
     return (
-        <div className="sticky top-[10vh] col-span-3">
-            <Select
-                value={valueSelect}
-                defaultValue={defaultParams}
-                onValueChange={handleSplitParams}
-            >
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Sort by..." />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        {/* <SelectItem value="averageGrowth_asc">
+        <div className="relative">
+            <div className="sticky top-[10vh] col-span-3">
+                <Select
+                    value={valueSelect}
+                    defaultValue={defaultParams}
+                    onValueChange={handleSplitParams}
+                >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Sort by..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            {/* <SelectItem value="averageGrowth_asc">
                             Average Growth (Low to High)
                         </SelectItem>
                         <SelectItem value="averageGrowth_desc">
                             Average Growth (High to Low)
                         </SelectItem> */}
-                        <SelectItem value="abv_asc">
-                            ABV (Low to High)
-                        </SelectItem>
-                        <SelectItem value="abv_desc">
-                            ABV (High to Low)
-                        </SelectItem>
-                        <SelectItem value="rla_asc">
-                            RLA (Low to High)
-                        </SelectItem>
-                        <SelectItem value="rla_desc">
-                            RLA (High to Low)
-                        </SelectItem>
-                        <SelectItem value="ola_asc">
-                            OLA (Low to High)
-                        </SelectItem>
-                        <SelectItem value="ola_desc">
-                            OLA (High to Low)
-                        </SelectItem>
-                        <SelectItem value="popularity_asc">
-                            Popularity (Low to High)
-                        </SelectItem>
-                        <SelectItem value="popularity_desc">
-                            Popularity (High to Low)
-                        </SelectItem>
-                        <SelectItem value="lowestAsk_asc">
-                            Lowest Ask (Low to High)
-                        </SelectItem>
-                        <SelectItem value="lowestAsk_desc">
-                            Lowest Ask (High to Low)
-                        </SelectItem>
-                        <SelectItem value="highestBid_asc">
-                            Highest Bid (Low to High)
-                        </SelectItem>
-                        <SelectItem value="highestBid_desc">
-                            Highest Bid (High to Low)
-                        </SelectItem>
-                        <SelectItem value="vintageYear_asc">
-                            Vintage Year (Oldest First)
-                        </SelectItem>
-                        <SelectItem value="vintageYear_desc">
-                            Vintage Year (Newest First)
-                        </SelectItem>
-                        <SelectItem value="estimatedBottleCount_asc">
-                            Bottle Count (Low to High)
-                        </SelectItem>
-                        <SelectItem value="estimatedBottleCount_desc">
-                            Bottle Count (High to Low)
-                        </SelectItem>
-                        <SelectItem value="currentValuation_asc">
-                            Current Value (Low to High)
-                        </SelectItem>
-                        <SelectItem value="currentValuation_desc">
-                            Current Value (High to Low)
-                        </SelectItem>
-                        <SelectItem value="createdAt_asc">
-                            Created Date (Oldest First)
-                        </SelectItem>
-                        <SelectItem value="createdAt_desc">
-                            Created Date (Newest First)
-                        </SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
+                            <SelectItem value="abv_asc">
+                                ABV (Low to High)
+                            </SelectItem>
+                            <SelectItem value="abv_desc">
+                                ABV (High to Low)
+                            </SelectItem>
+                            <SelectItem value="rla_asc">
+                                RLA (Low to High)
+                            </SelectItem>
+                            <SelectItem value="rla_desc">
+                                RLA (High to Low)
+                            </SelectItem>
+                            <SelectItem value="ola_asc">
+                                OLA (Low to High)
+                            </SelectItem>
+                            <SelectItem value="ola_desc">
+                                OLA (High to Low)
+                            </SelectItem>
+                            <SelectItem value="popularity_asc">
+                                Popularity (Low to High)
+                            </SelectItem>
+                            <SelectItem value="popularity_desc">
+                                Popularity (High to Low)
+                            </SelectItem>
+                            <SelectItem value="lowestAsk_asc">
+                                Lowest Ask (Low to High)
+                            </SelectItem>
+                            <SelectItem value="lowestAsk_desc">
+                                Lowest Ask (High to Low)
+                            </SelectItem>
+                            <SelectItem value="highestBid_asc">
+                                Highest Bid (Low to High)
+                            </SelectItem>
+                            <SelectItem value="highestBid_desc">
+                                Highest Bid (High to Low)
+                            </SelectItem>
+                            <SelectItem value="vintageYear_asc">
+                                Vintage Year (Oldest First)
+                            </SelectItem>
+                            <SelectItem value="vintageYear_desc">
+                                Vintage Year (Newest First)
+                            </SelectItem>
+                            <SelectItem value="estimatedBottleCount_asc">
+                                Bottle Count (Low to High)
+                            </SelectItem>
+                            <SelectItem value="estimatedBottleCount_desc">
+                                Bottle Count (High to Low)
+                            </SelectItem>
+                            <SelectItem value="currentValuation_asc">
+                                Current Value (Low to High)
+                            </SelectItem>
+                            <SelectItem value="currentValuation_desc">
+                                Current Value (High to Low)
+                            </SelectItem>
+                            <SelectItem value="createdAt_asc">
+                                Created Date (Oldest First)
+                            </SelectItem>
+                            <SelectItem value="createdAt_desc">
+                                Created Date (Newest First)
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div>
         </div>
     );
 }

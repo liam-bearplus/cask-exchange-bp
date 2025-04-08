@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LabelSimple } from "@/components/ui/label";
 import {
@@ -14,6 +15,7 @@ import {
     TOptionRange,
 } from "@/lib/constants";
 import { filterSchema } from "@/lib/validators";
+import { useEffect, useMemo, useState } from "react";
 import { ControllerRenderProps, Path } from "react-hook-form";
 import { z } from "zod";
 
@@ -57,10 +59,32 @@ export default function InputFilter<T extends "checkbox" | "range">({
 
 // InputCheckBox component with specific typing
 const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
+    // State to track accordion open/close status
+    const [accordionValue, setAccordionValue] = useState<string>("");
+
+    // Check if any option is selected in the field value
+    const hasSelectedValues = useMemo(() => {
+        if (!Array.isArray(field.value)) return false;
+        return field.value.length > 0;
+    }, [field.value]);
+
+    // Update accordion state based on selected values
+    useEffect(() => {
+        setAccordionValue(hasSelectedValues ? field.name : "");
+    }, [hasSelectedValues, field.name]);
     return (
         <div>
-            <Accordion type="multiple">
-                <AccordionItem value="item-1">
+            <Accordion
+                type="single"
+                collapsible
+                value={accordionValue}
+                onValueChange={() => {
+                    setAccordionValue(
+                        accordionValue === field.name ? "" : field.name
+                    );
+                }}
+            >
+                <AccordionItem value={field.name}>
                     <AccordionTrigger>
                         <h3 className="text-xl font-medium text-typo-primary">
                             {title}
@@ -139,9 +163,32 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
 
 // InputRange component with specific typing
 const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
+    const [accordionValue, setAccordionValue] = useState<string>("");
+
+    // Check if any value in the range is selected
+    const hasSelectedValues = useMemo(() => {
+        if (!Array.isArray(field.value)) return false;
+        return field.value.some(
+            (val) => val !== options[0] && val !== options[1]
+        );
+    }, [field.value, options]);
+
+    // Update accordion state based on selected values
+    useEffect(() => {
+        setAccordionValue(hasSelectedValues ? field.name : "");
+    }, [hasSelectedValues, field.name]);
     return (
         <div className="flex flex-col gap-4">
-            <Accordion type="single" collapsible>
+            <Accordion
+                type="single"
+                collapsible
+                value={accordionValue}
+                onValueChange={() => {
+                    setAccordionValue(
+                        accordionValue === field.name ? "" : field.name
+                    );
+                }}
+            >
                 <AccordionItem value={field.name}>
                     <AccordionTrigger>
                         <h3 className="text-xl font-medium text-typo-primary">
@@ -197,6 +244,7 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
+            <FormMessage />
         </div>
     );
 };

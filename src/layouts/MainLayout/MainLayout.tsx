@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactScan } from "@/components/shared/scan";
 import queryClientConfig from "@/config/tanstack";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -19,6 +20,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                     disableTransitionOnChange
                 >
                     {children}
+                    <ReactScan />
                 </ThemeProvider>
             </QueryClientProvider>
         </SessionProvider>

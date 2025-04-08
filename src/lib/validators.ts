@@ -137,10 +137,46 @@ export const searchSchema = z.object({
 export const filterSchema = z.object({
     distillery: z.array(z.string()).optional(),
     caskType: z.array(z.string()).optional(),
-    year: z.array(z.number()).optional(),
-    abv: z.array(z.number()).optional(),
-    rla: z.array(z.number()).optional(),
-    ola: z.array(z.number()).optional(),
-    bottles: z.array(z.number()).optional(),
-    price: z.array(z.number()).optional(),
+    year: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "Year range must have min < max"
+        )
+        .optional(),
+    abv: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "ABV range must have min < max"
+        )
+        .optional(),
+    rla: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "RLA range must have min < max"
+        )
+        .optional(),
+    ola: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "OLA range must have min < max"
+        )
+        .optional(),
+    bottles: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "Bottles range must have min < max"
+        )
+        .optional(),
+    price: z
+        .array(z.number())
+        .refine(
+            ([min, max]) => !min || !max || min < max,
+            "Price range must have min < max"
+        )
+        .optional(),
 });
