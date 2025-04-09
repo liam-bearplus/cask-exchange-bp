@@ -21,6 +21,7 @@ export default function CaskList() {
                 `${changeParams}&${PARAMS.limit}=${size}&${PARAMS.page}=${page}`
             );
         },
+        placeholderData: (prev) => prev,
     });
     useEffect(() => {
         const params = [

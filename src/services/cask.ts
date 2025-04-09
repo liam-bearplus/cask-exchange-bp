@@ -3,10 +3,12 @@ import {
     KEY_CASK_LISTING,
     KEY_FILTER_CASK_RANGE,
     KEY_FILTER_CASK_TYPE,
+    KEY_SORT_CASK,
 } from "@/lib/constants/key";
 import { PATH_CASKS, PATH_META_DATA_CASK } from "@/lib/constants/path";
 import { handleRequest } from "@/lib/utils";
-import { TCask, TCaskRangeType } from "@/types";
+import { TCask, TCaskRangeType, TCaskSort } from "@/types";
+import { global } from "@/types/global/global";
 
 class CaskServices {
     async getAllCasks() {
@@ -38,6 +40,14 @@ class CaskServices {
             )
         );
     }
+    async getSortedCasks() {
+        return handleRequest(
+            axiosInstance.get<{
+                sortOptions: TCaskSort[];
+            }>(`${PATH_META_DATA_CASK}/${KEY_SORT_CASK}`)
+        );
+    }
+
     async deleteCask() {}
     async searchCasks(search: string) {
         return handleRequest(

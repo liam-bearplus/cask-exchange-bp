@@ -1,6 +1,8 @@
 import { TUserSchema } from "./auth";
+import { TDistillery } from "./distillery";
+import { global } from "./global/global";
+import { TRegion } from "./region";
 export type TCask = {
-    id: string | number;
     caskReference: string;
     name: string;
     distillery: TDistillery;
@@ -29,25 +31,15 @@ export type TCask = {
     // caskType: CaskType;
     // classification: Classification;
     // spiritType: SpiritType;
-    // region: Region;
+    region: TRegion;
     regionId: string;
     spiritTypeId: string;
     verifications: TCaskVerification[];
     priceHistory: TCaskPriceHistory[];
     owner: TUserSchema;
     ownerId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-};
-export type TDistillery = {
-    createAt: Date;
-    description: string;
-    id: string;
-    name: string;
-    region: string;
-    updatedAt: Date;
-    website: string;
-};
+} & global.TDataWithFields;
+
 export type TCaskRangeType = {
     abv: { min: number; max: number };
     estimatedBottleCount: { min: number; max: number };
@@ -55,6 +47,12 @@ export type TCaskRangeType = {
     price: { min: number; max: number };
     rla: { min: number; max: number };
     vintageYear: { min: number; max: number };
+};
+export type TCaskSort = {
+    name: string;
+    value: string;
+    defaultOrder: string;
+    description: string;
 };
 export type CaskCreateInput = Omit<
     TCask,

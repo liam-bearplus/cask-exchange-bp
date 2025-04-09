@@ -7,13 +7,20 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams.ts";
+import { KEY_SORT_CASK } from "@/lib/constants/key";
 import { PARAMS } from "@/lib/constants/route";
+import caskServices from "@/services/cask";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
 export function SortFilter() {
     const { updateParams, valueParamsUpdate } = useUpdateSearchParams(
         PARAMS.sortBy
     );
+    const sortCaskData = useQuery({
+        queryKey: [KEY_SORT_CASK],
+        queryFn: caskServices.getSortedCasks,
+    });
     const [valueSelect, setValueSelect] = useState<string | undefined>(
         undefined
     );
@@ -52,6 +59,7 @@ export function SortFilter() {
     useEffect(() => {
         setValueSelect(defaultParams);
     }, [defaultParams]);
+
     return (
         <div className="relative col-span-3">
             <div className="sticky top-[10vh]">
@@ -65,13 +73,23 @@ export function SortFilter() {
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
+                            {sortCaskData.data?.sortOptions.map((sort) => {
+                                return (
+                                    <SelectItem
+                                        value={`${sort.value}_${sort.defaultOrder.toLowerCase()}`}
+                                        key={sort.name}
+                                    >
+                                        {sort.name}
+                                    </SelectItem>
+                                );
+                            })}
                             {/* <SelectItem value="averageGrowth_asc">
                             Average Growth (Low to High)
                         </SelectItem>
                         <SelectItem value="averageGrowth_desc">
                             Average Growth (High to Low)
-                        </SelectItem> */}
-                            <SelectItem value="abv_asc">
+                        </SelectItem>  
+                         <SelectItem value="abv_asc">
                                 ABV (Low to High)
                             </SelectItem>
                             <SelectItem value="abv_desc">
@@ -130,7 +148,7 @@ export function SortFilter() {
                             </SelectItem>
                             <SelectItem value="createdAt_desc">
                                 Created Date (Newest First)
-                            </SelectItem>
+                            </SelectItem> */}
                         </SelectGroup>
                     </SelectContent>
                 </Select>

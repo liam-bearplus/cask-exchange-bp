@@ -1,5 +1,5 @@
 import axiosInstance from "@/config/axios";
-import { KEY_FILTER_CASK_TYPE } from "@/lib/constants/key";
+import { KEY_DISTILLERIES_LIST } from "@/lib/constants/key";
 import { PATH_DISTILLERIES } from "@/lib/constants/path";
 import { handleRequest } from "@/lib/utils";
 import { TCask, TDistillery } from "@/types";
@@ -10,27 +10,36 @@ class DistilleriesServices {
             axiosInstance.get<TDistillery[]>(`${PATH_DISTILLERIES}`)
         );
     }
-    async getDetailCask(id: number) {
+    async getDistilleriesListing() {
+        return handleRequest(
+            axiosInstance.get<TDistillery[]>(
+                `${PATH_DISTILLERIES}/${KEY_DISTILLERIES_LIST}`
+            )
+        );
+    }
+    async getDetailDistillery(id: number) {
         return handleRequest(
             axiosInstance.get<TDistillery>(`${PATH_DISTILLERIES}/${id}`)
         );
     }
-    async getCaskTypes() {
-        return handleRequest(
-            axiosInstance.get<TDistillery[]>(`${KEY_FILTER_CASK_TYPE}`)
-        );
-    }
+
     async filterCasksByRange() {}
-    async updateDetailCask(id: number, data: unknown) {
+    async updateDetailDistillery(id: number, data: unknown) {
         return handleRequest(
             axiosInstance.put(`${PATH_DISTILLERIES}/${id}`, data)
         );
     }
 
-    async searchCasks(search: string) {
+    async deleteDistillery(id: string) {
         return handleRequest(
-            axiosInstance.get<TCask[]>(
-                `${PATH_DISTILLERIES}/search?q=${search}`
+            axiosInstance.delete<TCask[]>(`${PATH_DISTILLERIES}/${id}`)
+        );
+    }
+
+    async searchDistilleries(query: string) {
+        return handleRequest(
+            axiosInstance.get<TDistillery[]>(
+                `${PATH_DISTILLERIES}/search/${query}`
             )
         );
     }
