@@ -177,9 +177,7 @@ export default {
                 lighter: "hsl(var(--success-lighter))",
             },
         },
-        transitionDuration: {
-            DEFAULT: "250ms",
-        },
+
         extend: {
             gridTemplateColumns: {
                 "16": "repeat(16, minmax(0, 1fr))",
@@ -189,6 +187,9 @@ export default {
                 "span-14": "span 14 / span 14",
                 "span-15": "span 15 / span 15",
                 "span-16": "span 16 / span 16",
+            },
+            transitionDuration: {
+                DEFAULT: "250ms",
             },
             colors: {
                 background: "hsl(var(--background))",

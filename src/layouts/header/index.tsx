@@ -6,7 +6,7 @@ import UserAction from "./user-action";
 
 const Header = () => {
     return (
-        <header className="relative z-50 w-full bg-bg-darker">
+        <header className="fixed top-0 z-50 w-full bg-bg-darker">
             <div className="container flex flex-row items-center gap-20 py-4">
                 <Link href="/" className="h-4 w-[11.0625rem] flex-none">
                     <ImagePlaceholder

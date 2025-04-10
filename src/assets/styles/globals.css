@@ -6,6 +6,9 @@
     .img-basic {
         @apply h-auto w-full;
     }
+    .img {
+        @apply object-cover;
+    }
     .img-h {
         @apply h-full w-full;
     }

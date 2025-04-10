@@ -10,16 +10,25 @@ type TProps = {
 export default function DistilleryCard(props: TProps) {
     const { data, className } = props;
     return (
-        <div className={cn("flex flex-col items-center gap-3", className)}>
-            <ImagePlaceholder
-                src={"/images/distillery-img.jpeg"}
-                width={300}
-                height={300}
-                className="rounded-lg"
-            />
+        <div
+            className={cn(
+                "flex min-w-[9.375rem] flex-shrink-0 flex-col items-center gap-3",
+                className
+            )}
+        >
+            <div className="aspect-square w-full overflow-hidden rounded-lg">
+                <ImagePlaceholder
+                    src={"/images/distillery-img.jpg"}
+                    width={300}
+                    height={300}
+                    className="rounded-lg"
+                />
+            </div>
             <div className="flex flex-col items-center gap-2">
-                <div className="text-20 text-typo-primary">{data.name}</div>
-                <div className="text-16 text-typo-secondary">{data.region}</div>
+                <div className="text-base font-medium text-typo-primary">
+                    {data.name}
+                </div>
+                <div className="text-typo-secondary text-sm">1000 casks</div>
             </div>
         </div>
     );

@@ -22,36 +22,36 @@ export default function ListCask({
     return (
         <div className="flex flex-col rounded-lg pb-[5rem]">
             <Carousel>
-                <div className="flex-between mb-12 flex flex-row">
+                <div className="flex-between flex flex-row">
                     {title && <HeadingContent>{title}</HeadingContent>}
                     <div className="flex-center flex flex-row gap-2">
                         <CarouselPrevious />
                         <CarouselNext />
-                        <Button
-                            variant="outline"
-                            className="rounded-md"
-                            mode={"dark"}
-                        >
+                        <Button variant="outline" className="rounded-md">
                             View all
                         </Button>
                     </div>
                 </div>
-                <CarouselContent className="flex flex-row gap-10">
-                    {lists?.map((cask) => {
-                        if (type === "distillery") {
+                {type === "distillery" ? (
+                    <CarouselContent className="flex flex-row gap-[1.125rem]">
+                        {lists?.map((cask) => {
                             return (
                                 <DistilleryCard
                                     data={cask as TDistillery}
                                     key={cask.id}
                                 />
                             );
-                        } else {
+                        })}
+                    </CarouselContent>
+                ) : (
+                    <CarouselContent className="flex flex-row gap-10">
+                        {lists?.map((cask) => {
                             return (
                                 <CaskCard data={cask as TCask} key={cask.id} />
                             );
-                        }
-                    })}
-                </CarouselContent>
+                        })}
+                    </CarouselContent>
+                )}
             </Carousel>
         </div>
     );

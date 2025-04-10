@@ -14,7 +14,7 @@ const buttonVariants = cva(
                     "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
                 secondary:
                     "bg-bg-dark-main text-typo-dark-primary hover:bg-brand hover:text-typo-primary active:bg-brand-darker",
-                ghost: "text-typo-primary hover:bg-bg-sf1",
+                ghost: "disabled:opacity-30 disabled:bg-bg-disable disabled:cursor-not-allowed bg-bg-sf1 text-typo-dark-sub hover:bg-bg-dark-main",
                 link: "text-typo-primary min-w-unset flex flex-row gap-1 !p-0 flex-start rounded-none border-b  border-current !min-w-fit",
                 input: "outline-none ring-1 ring-inset ring-input ring-offset-input hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                 icon: "rounded-full bg-bg-dark-sf1 text-typo-dark-primary bg-bg-dark-sf1 p-0",

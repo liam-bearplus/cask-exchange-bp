@@ -25,7 +25,10 @@ export default function ImagePlaceholder({
                 <Image
                     {...props}
                     src={src}
-                    className={cn("img-h absolute inset-0 z-20", imgClassName)}
+                    className={cn(
+                        "img img-h absolute inset-0 z-20",
+                        imgClassName
+                    )}
                     width={props.width as number}
                     height={props.height as number}
                     alt={props.alt as string}
@@ -38,7 +41,10 @@ export default function ImagePlaceholder({
                     src={src}
                     onLoad={() => setIsLoaded(true)}
                     alt={props.alt as string}
-                    className={cn("img-h relative inset-0 z-10", imgClassName)}
+                    className={cn(
+                        "img img-h relative inset-0 z-10",
+                        imgClassName
+                    )}
                     loading="eager"
                     width={100}
                     height={100}
