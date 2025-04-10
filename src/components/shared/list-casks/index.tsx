@@ -5,40 +5,51 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { TCask } from "@/types";
-import CaskCardItem from "../cask-card";
+import { TCask, TDistillery } from "@/types";
+import CaskCard from "../cask-card";
+import HeadingContent from "../heading";
+import DistilleryCard from "../distillery-card";
 
 export default function ListCask({
     lists,
+    type,
     title,
 }: {
-    lists?: TCask[];
+    lists?: TDistillery[] | TCask[];
     title?: string;
+    type: "distillery" | "cask";
 }) {
     return (
-        <div className="container flex flex-col pb-[6.25rem]">
+        <div className="flex flex-col rounded-lg pb-[5rem]">
             <Carousel>
                 <div className="flex-between mb-12 flex flex-row">
-                    {title && (
-                        <h2 className="text-3xl font-semibold text-typo-dark-primary">
-                            {title}
-                        </h2>
-                    )}
+                    {title && <HeadingContent>{title}</HeadingContent>}
                     <div className="flex-center flex flex-row gap-2">
+                        <CarouselPrevious />
+                        <CarouselNext />
                         <Button
-                            variant="ghost"
-                            className="min-w-fit rounded-md"
+                            variant="outline"
+                            className="rounded-md"
                             mode={"dark"}
                         >
                             View all
                         </Button>
-                        <CarouselPrevious />
-                        <CarouselNext />
                     </div>
                 </div>
-                <CarouselContent className="flex flex-row gap-7">
+                <CarouselContent className="flex flex-row gap-10">
                     {lists?.map((cask) => {
-                        return <CaskCardItem data={cask} key={cask.id} />;
+                        if (type === "distillery") {
+                            return (
+                                <DistilleryCard
+                                    data={cask as TDistillery}
+                                    key={cask.id}
+                                />
+                            );
+                        } else {
+                            return (
+                                <CaskCard data={cask as TCask} key={cask.id} />
+                            );
+                        }
                     })}
                 </CarouselContent>
             </Carousel>

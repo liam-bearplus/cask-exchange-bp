@@ -182,77 +182,11 @@
 }
 
 @layer base {
-    :root {
-        font-size: 0.9259259259vw;
-    }
-    @media (min-width: 1728px) {
-        :root {
-            font-size: 16px;
-        }
-    }
-    html {
-        scroll-behavior: smooth;
-    }
-    body {
-        @apply overscroll-none bg-background text-foreground;
-    }
-    ::-webkit-scrollbar {
-        width: 0;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: hsl(var(--border));
-        border-radius: 5px;
-    }
-
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: hsl(var(--border)) transparent;
-    }
-
-    .animate-loading {
-        @apply animate-spin-slow;
-    }
-    .animate-loading div div {
-        transform-origin: bottom;
-        animation: lds-spinner 1.4s linear infinite;
-    }
-    .animate-loading div:nth-child(1) div {
-        animation-delay: 0s;
-    }
-    .animate-loading div:nth-child(2) div {
-        animation-delay: -0.2s;
-    }
-    .animate-loading div:nth-child(3) div {
-        animation-delay: -0.4s;
-    }
-    .animate-loading div:nth-child(4) div {
-        animation-delay: -0.6s;
-    }
-    .animate-loading div:nth-child(5) div {
-        animation-delay: -0.8s;
-    }
-    .animate-loading div:nth-child(6) div {
-        animation-delay: -1s;
-    }
-    .animate-loading div:nth-child(7) div {
-        animation-delay: -1.2s;
-    }
-    .animate-loading div:nth-child(8) div {
-        animation-delay: -1.4s;
-    }
-}
-
-@layer base {
     * {
         @apply border-border focus-visible:outline-ring;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply overscroll-none bg-background text-foreground;
     }
     ::-webkit-scrollbar {
         width: 5px;
@@ -268,4 +202,71 @@
     50% {
         transform: scaleY(0.1);
     }
+}
+
+.grid {
+    column-gap: var(--gap-x);
+}
+
+:root {
+    font-size: 0.9259259259vw;
+    --gap-x: 2.5rem;
+}
+@media (min-width: 1728px) {
+    :root {
+        font-size: 16px;
+    }
+}
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+}
+
+.animate-loading {
+    @apply animate-spin-slow;
+}
+.animate-loading div div {
+    transform-origin: bottom;
+    animation: lds-spinner 1.4s linear infinite;
+}
+.animate-loading div:nth-child(1) div {
+    animation-delay: 0s;
+}
+.animate-loading div:nth-child(2) div {
+    animation-delay: -0.2s;
+}
+.animate-loading div:nth-child(3) div {
+    animation-delay: -0.4s;
+}
+.animate-loading div:nth-child(4) div {
+    animation-delay: -0.6s;
+}
+.animate-loading div:nth-child(5) div {
+    animation-delay: -0.8s;
+}
+.animate-loading div:nth-child(6) div {
+    animation-delay: -1s;
+}
+.animate-loading div:nth-child(7) div {
+    animation-delay: -1.2s;
+}
+.animate-loading div:nth-child(8) div {
+    animation-delay: -1.4s;
 }

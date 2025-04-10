@@ -8,11 +8,11 @@ type TCaskProps = {
     className?: string;
     data: TCask;
 };
-export default function CaskCardItem({ className, data }: TCaskProps) {
+export default function CaskCard({ className, data }: TCaskProps) {
     return (
         <div
             className={cn(
-                "group relative w-[17.0625rem] flex-none cursor-pointer overflow-hidden rounded-[0.625rem] bg-black",
+                "group relative w-[14.625rem] flex-none cursor-pointer overflow-hidden rounded-[0.625rem] bg-bg-sf1",
                 className
             )}
         >
@@ -23,11 +23,11 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
                     width={546}
                     height={240}
                     alt={`cask_${data.name}`}
-                    className="aspect-[273/162] w-full"
+                    className="aspect-[234/180] w-full"
                 />
-                <div className="flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 px-4 py-6">
                     <div className="flex flex-col">
-                        <h3 className="mb-1 text-lg font-medium text-typo-dark-primary">
+                        <h3 className="mb-1 text-lg font-medium text-typo-primary">
                             {data.name}
                         </h3>
                         <div className="text-sm text-typo-sub">
@@ -36,19 +36,19 @@ export default function CaskCardItem({ className, data }: TCaskProps) {
                     </div>
                     <div className="flex-between flex-row">
                         <div className="flex-col gap-1">
-                            <div className="text-sm text-typo-disable">
+                            <div className="text-sm text-typo-sub">
                                 Lowest Ask
                             </div>
-                            <div className="text-lg font-medium text-typo-brand">
+                            <div className="text-lg font-medium text-typo-primary">
                                 {formatCurrency(data.currentValuation)}
                             </div>
                         </div>
                         <div className="flex-col gap-1">
-                            <div className="text-sm uppercase text-typo-disable">
+                            <div className="text-sm uppercase text-typo-sub">
                                 ABV
                             </div>
-                            <div className="text-base text-typo-disable">
-                                {data.abv}%
+                            <div className="text-base text-typo-body">
+                                {data.abv}
                             </div>
                         </div>
                     </div>
