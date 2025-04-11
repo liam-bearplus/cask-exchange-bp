@@ -33,8 +33,17 @@ COPY --from=deps /app/node_modules ./node_modules
 # Now copy the entire project (node_modules is excluded via .dockerignore)
 COPY . .
 
-# Run cleanup script to remove macOS-specific files that can cause build issues
-# RUN if [ -f ./clean-macos-files.sh ]; then chmod +x ./clean-macos-files.sh && ./clean-macos-files.sh; fi
+# Define build arguments for environment variables
+ARG NEXT_PUBLIC_APP_NAME
+ARG NEXT_PUBLIC_API_URL
+ARG NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
+
+# Set environment variables for build time
+ENV NEXT_PUBLIC_APP_NAME=$NEXT_PUBLIC_APP_NAME
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
 
 # Run the build script to create the production .next directory
 RUN npm run build
@@ -58,7 +67,7 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
 
 # Install only production dependencies with clean install
-RUN npm ci --only=production --no-cache --legacy-peer-deps
+RUN npm ci --only=production --no-cache --legacy-peer-deps --ignore-scripts
 
 EXPOSE 3000
 CMD ["npm", "start"]
