@@ -20,30 +20,32 @@ export default function ImagePlaceholder({
 }: IProps) {
     const [isLoaded, setIsLoaded] = useState(false);
     return (
-        <div className={cn("relative h-full w-full", props.className)}>
-            {isLoaded ? (
-                <Image
-                    {...props}
-                    src={src}
-                    className={cn("img-h absolute inset-0 z-20", imgClassName)}
-                    width={props.width as number}
-                    height={props.height as number}
-                    alt={props.alt as string}
-                    quality={100}
-                    sizes={`(max-width:${props.width}) 100vw, ${props.width}px`}
-                />
-            ) : (
-                <Image
-                    {...props}
-                    src={src}
-                    onLoad={() => setIsLoaded(true)}
-                    alt={props.alt as string}
-                    className={cn("img-h relative inset-0 z-10", imgClassName)}
-                    loading="eager"
-                    width={100}
-                    height={100}
-                />
-            )}
+        <div className={cn("relative", props.className)}>
+            <Image
+                {...props}
+                src={src}
+                className={cn("img img-h absolute inset-0 z-20", imgClassName)}
+                width={props.width as number}
+                height={props.height as number}
+                alt={props.alt as string}
+                quality={100}
+                sizes={`(max-width:${props.width}) 100vw, ${props.width}px`}
+            />
+
+            <Image
+                {...props}
+                src={src}
+                onLoad={() => setIsLoaded(true)}
+                alt={props.alt as string}
+                className={cn(
+                    "img img-h relative inset-0 z-10 transition-none",
+                    isLoaded ? "opacity-0" : "opacity-100",
+                    imgClassName
+                )}
+                loading="eager"
+                width={100}
+                height={100}
+            />
         </div>
     );
 }

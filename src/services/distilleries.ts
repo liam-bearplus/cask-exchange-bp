@@ -10,10 +10,10 @@ class DistilleriesServices {
             axiosInstance.get<TDistillery[]>(`${PATH_DISTILLERIES}`)
         );
     }
-    async getDistilleriesListing() {
+    async getDistilleriesListing(params: string) {
         return handleRequest(
             axiosInstance.get<TDistillery[]>(
-                `${PATH_DISTILLERIES}/${KEY_DISTILLERIES_LIST}`
+                `${PATH_DISTILLERIES}/${KEY_DISTILLERIES_LIST}/${params}`
             )
         );
     }

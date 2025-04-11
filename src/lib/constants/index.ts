@@ -106,12 +106,11 @@ export const passwordConstraintContent: {
     },
 ];
 
-export const MENU_NAVIGATIONS = [
+export const MENU_NAVIGATION = [
     {
-        title: "All cask",
-        href: "/casks",
+        title: "Cask Listing",
+        href: "/list-data",
         isNewWindow: false,
-        icon: "/icons/cask-icon.svg",
     },
     {
         title: "Dashboard",
@@ -129,17 +128,17 @@ export const MENU_NAVIGATIONS = [
         isNewWindow: false,
         subItems: [
             {
-                title: "Content 1",
+                title: "Active bids",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "Content 2",
+                title: "On-going transactions",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "Content 3",
+                title: "Completed orders",
                 href: "#",
                 isNewWindow: false,
             },
@@ -151,17 +150,17 @@ export const MENU_NAVIGATIONS = [
         isNewWindow: false,
         subItems: [
             {
-                title: "Content 1",
+                title: "Active listings",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "Content 2",
+                title: "On-going transactions",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "Content 3",
+                title: "Completed orders",
                 href: "#",
                 isNewWindow: false,
             },

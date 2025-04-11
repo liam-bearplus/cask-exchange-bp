@@ -1,13 +1,15 @@
 "use client";
 
-import * as React from "react";
 import useEmblaCarousel, {
     type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { EmblaCarouselType } from "embla-carousel";
+import { Skeleton } from "./skeleton";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -41,7 +43,54 @@ function useCarousel() {
 
     return context;
 }
+type UseDotButtonType = {
+    selectedIndex: number;
+    scrollSnaps: number[];
+    onDotButtonClick: (index: number) => void;
+};
 
+const useDotButton = (
+    emblaApi: EmblaCarouselType | undefined,
+    onButtonClick?: (emblaApi: EmblaCarouselType) => void
+): UseDotButtonType => {
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);
+
+    const onDotButtonClick = React.useCallback(
+        (index: number) => {
+            if (!emblaApi) return;
+            emblaApi.scrollTo(index);
+            if (onButtonClick) onButtonClick(emblaApi);
+        },
+        [emblaApi, onButtonClick]
+    );
+
+    const onInit = React.useCallback((emblaApi: EmblaCarouselType) => {
+        setScrollSnaps(emblaApi.scrollSnapList());
+    }, []);
+
+    const onSelect = React.useCallback((emblaApi: EmblaCarouselType) => {
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, []);
+
+    React.useEffect(() => {
+        if (!emblaApi) return;
+
+        onInit(emblaApi);
+        onSelect(emblaApi);
+
+        emblaApi
+            .on("reInit", onInit)
+            .on("reInit", onSelect)
+            .on("select", onSelect);
+    }, [emblaApi, onInit, onSelect]);
+
+    return {
+        selectedIndex,
+        scrollSnaps,
+        onDotButtonClick,
+    };
+};
 const Carousel = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & CarouselProps
@@ -198,7 +247,7 @@ CarouselItem.displayName = "CarouselItem";
 const CarouselPrevious = React.forwardRef<
     HTMLButtonElement,
     React.ComponentProps<typeof Button>
->(({ className, variant = "ghost", size = "icon", ...props }, ref) => {
+>(({ className, variant = "ghost", size = "icon", mode, ...props }, ref) => {
     const { scrollPrev, canScrollPrev } = useCarousel();
 
     return (
@@ -206,8 +255,8 @@ const CarouselPrevious = React.forwardRef<
             ref={ref}
             variant={variant}
             size={size}
-            mode="dark"
-            className={cn("rounded-md text-typo-dark-disable", className)}
+            mode={mode}
+            className={cn("rounded-md", className)}
             disabled={!canScrollPrev}
             onClick={scrollPrev}
             {...props}
@@ -222,14 +271,14 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef<
     HTMLButtonElement,
     React.ComponentProps<typeof Button>
->(({ className, variant = "ghost", size = "icon", ...props }, ref) => {
+>(({ className, variant = "ghost", size = "icon", mode, ...props }, ref) => {
     const { scrollNext, canScrollNext } = useCarousel();
 
     return (
         <Button
             ref={ref}
             variant={variant}
-            mode="dark"
+            mode={mode}
             size={size}
             className={cn("rounded-md text-typo-dark-disable", className)}
             disabled={!canScrollNext}
@@ -242,12 +291,67 @@ const CarouselNext = React.forwardRef<
     );
 });
 CarouselNext.displayName = "CarouselNext";
+type PropType = React.ComponentPropsWithRef<"button"> & {
+    isActive?: boolean;
+};
+
+export const CarouselDotButton: React.FC<PropType> = (props) => {
+    const { children, isActive, className, ...restProps } = props;
+
+    return (
+        <button
+            type="button"
+            className={cn(
+                "flex-center h-2 w-2 flex-shrink-0 overflow-hidden rounded-full text-center transition-all duration-700",
+                isActive && "w-6",
+                className
+            )}
+            {...restProps}
+        >
+            <div
+                className={cn(
+                    "h-full w-6 flex-shrink-0 origin-center scale-x-[0.33] overflow-hidden rounded-full bg-bd-dark-sf1 transition-all delay-200 duration-300",
+                    isActive && "scale-x-100 bg-brand"
+                )}
+            ></div>
+            {children}
+        </button>
+    );
+};
+
+export const CarouselDotGroup = () => {
+    const { api } = useCarousel();
+    const { selectedIndex, scrollSnaps } = useDotButton(api);
+    return (
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-row gap-1">
+            {scrollSnaps &&
+                scrollSnaps?.map((_, index) => (
+                    <CarouselDotButton
+                        key={index}
+                        onClick={() => {}}
+                        isActive={selectedIndex === index}
+                    />
+                ))}
+        </div>
+    );
+};
+export const CarouselDotButtonSkeleton = () => {
+    return (
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-row gap-1">
+            <Skeleton className="h-2 w-6 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
+        </div>
+    );
+};
 
 export {
-    type CarouselApi,
     Carousel,
     CarouselContent,
     CarouselItem,
-    CarouselPrevious,
     CarouselNext,
+    CarouselPrevious,
+    useDotButton,
+    type CarouselApi,
 };

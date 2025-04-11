@@ -19,7 +19,7 @@ export default function Search() {
     };
 
     return (
-        <div className="w w-[calc(576 /1604 * 100%] h-10 w-full max-w-[36rem]">
+        <div className="h-10 w-full min-w-64">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
@@ -33,8 +33,8 @@ export default function Search() {
                                             {...field}
                                             id="search"
                                             type="text"
-                                            placeholder="Search for a cask"
-                                            className="input-dark pr-9"
+                                            placeholder="Search for anything"
+                                            className="input-dark rounded-md pr-9"
                                         />
                                         <div className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2">
                                             <Image

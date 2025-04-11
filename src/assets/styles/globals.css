@@ -6,6 +6,9 @@
     .img-basic {
         @apply h-auto w-full;
     }
+    .img {
+        @apply object-cover;
+    }
     .img-h {
         @apply h-full w-full;
     }
@@ -68,7 +71,7 @@
         --input: var(--white-300);
         --ring: var(--white-500);
 
-        @apply border-white-300 bg-bg-dark-sf1 text-typo-dark-disable hover:!ring-bd-dark-sf2;
+        @apply border-white-300 bg-bg-dark-main text-typo-dark-disable hover:!ring-bd-dark-sf2;
     }
 }
 
