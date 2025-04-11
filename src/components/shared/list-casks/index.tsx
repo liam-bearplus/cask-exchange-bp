@@ -27,7 +27,7 @@ export default function ListCask({
     return (
         <div className="flex flex-col rounded-lg pb-[5rem]">
             <Carousel>
-                <div className="flex-between flex flex-row">
+                <div className="flex-between mb-12 flex flex-row">
                     {title && (
                         <HeadingContent subTitle={subTitle}>
                             {title}

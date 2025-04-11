@@ -63,9 +63,6 @@ export default function Banner() {
         <div className="mb-[6.25rem]">
             <Carousel
                 className="overflow-hidden rounded-lg"
-                opts={{
-                    loop: true,
-                }}
                 plugins={[Autoplay()]}
             >
                 <CarouselContent className="gap-8">

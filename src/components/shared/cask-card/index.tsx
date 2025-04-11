@@ -1,9 +1,7 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn, formatCurrency } from "@/lib/utils";
 import { TCask } from "@/types";
-import React from "react";
 import ImagePlaceholder from "../image-placeholder";
-import { Heart } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type TCaskProps = {
     className?: string;
@@ -75,14 +73,11 @@ export default function CaskCard({
                                 ABV
                             </div>
                             <div className="text-base text-typo-body">
-                                {data.abv}
+                                {data.abv}%
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="flex-center pointer-events-none absolute right-[0.625rem] top-[0.625rem] z-20 flex h-10 w-10 rounded-full opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100">
-                <Heart className="h-4 w-4 text-typo-dark-primary" />
             </div>
         </div>
     );

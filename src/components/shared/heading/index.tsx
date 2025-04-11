@@ -22,7 +22,7 @@ const HeadingContent = forwardRef<HTMLHeadingElement, TPropsHeading>(
             <Tag
                 ref={ref}
                 className={cn(
-                    "mb-12 max-w-[31.9375rem] text-3xl font-medium text-typo-primary",
+                    "max-w-[31.9375rem] text-3xl font-medium text-typo-primary",
                     className
                 )}
                 {...params}
