@@ -1,6 +1,7 @@
-import HeadingContent from "@/components/shared/heading";
-import Image from "next/image";
-import React from "react";
+import HeadingContent, {
+    HeadingContentSkeleton,
+} from "@/components/shared/heading";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CONTENT_TRANSPARENCY = [
     {
@@ -91,11 +92,11 @@ export default function Transparency() {
                 Ensuring trust & transparency in cask investments
             </HeadingContent>
             <div className="grid grid-cols-3">
-                {CONTENT_TRANSPARENCY.map((item) => {
+                {CONTENT_TRANSPARENCY.map((item, index) => {
                     return (
                         <div
                             className="col-span-1 rounded-lg bg-bg-sf1"
-                            key={item.title}
+                            key={index}
                         >
                             <div className="flex flex-col gap-8 p-8">
                                 <div className="flex-center flex w-max rounded-[0.3125rem] bg-brand p-[0.875rem] [&_svg]:text-typo-primary">
@@ -113,6 +114,28 @@ export default function Transparency() {
                         </div>
                     );
                 })}
+            </div>
+        </div>
+    );
+}
+
+export function TransparencySkeleton() {
+    return (
+        <div className="mb-[9.4375rem] flex w-full flex-col gap-12">
+            <HeadingContentSkeleton />
+            <div className="flex flex-row gap-10">
+                {Array.from({ length: 3 }, (_, index) => (
+                    <Skeleton
+                        className="h-60 flex-1 rounded-lg p-8"
+                        key={index}
+                    >
+                        <Skeleton className="w-15 h-15 mb-8 bg-bg-sf2" />
+                        <Skeleton className="mb-4 h-2 w-2/3 bg-bg-sf2" />
+                        <Skeleton className="mb-2 h-2 w-[60%] bg-bg-sf2" />
+                        <Skeleton className="mb-2 h-2 w-[55%] bg-bg-sf2" />
+                        <Skeleton className="mb-2 h-2 w-[50%] bg-bg-sf2" />
+                    </Skeleton>
+                ))}
             </div>
         </div>
     );

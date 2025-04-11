@@ -1,7 +1,7 @@
 "use client";
 
 import { IconBell } from "@/components/shared/icons/icon-bell";
-import { IconHeart } from "@/components/shared/icons/icon-heart";
+import IconStar from "@/components/shared/icons/icon-start";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -18,15 +18,18 @@ export default function UserAction() {
     return (
         <div className="flex-1">
             <div className="flex-center flex gap-2">
-                <Button size="icon" variant="icon">
+                <Button size="icon" variant="empty">
                     <div className="relative">
-                        <IconBell className="h-4 w-4" />
+                        <IconBell className="h-4 w-4 text-typo-dark-primary" />
                         <div className="top absolute -right-[0.125rem] -top-[0.125rem] h-2 w-2 rounded-full bg-success"></div>
                     </div>
                 </Button>
-                <Button size="icon" variant="icon">
-                    <div className="relative">
-                        <IconHeart className="h-4 w-4" />
+                <Button
+                    variant={"empty"}
+                    className="!min-w-max p-4 text-typo-dark-primary [&:hover]:text-brand [&:hover_path]:fill-brand [&_path]:fill-transparent [&_path]:transition-all [&_path]:duration-500"
+                >
+                    <div className="h-4 w-4">
+                        <IconStar />
                     </div>
                 </Button>
                 <DropdownMenu>

@@ -2,6 +2,7 @@ import ImagePlaceholder from "@/components/shared/image-placeholder";
 import { Button } from "@/components/ui/button";
 import { TBannerItem } from "..";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const BannerCard: React.FC<{
     data: TBannerItem;
@@ -32,4 +33,8 @@ export const BannerCard: React.FC<{
             </Button>
         </div>
     </div>
+);
+
+export const BannerCardSkeleton: React.FC = () => (
+    <Skeleton className="relative row-span-2 flex aspect-[1330/400] w-full flex-shrink-0 items-center overflow-hidden rounded-[0.625rem]" />
 );

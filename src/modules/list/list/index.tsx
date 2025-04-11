@@ -44,7 +44,12 @@ export default function CaskList() {
             ) : (
                 <div className="fex-row flex flex-wrap gap-7">
                     {casksQuery.data?.data?.map((cask) => (
-                        <CaskCardItem key={cask.id} data={cask} />
+                        <CaskCardItem
+                            key={cask.id}
+                            data={cask}
+                            isRevert={false}
+                            index={0} // You can adjust the index based on your logic
+                        />
                     ))}
                 </div>
             )}

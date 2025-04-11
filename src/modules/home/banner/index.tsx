@@ -1,12 +1,13 @@
-import React from "react";
-import { BannerCard } from "./banner-card";
 import {
     Carousel,
     CarouselContent,
+    CarouselDotButtonSkeleton,
     CarouselDotGroup,
-    CarouselItem,
 } from "@/components/ui/carousel";
-
+import Autoplay from "embla-carousel-autoplay";
+import React, { useEffect } from "react";
+import { BannerCard } from "./banner-card";
+import { BannerCardSkeleton } from "./banner-card/index";
 export type TBannerItem = {
     title: React.ReactNode;
     description?: string;
@@ -50,19 +51,41 @@ const bannerData: TBannerItem[] = [
 ];
 
 export default function Banner() {
+    const [isLoading, setIsLoading] = React.useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000); // Simulate a 2-second loading time
+
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <div className="mb-[6.25rem]">
-            <Carousel className="overflow-hidden rounded-lg">
+            <Carousel
+                className="overflow-hidden rounded-lg"
+                opts={{
+                    loop: true,
+                }}
+                plugins={[Autoplay()]}
+            >
                 <CarouselContent className="gap-8">
-                    {bannerData.map((banner, index) => (
-                        <BannerCard
-                            key={index}
-                            data={banner}
-                            className="w-full flex-shrink-0 select-none"
-                        />
-                    ))}
+                    {bannerData.map((banner, index) =>
+                        isLoading ? (
+                            <BannerCardSkeleton key={index} />
+                        ) : (
+                            <BannerCard
+                                key={index}
+                                data={banner}
+                                className="w-full flex-shrink-0 select-none"
+                            />
+                        )
+                    )}
                 </CarouselContent>
-                <CarouselDotGroup />
+                {isLoading ? (
+                    <CarouselDotButtonSkeleton />
+                ) : (
+                    <CarouselDotGroup />
+                )}
             </Carousel>
         </div>
     );

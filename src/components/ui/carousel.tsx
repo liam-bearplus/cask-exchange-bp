@@ -9,6 +9,7 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { EmblaCarouselType } from "embla-carousel";
+import { Skeleton } from "./skeleton";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -301,7 +302,7 @@ export const CarouselDotButton: React.FC<PropType> = (props) => {
         <button
             type="button"
             className={cn(
-                "flex-center duration-700 h-2 w-2 flex-shrink-0 overflow-hidden rounded-full text-center transition-all",
+                "flex-center h-2 w-2 flex-shrink-0 overflow-hidden rounded-full text-center transition-all duration-700",
                 isActive && "w-6",
                 className
             )}
@@ -309,7 +310,7 @@ export const CarouselDotButton: React.FC<PropType> = (props) => {
         >
             <div
                 className={cn(
-                    "duration-300 h-full w-6 flex-shrink-0 origin-center scale-x-[0.33] overflow-hidden rounded-full bg-bd-dark-sf1 transition-all delay-200",
+                    "h-full w-6 flex-shrink-0 origin-center scale-x-[0.33] overflow-hidden rounded-full bg-bd-dark-sf1 transition-all delay-200 duration-300",
                     isActive && "scale-x-100 bg-brand"
                 )}
             ></div>
@@ -320,7 +321,7 @@ export const CarouselDotButton: React.FC<PropType> = (props) => {
 
 export const CarouselDotGroup = () => {
     const { api } = useCarousel();
-    const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(api);
+    const { selectedIndex, scrollSnaps } = useDotButton(api);
     return (
         <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-row gap-1">
             {scrollSnaps &&
@@ -331,6 +332,16 @@ export const CarouselDotGroup = () => {
                         isActive={selectedIndex === index}
                     />
                 ))}
+        </div>
+    );
+};
+export const CarouselDotButtonSkeleton = () => {
+    return (
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-row gap-1">
+            <Skeleton className="h-2 w-6 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
+            <Skeleton className="h-2 w-2 rounded-full bg-bg-sf2" />
         </div>
     );
 };
