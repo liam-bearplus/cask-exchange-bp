@@ -150,17 +150,22 @@ export const MENU_NAVIGATION = [
         isNewWindow: false,
         subItems: [
             {
-                title: "Active listings",
+                title: "New listing",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "On-going transactions",
+                title: "Active asks",
                 href: "#",
                 isNewWindow: false,
             },
             {
-                title: "Completed orders",
+                title: "Pending asks",
+                href: "#",
+                isNewWindow: false,
+            },
+            {
+                title: "Sales history",
                 href: "#",
                 isNewWindow: false,
             },

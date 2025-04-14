@@ -4,6 +4,24 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const ICON_COMPANY = [
+        {
+            src: "/icons/company/company-logo-1.png",
+            alt: "company logo 1",
+        },
+        {
+            src: "/icons/company/company-logo-2.png",
+            alt: "company logo 2",
+        },
+        {
+            src: "/icons/company/company-logo-3.png",
+            alt: "company logo 3",
+        },
+        {
+            src: "/icons/company/company-logo-4.png",
+            alt: "company logo 4",
+        },
+    ];
     return (
         <footer className="bg-bg-dark-main">
             <div className="container grid grid-cols-12 pt-20">
@@ -16,7 +34,7 @@ const Footer = () => {
                         className="h-4 w-[11.0625rem]"
                     />
                 </div>
-                <div className="col-start-8 col-end-11">
+                <div className="col-start-8 col-end-12">
                     <div className="mb-5 text-sm text-typo-dark-sub">
                         Investing in whiskey casks involves risks, including
                         market fluctuations, regulatory changes, evaporation
@@ -24,23 +42,20 @@ const Footer = () => {
                         guarantees on future profits and is not obligated to
                         update forward-looking statements.
                     </div>
-                    <div className="flex flex-row gap-3">
-                        <ImagePlaceholder
-                            src="/icons/icon_g.png"
-                            className="h-6"
-                            imgClassName="img img-h w-auto"
-                            alt="img"
-                            width={100}
-                            height={100}
-                        />
-                        <ImagePlaceholder
-                            src="/icons/icon_gaming.png"
-                            className="h-6"
-                            width={100}
-                            height={100}
-                            alt="img"
-                            imgClassName="img img-h w-auto"
-                        />
+                    <div className="flex flex-row gap-8">
+                        {ICON_COMPANY.map((icon, index) => {
+                            return (
+                                <ImagePlaceholder
+                                    key={index}
+                                    src={icon.src}
+                                    className="h-6 flex-shrink-0"
+                                    imgClassName="img img-h w-auto"
+                                    alt={icon.alt}
+                                    width={100}
+                                    height={100}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="col-span-12 col-start-2 mt-16 flex flex-row justify-between border-t border-[#43464A]/30 py-5">

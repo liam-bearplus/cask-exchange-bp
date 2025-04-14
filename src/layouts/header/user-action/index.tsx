@@ -1,6 +1,8 @@
 "use client";
 
 import { IconBell } from "@/components/shared/icons/icon-bell";
+import IconLogout from "@/components/shared/icons/icon-logout";
+import IconSetting from "@/components/shared/icons/icon-settings";
 import IconStar from "@/components/shared/icons/icon-start";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,9 +20,9 @@ export default function UserAction() {
     return (
         <div className="flex-1">
             <div className="flex-center flex gap-2">
-                <Button size="icon" variant="empty">
+                <Button size="icon" variant="empty" className="!p-2.5">
                     <div className="relative">
-                        <IconBell className="h-4 w-4 text-typo-dark-primary" />
+                        <IconBell className="h-5 w-5 text-typo-dark-primary" />
                         <div className="top absolute -right-[0.125rem] -top-[0.125rem] h-2 w-2 rounded-full bg-success"></div>
                     </div>
                 </Button>
@@ -28,11 +30,11 @@ export default function UserAction() {
                     variant={"empty"}
                     className="!min-w-max p-4 text-typo-dark-primary [&:hover]:text-brand [&:hover_path]:fill-brand [&_path]:fill-transparent [&_path]:transition-all [&_path]:duration-500"
                 >
-                    <div className="h-4 w-4">
+                    <div className="h-5 w-5">
                         <IconStar />
                     </div>
                 </Button>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button
                             size="icon"
@@ -50,17 +52,29 @@ export default function UserAction() {
                                     width={80}
                                 />
                             </div>
-                            <div className="absolute -bottom-[0.1rem] -right-[0.1rem] h-[0.8125rem] w-[0.8125rem] overflow-hidden rounded-full border-[0.1rem] border-solid border-white-main bg-success" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-32">
+                    <DropdownMenuContent className="shadow-[0px_0.5rem_1.5rem_0px_rgba(149, 157, 165, 0.20)] min-w-[12.5rem] p-0">
+                        <DropdownMenuItem>
+                            <div className="h-4 w-4">
+                                <IconSetting />
+                            </div>
+                            <div className="text-sm font-medium text-typo-body">
+                                Settings
+                            </div>
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                             onClick={async () => {
                                 await authService.signOut();
                                 signOut();
                             }}
                         >
-                            Log out
+                            <div className="h-4 w-4">
+                                <IconLogout />
+                            </div>
+                            <div className="text-sm font-medium text-typo-body">
+                                Log out
+                            </div>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

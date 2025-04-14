@@ -139,9 +139,11 @@ export default function TableCask() {
                                         </div>
                                         <Button
                                             variant={"empty"}
-                                            className="!min-w-max p-4 text-typo-sub [&:hover]:text-brand [&:hover_path]:fill-brand [&_path]:fill-transparent [&_path]:transition-all [&_path]:duration-500"
+                                            className="!min-w-max p-5 text-typo-sub [&:hover]:text-brand [&:hover_path]:fill-brand [&_path]:fill-transparent [&_path]:transition-all [&_path]:duration-500"
                                         >
-                                            <IconStar />
+                                            <div className="flex h-5 w-5">
+                                                <IconStar />
+                                            </div>
                                         </Button>
                                     </div>
                                 </TableCell>

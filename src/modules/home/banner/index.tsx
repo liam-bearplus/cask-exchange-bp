@@ -1,5 +1,6 @@
 import {
     Carousel,
+    CarouselApi,
     CarouselContent,
     CarouselDotButtonSkeleton,
     CarouselDotGroup,
@@ -8,6 +9,7 @@ import Autoplay from "embla-carousel-autoplay";
 import React, { useEffect } from "react";
 import { BannerCard } from "./banner-card";
 import { BannerCardSkeleton } from "./banner-card/index";
+import useEmblaCarousel from "embla-carousel-react";
 export type TBannerItem = {
     title: React.ReactNode;
     description?: string;
@@ -52,6 +54,8 @@ const bannerData: TBannerItem[] = [
 
 export default function Banner() {
     const [isLoading, setIsLoading] = React.useState(true);
+    const carouselRef = React.useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false);
@@ -62,10 +66,24 @@ export default function Banner() {
     return (
         <div className="mb-[6.25rem]">
             <Carousel
-                className="overflow-hidden rounded-lg"
-                plugins={[Autoplay()]}
+                className="cursor-grab overflow-hidden rounded-lg"
+                plugins={[
+                    Autoplay({
+                        stopOnMouseEnter: true,
+                    }),
+                ]}
+                ref={carouselRef}
+                onPointerDown={() => {
+                    carouselRef.current?.classList.add("cursor-grabbing");
+                }}
+                onPointerUp={() => {
+                    carouselRef.current?.classList.remove("cursor-grabbing");
+                }}
+                opts={{
+                    loop: true,
+                }}
             >
-                <CarouselContent className="gap-8">
+                <CarouselContent>
                     {bannerData.map((banner, index) =>
                         isLoading ? (
                             <BannerCardSkeleton key={index} />

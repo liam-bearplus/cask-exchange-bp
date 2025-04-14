@@ -11,8 +11,7 @@ const CONTENT_TRANSPARENCY = [
         icon: () => (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="33"
-                height="33"
+                width="100%"
                 viewBox="0 0 33 33"
                 fill="none"
             >
@@ -33,8 +32,7 @@ const CONTENT_TRANSPARENCY = [
         icon: () => (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="33"
-                height="33"
+                width="100%"
                 viewBox="0 0 33 33"
                 fill="none"
             >
@@ -42,8 +40,8 @@ const CONTENT_TRANSPARENCY = [
                     id="mask0_1381_558"
                     maskUnits="userSpaceOnUse"
                     x="0"
+                    width="100%"
                     y="0"
-                    width="33"
                     height="33"
                 >
                     <path
@@ -69,8 +67,7 @@ const CONTENT_TRANSPARENCY = [
         icon: () => (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="33"
-                height="33"
+                width="100%"
                 viewBox="0 0 33 33"
                 fill="none"
             >
@@ -99,8 +96,10 @@ export default function Transparency() {
                             key={index}
                         >
                             <div className="flex flex-col gap-8 p-8">
-                                <div className="flex-center flex w-max rounded-[0.3125rem] bg-brand p-[0.875rem] [&_svg]:text-typo-primary">
-                                    {item.icon()}
+                                <div className="w-max rounded-[0.3125rem] bg-brand p-[0.875rem]">
+                                    <div className="flex-center flex h-8 w-8 [&_svg]:text-typo-primary">
+                                        {item.icon()}
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4 text-lg font-medium text-typo-primary">

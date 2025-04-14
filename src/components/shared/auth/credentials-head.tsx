@@ -24,7 +24,7 @@ export default function CredentialsHead({
                         className="mb-8 min-w-0"
                         size="sm"
                     >
-                        <ChevronLeft className="h-4 w-4" />
+                        <ChevronLeft className="h-5 w-5" />
                         Back
                     </Button>
                 </Link>

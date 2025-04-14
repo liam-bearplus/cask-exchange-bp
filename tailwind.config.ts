@@ -243,6 +243,12 @@ export default {
                 desktop: {
                     min: "992px",
                 },
+                "xl-desktop": {
+                    min: "1200px",
+                },
+                "2xl-desktop": {
+                    min: "1400px",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",

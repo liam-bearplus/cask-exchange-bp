@@ -91,8 +91,69 @@ const useDotButton = (
         onDotButtonClick,
     };
 };
+type UseAutoplayType = {
+    autoplayIsPlaying: boolean;
+    toggleAutoplay: (value?: boolean) => void;
+    onAutoplayButtonClick: (callback: () => void) => void;
+};
+
+export const useAutoplay = (
+    emblaApi: EmblaCarouselType | undefined
+): UseAutoplayType => {
+    const [autoplayIsPlaying, setAutoplayIsPlaying] = React.useState(false);
+
+    const onAutoplayButtonClick = React.useCallback(
+        (callback: () => void) => {
+            const autoplay = emblaApi?.plugins()?.autoplay;
+            if (!autoplay) return;
+
+            const resetOrStop =
+                autoplay.options.stopOnInteraction === false
+                    ? autoplay.reset
+                    : autoplay.stop;
+
+            resetOrStop();
+            callback();
+        },
+        [emblaApi]
+    );
+
+    const toggleAutoplay = React.useCallback(
+        (val?: boolean) => {
+            const autoplay = emblaApi?.plugins()?.autoplay;
+            if (!autoplay) return;
+            if (val) {
+                val ? autoplay.play() : autoplay.stop();
+                return;
+            }
+            const playOrStop = autoplay.isPlaying()
+                ? autoplay.stop
+                : autoplay.play;
+            playOrStop();
+        },
+        [emblaApi]
+    );
+
+    React.useEffect(() => {
+        const autoplay = emblaApi?.plugins()?.autoplay;
+        if (!autoplay) return;
+
+        setAutoplayIsPlaying(autoplay.isPlaying());
+        emblaApi
+            .on("autoplay:play", () => setAutoplayIsPlaying(true))
+            .on("autoplay:stop", () => setAutoplayIsPlaying(false))
+            .on("reInit", () => setAutoplayIsPlaying(autoplay.isPlaying()));
+    }, [emblaApi]);
+
+    return {
+        autoplayIsPlaying,
+        toggleAutoplay,
+        onAutoplayButtonClick,
+    };
+};
+
 const Carousel = React.forwardRef<
-    HTMLDivElement,
+    HTMLDivElement | null,
     React.HTMLAttributes<HTMLDivElement> & CarouselProps
 >(
     (
@@ -185,6 +246,9 @@ const Carousel = React.forwardRef<
                 }}
             >
                 <div
+                    onMouseLeave={() => {
+                        api?.plugins().autoplay?.play();
+                    }}
                     ref={ref}
                     onKeyDownCapture={handleKeyDown}
                     className={cn("relative", className)}
@@ -205,7 +269,6 @@ const CarouselContent = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
-
     return (
         <div ref={carouselRef} className="overflow-hidden rounded-lg">
             <div
@@ -328,7 +391,9 @@ export const CarouselDotGroup = () => {
                 scrollSnaps?.map((_, index) => (
                     <CarouselDotButton
                         key={index}
-                        onClick={() => {}}
+                        onClick={() => {
+                            api?.scrollTo(index);
+                        }}
                         isActive={selectedIndex === index}
                     />
                 ))}

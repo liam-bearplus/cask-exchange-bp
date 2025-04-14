@@ -9,6 +9,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
+import CustomTooltip from "../tooltips-custom";
 type TPropsHeading = {
     tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 } & HTMLAttributes<HTMLHeadingElement> & {
@@ -18,6 +19,8 @@ const HeadingContent = forwardRef<HTMLHeadingElement, TPropsHeading>(
     (props, ref) => {
         const { className, tag = "h2", children, subTitle, ...params } = props;
         const Tag = tag;
+        const [isOpen, setIsOpen] = React.useState(false);
+        const triggerRef = React.useRef<HTMLButtonElement>(null);
         return (
             <Tag
                 ref={ref}
@@ -29,21 +32,11 @@ const HeadingContent = forwardRef<HTMLHeadingElement, TPropsHeading>(
             >
                 {children}
                 {subTitle && (
-                    <TooltipProvider delayDuration={500}>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant={"empty"}
-                                    className="!min-w-max !p-1"
-                                >
-                                    <IconHelp />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{subTitle}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <CustomTooltip content={subTitle}>
+                        <Button variant={"empty"} className="!min-w-max !p-1">
+                            <IconHelp />
+                        </Button>
+                    </CustomTooltip>
                 )}
             </Tag>
         );

@@ -37,11 +37,11 @@ export default function CaskCard({
     return (
         <div
             className={cn(
-                "group relative w-[14.625rem] flex-none cursor-pointer overflow-hidden rounded-[0.625rem] bg-bg-sf1",
+                "group relative flex-none [&_*]:select-none",
                 className
             )}
         >
-            <div className="flex flex-col">
+            <div className="flex w-full cursor-pointer flex-col overflow-hidden rounded-[0.625rem] bg-bg-sf1">
                 <ImagePlaceholder
                     // src={data.imageUrl}
                     src={img_cask}

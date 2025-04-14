@@ -25,7 +25,7 @@ export default function DistilleryCard(props: TProps) {
     return (
         <div
             className={cn(
-                "flex min-w-[9.375rem] flex-shrink-0 flex-col items-center gap-3",
+                "flex min-w-[9.375rem] flex-shrink-0 cursor-pointer flex-col items-center gap-3 [&_*]:select-none",
                 className
             )}
         >
