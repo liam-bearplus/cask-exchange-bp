@@ -12,6 +12,9 @@
     .img-h {
         @apply h-full w-full;
     }
+    .img-w {
+        @apply h-auto w-full;
+    }
     .ff-decor {
         font-family: "Alegreya", serif;
     }

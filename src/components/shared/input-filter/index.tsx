@@ -99,14 +99,19 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                         </h3>
                     </AccordionTrigger>
                     <AccordionContent className="flex flex-col gap-4">
-                        <Command className="rounded-lg border shadow-md md:min-w-[450px]">
-                            <CommandInput placeholder={"asdad"} />
+                        <Command className="w-full">
+                            <CommandInput
+                                placeholder={`Search for a ${title.toLowerCase()}`}
+                            />
                             <CommandList>
                                 <CommandEmpty>No results found.</CommandEmpty>
-                                <CommandGroup heading="Suggestions">
+                                <CommandGroup>
                                     {options.map((item) => (
-                                        <CommandItem key={item.label}>
-                                            <div className="flex flex-row items-center gap-2">
+                                        <CommandItem
+                                            key={item.label}
+                                            className="cursor-pointer"
+                                        >
+                                            <div className="flex w-full cursor-pointer flex-row items-center gap-2">
                                                 <Checkbox
                                                     id={item.id}
                                                     value={item.id}
@@ -184,7 +189,8 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                                                     className="h-6 w-6 flex-shrink-0"
                                                 />
                                                 <LabelSimple
-                                                    htmlFor={item.label}
+                                                    htmlFor={item.id}
+                                                    className="flex-1 cursor-pointer"
                                                 >
                                                     {item.label
                                                         .split("-")
