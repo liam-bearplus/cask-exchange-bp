@@ -6,6 +6,14 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
 import { FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LabelSimple } from "@/components/ui/label";
@@ -91,69 +99,104 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                         </h3>
                     </AccordionTrigger>
                     <AccordionContent className="flex flex-col gap-4">
-                        {options.map((item) => (
-                            <div
-                                key={item.label}
-                                className="flex flex-row items-center gap-2"
-                            >
-                                <Checkbox
-                                    id={item.id}
-                                    value={item.id}
-                                    checked={
-                                        Array.isArray(field.value) &&
-                                        field.value.includes(item.id as never)
-                                    }
-                                    onCheckedChange={(checked) => {
-                                        if (checked) {
-                                            // Remove empty expression to fix linting error
-                                            const isAll = item.id === "all";
-                                            if (isAll) {
-                                                field.onChange([item.id]);
-                                                return;
-                                            }
+                        <Command className="rounded-lg border shadow-md md:min-w-[450px]">
+                            <CommandInput placeholder={"asdad"} />
+                            <CommandList>
+                                <CommandEmpty>No results found.</CommandEmpty>
+                                <CommandGroup heading="Suggestions">
+                                    {options.map((item) => (
+                                        <CommandItem key={item.label}>
+                                            <div className="flex flex-row items-center gap-2">
+                                                <Checkbox
+                                                    id={item.id}
+                                                    value={item.id}
+                                                    checked={
+                                                        Array.isArray(
+                                                            field.value
+                                                        ) &&
+                                                        field.value.includes(
+                                                            item.id as never
+                                                        )
+                                                    }
+                                                    onCheckedChange={(
+                                                        checked
+                                                    ) => {
+                                                        if (checked) {
+                                                            // Remove empty expression to fix linting error
+                                                            const isAll =
+                                                                item.id ===
+                                                                "all";
+                                                            if (isAll) {
+                                                                field.onChange([
+                                                                    item.id,
+                                                                ]);
+                                                                return;
+                                                            }
 
-                                            field.onChange(
-                                                Array.isArray(field.value)
-                                                    ? [
-                                                          ...field.value.filter(
-                                                              (val) =>
-                                                                  val !== "all"
-                                                          ),
-                                                          item.id,
-                                                      ]
-                                                    : [item.id]
-                                            );
-                                        } else {
-                                            if (Array.isArray(field.value)) {
-                                                const indexOf =
-                                                    field.value.findIndex(
-                                                        (val) => val === item.id
-                                                    );
-                                                if (indexOf > -1) {
-                                                    field.onChange([
-                                                        ...field.value.slice(
-                                                            0,
-                                                            indexOf
-                                                        ),
-                                                        ...field.value.slice(
-                                                            indexOf + 1
-                                                        ),
-                                                    ]);
-                                                }
-                                            } else {
-                                            }
-                                        }
-                                    }}
-                                    className="h-6 w-6 flex-shrink-0"
-                                />
-                                <LabelSimple htmlFor={item.label}>
-                                    {item.label
-                                        .split("-")
-                                        .join(" ")
-                                        .toLocaleUpperCase()}
-                                </LabelSimple>
-                            </div>
-                        ))}
+                                                            field.onChange(
+                                                                Array.isArray(
+                                                                    field.value
+                                                                )
+                                                                    ? [
+                                                                          ...field.value.filter(
+                                                                              (
+                                                                                  val
+                                                                              ) =>
+                                                                                  val !==
+                                                                                  "all"
+                                                                          ),
+                                                                          item.id,
+                                                                      ]
+                                                                    : [item.id]
+                                                            );
+                                                        } else {
+                                                            if (
+                                                                Array.isArray(
+                                                                    field.value
+                                                                )
+                                                            ) {
+                                                                const indexOf =
+                                                                    field.value.findIndex(
+                                                                        (val) =>
+                                                                            val ===
+                                                                            item.id
+                                                                    );
+                                                                if (
+                                                                    indexOf > -1
+                                                                ) {
+                                                                    field.onChange(
+                                                                        [
+                                                                            ...field.value.slice(
+                                                                                0,
+                                                                                indexOf
+                                                                            ),
+                                                                            ...field.value.slice(
+                                                                                indexOf +
+                                                                                    1
+                                                                            ),
+                                                                        ]
+                                                                    );
+                                                                }
+                                                            } else {
+                                                            }
+                                                        }
+                                                    }}
+                                                    className="h-6 w-6 flex-shrink-0"
+                                                />
+                                                <LabelSimple
+                                                    htmlFor={item.label}
+                                                >
+                                                    {item.label
+                                                        .split("-")
+                                                        .join(" ")
+                                                        .toLocaleUpperCase()}
+                                                </LabelSimple>
+                                            </div>
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </CommandList>
+                        </Command>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

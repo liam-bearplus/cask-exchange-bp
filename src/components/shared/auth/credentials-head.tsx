@@ -19,7 +19,11 @@ export default function CredentialsHead({
         <div className="flex-center flex-col pb-8 text-center">
             {breadcrumb ? (
                 <Link href={ROUTE_AUTH.LOGIN}>
-                    <Button variant="ghost" className="mb-8 min-w-0" size="sm">
+                    <Button
+                        variant="invisible"
+                        className="mb-8 min-w-0"
+                        size="sm"
+                    >
                         <ChevronLeft className="h-4 w-4" />
                         Back
                     </Button>

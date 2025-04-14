@@ -25,8 +25,8 @@ export default function ListCask({
     isRevert?: boolean;
 }) {
     return (
-        <div className="flex flex-col rounded-lg pb-[5rem]">
-            <Carousel>
+        <div className="flex flex-col pb-[5rem]">
+            <Carousel className="rounded-lg">
                 <div className="flex-between mb-12 flex flex-row">
                     {title && (
                         <HeadingContent subTitle={subTitle}>

@@ -11,7 +11,7 @@ const buttonVariants = cva(
                 destructive:
                     "bg-destructive text-destructive-foreground hover:bg-destructive/90",
                 outline:
-                    "border border-bd-main bg-background  hover:text-brand hover:border-brand",
+                    "border border-bd-main bg-transparent hover:border-brand hover:bg-brand",
                 secondary:
                     "bg-bg-dark-main text-typo-dark-primary hover:bg-brand hover:text-typo-primary active:bg-brand-darker",
                 ghost: "disabled:opacity-30 disabled:bg-bg-disable disabled:cursor-not-allowed bg-bg-sf1 text-typo-dark-sub hover:bg-bg-dark-main",
@@ -20,6 +20,7 @@ const buttonVariants = cva(
                 icon: "rounded-full bg-bg-dark-sf1 text-typo-dark-primary bg-bg-dark-sf1 p-0",
                 primary: "bg-brand text-typo-primary hover:bg-brand-darker",
                 empty: "",
+                invisible: "text-typo-primary hover:bg-bg-sf1",
             },
             size: {
                 default: "py-2.5 min-w-32",

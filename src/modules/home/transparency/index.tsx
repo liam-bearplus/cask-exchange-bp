@@ -88,7 +88,7 @@ const CONTENT_TRANSPARENCY = [
 export default function Transparency() {
     return (
         <div className="mb-20 flex flex-col">
-            <HeadingContent>
+            <HeadingContent className="mb-12">
                 Ensuring trust & transparency in cask investments
             </HeadingContent>
             <div className="grid grid-cols-3">

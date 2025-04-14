@@ -41,6 +41,8 @@ export default function CaskList() {
                 <div>Loading...</div>
             ) : casksQuery.isError ? (
                 <div>Error: {casksQuery.error?.message}</div>
+            ) : casksQuery.data?.data?.length === 0 ? (
+                <div>No data found</div>
             ) : (
                 <div className="fex-row flex flex-wrap gap-7">
                     {casksQuery.data?.data?.map((cask) => (
@@ -48,7 +50,7 @@ export default function CaskList() {
                             key={cask.id}
                             data={cask}
                             isRevert={false}
-                            index={0} // You can adjust the index based on your logic
+                            index={0}
                         />
                     ))}
                 </div>

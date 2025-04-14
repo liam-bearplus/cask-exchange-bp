@@ -79,7 +79,7 @@ const invoices = [
 export default function TableCask() {
     return (
         <div className="mb-20 flex flex-col">
-            <HeadingContent>Top casks</HeadingContent>
+            <HeadingContent className="mb-12">Top casks</HeadingContent>
             <div>
                 <Table>
                     <TableHeader>
