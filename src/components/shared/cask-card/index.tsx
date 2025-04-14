@@ -41,7 +41,7 @@ export default function CaskCard({
                 className
             )}
         >
-            <div className="flex w-full cursor-pointer flex-col overflow-hidden rounded-[0.625rem] bg-bg-sf1">
+            <div className="flex w-full cursor-pointer flex-col overflow-hidden rounded-[0.625rem] bg-bg-sf1 transition-all group-hover:shadow-[0px_0.5rem_1.5rem_0px_rgba(149,157,165,0.20)]">
                 <ImagePlaceholder
                     // src={data.imageUrl}
                     src={img_cask}
@@ -52,7 +52,7 @@ export default function CaskCard({
                 />
                 <div className="flex flex-col gap-4 px-4 py-6">
                     <div className="flex flex-col">
-                        <h3 className="mb-1 text-lg font-medium text-typo-primary">
+                        <h3 className="mb-1 text-lg font-medium text-typo-primary group-hover:underline">
                             {data.name}
                         </h3>
                         <div className="text-sm text-typo-sub">

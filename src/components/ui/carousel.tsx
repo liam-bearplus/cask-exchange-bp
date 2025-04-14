@@ -118,21 +118,13 @@ export const useAutoplay = (
         [emblaApi]
     );
 
-    const toggleAutoplay = React.useCallback(
-        (val?: boolean) => {
-            const autoplay = emblaApi?.plugins()?.autoplay;
-            if (!autoplay) return;
-            if (val) {
-                val ? autoplay.play() : autoplay.stop();
-                return;
-            }
-            const playOrStop = autoplay.isPlaying()
-                ? autoplay.stop
-                : autoplay.play;
-            playOrStop();
-        },
-        [emblaApi]
-    );
+    const toggleAutoplay = React.useCallback(() => {
+        const autoplay = emblaApi?.plugins()?.autoplay;
+        if (!autoplay) return;
+
+        const playOrStop = autoplay.isPlaying() ? autoplay.stop : autoplay.play;
+        playOrStop();
+    }, [emblaApi]);
 
     React.useEffect(() => {
         const autoplay = emblaApi?.plugins()?.autoplay;

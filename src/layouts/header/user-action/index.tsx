@@ -20,15 +20,19 @@ export default function UserAction() {
     return (
         <div className="flex-1">
             <div className="flex-center flex gap-2">
-                <Button size="icon" variant="empty" className="!p-2.5">
+                <Button
+                    size="icon"
+                    variant="empty"
+                    className="rounded-full !p-2.5 hover:bg-bg-dark-sf2"
+                >
                     <div className="relative">
-                        <IconBell className="h-5 w-5 text-typo-dark-primary" />
+                        <IconBell className="h-5 w-5 text-typo-dark-primary transition-all" />
                         <div className="top absolute -right-[0.125rem] -top-[0.125rem] h-2 w-2 rounded-full bg-success"></div>
                     </div>
                 </Button>
                 <Button
                     variant={"empty"}
-                    className="!min-w-max p-4 text-typo-dark-primary [&:hover]:text-brand [&:hover_path]:fill-brand [&_path]:fill-transparent [&_path]:transition-all [&_path]:duration-500"
+                    className="!min-w-max rounded-full !p-2.5 text-typo-dark-primary transition-all hover:bg-bg-dark-sf2"
                 >
                     <div className="h-5 w-5">
                         <IconStar />

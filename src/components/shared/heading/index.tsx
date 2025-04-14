@@ -1,14 +1,8 @@
-import { cn } from "@/lib/utils";
-import React, { forwardRef, HTMLAttributes } from "react";
-import IconHelp from "../icons/icon-help";
 import { Button } from "@/components/ui/button";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { forwardRef, HTMLAttributes } from "react";
+import IconHelp from "../icons/icon-help";
 import CustomTooltip from "../tooltips-custom";
 type TPropsHeading = {
     tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -19,8 +13,6 @@ const HeadingContent = forwardRef<HTMLHeadingElement, TPropsHeading>(
     (props, ref) => {
         const { className, tag = "h2", children, subTitle, ...params } = props;
         const Tag = tag;
-        const [isOpen, setIsOpen] = React.useState(false);
-        const triggerRef = React.useRef<HTMLButtonElement>(null);
         return (
             <Tag
                 ref={ref}

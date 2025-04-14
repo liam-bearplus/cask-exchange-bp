@@ -1,6 +1,5 @@
 import {
     Carousel,
-    CarouselApi,
     CarouselContent,
     CarouselDotButtonSkeleton,
     CarouselDotGroup,
@@ -9,7 +8,6 @@ import Autoplay from "embla-carousel-autoplay";
 import React, { useEffect } from "react";
 import { BannerCard } from "./banner-card";
 import { BannerCardSkeleton } from "./banner-card/index";
-import useEmblaCarousel from "embla-carousel-react";
 export type TBannerItem = {
     title: React.ReactNode;
     description?: string;
@@ -66,7 +64,7 @@ export default function Banner() {
     return (
         <div className="mb-[6.25rem]">
             <Carousel
-                className="cursor-grab overflow-hidden rounded-lg"
+                className="-mx-4 cursor-grab overflow-hidden rounded-lg"
                 plugins={[
                     Autoplay({
                         stopOnMouseEnter: true,
@@ -91,7 +89,7 @@ export default function Banner() {
                             <BannerCard
                                 key={index}
                                 data={banner}
-                                className="w-full flex-shrink-0 select-none"
+                                className="w-full flex-shrink-0 select-none px-4"
                             />
                         )
                     )}

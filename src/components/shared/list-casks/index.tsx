@@ -11,6 +11,7 @@ import CaskCard, { CaskCardSkeleton } from "../cask-card";
 import DistilleryCard, { DistilleryCardSkeleton } from "../distillery-card";
 import HeadingContent, { HeadingContentSkeleton } from "../heading";
 import { useRef } from "react";
+import { cn } from "@/lib/utils";
 
 export default function ListCask({
     lists,
@@ -29,20 +30,10 @@ export default function ListCask({
     return (
         <div className="flex flex-col pb-[5rem]">
             <Carousel
-                className="cursor-grab"
                 opts={{
                     slidesToScroll: type === "distillery" ? 8 : 5,
                 }}
                 ref={carouselRef}
-                onPointerDown={() => {
-                    console.log("carouselRef", carouselRef);
-                    carouselRef.current?.classList.add("[&_*]:cursor-grabbing");
-                }}
-                onPointerUp={() => {
-                    carouselRef.current?.classList.remove(
-                        "[&_*]:cursor-grabbing"
-                    );
-                }}
             >
                 <div className="flex-between mb-12 flex flex-row">
                     {title && (
@@ -53,13 +44,32 @@ export default function ListCask({
                     <div className="flex-center flex cursor-grabbing flex-row gap-2">
                         <CarouselPrevious />
                         <CarouselNext />
-                        <Button variant="outline" className="rounded-md">
+                        <Button
+                            variant="outline"
+                            className="rounded-md text-typo-primary"
+                        >
                             View all
                         </Button>
                     </div>
                 </div>
                 {type === "distillery" ? (
-                    <CarouselContent className="flex flex-row">
+                    <CarouselContent
+                        className={cn(
+                            "flex cursor-grab flex-row",
+                            "-mx-[0.5625rem]"
+                        )}
+                        onPointerDown={() => {
+                            console.log("carouselRef", carouselRef);
+                            carouselRef.current?.classList.add(
+                                "[&_*]:cursor-grabbing"
+                            );
+                        }}
+                        onPointerUp={() => {
+                            carouselRef.current?.classList.remove(
+                                "[&_*]:cursor-grabbing"
+                            );
+                        }}
+                    >
                         {lists?.map((cask, index) => {
                             return (
                                 <DistilleryCard
@@ -72,7 +82,7 @@ export default function ListCask({
                         })}
                     </CarouselContent>
                 ) : (
-                    <CarouselContent className="flex flex-row">
+                    <CarouselContent className="-mx-5 flex flex-row">
                         {lists?.map((cask, index) => {
                             return (
                                 <CaskCard

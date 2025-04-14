@@ -10,7 +10,7 @@ export const BannerCard: React.FC<{
 }> = ({ data, className }) => (
     <div
         className={cn(
-            "flex aspect-[1330/400] items-center px-4 tablet:col-span-2",
+            "flex aspect-[1330/400] items-center tablet:col-span-2",
             className
         )}
     >

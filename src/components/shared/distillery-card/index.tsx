@@ -25,7 +25,7 @@ export default function DistilleryCard(props: TProps) {
     return (
         <div
             className={cn(
-                "flex min-w-[9.375rem] flex-shrink-0 cursor-pointer flex-col items-center gap-3 [&_*]:select-none",
+                "group flex min-w-[9.375rem] flex-shrink-0 cursor-pointer flex-col items-center gap-3 [&_*]:select-none",
                 className
             )}
         >
@@ -34,11 +34,11 @@ export default function DistilleryCard(props: TProps) {
                     src={imgCurrent}
                     width={300}
                     height={300}
-                    className="rounded-lg"
+                    className="rounded-lg transition-all duration-500 ease-in-out group-hover:scale-110"
                 />
             </div>
             <div className="flex flex-col items-center gap-2">
-                <div className="text-base font-medium text-typo-primary">
+                <div className="text-base font-medium text-typo-primary group-hover:underline">
                     {data.name}
                 </div>
                 <div className="text-typo-secondary text-sm">1000 casks</div>
