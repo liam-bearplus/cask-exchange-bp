@@ -26,7 +26,9 @@ const HeadingContent = forwardRef<HTMLHeadingElement, TPropsHeading>(
                 {subTitle && (
                     <CustomTooltip content={subTitle}>
                         <Button variant={"empty"} className="!min-w-max !p-1">
-                            <IconHelp />
+                            <div className="h-4 w-4">
+                                <IconHelp />
+                            </div>
                         </Button>
                     </CustomTooltip>
                 )}

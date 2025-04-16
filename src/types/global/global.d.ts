@@ -1,9 +1,10 @@
 export declare namespace global {
     type TDataWithPagination<T> = {
         data: T;
-        total: number;
+        totalRecords: number;
         page: number;
-        limit: number;
+        totalPages: number;
+        size: number;
     };
 
     type TDataWithFields = {

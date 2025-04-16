@@ -24,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         variant === "password" && showPassword ? "text" : type
                     }
                     className={cn(
-                        "peer col-span-2 flex h-10 w-full rounded-lg bg-background px-3 py-2 text-base text-typo-primary shadow-sm outline-none ring-1 ring-inset ring-input ring-offset-input transition-all placeholder:text-typo-disable hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-bg-disable",
+                        "peer col-span-2 flex h-10 w-full rounded-md bg-background px-3 py-2 text-base text-typo-primary shadow-sm outline-none ring-1 ring-inset ring-input ring-offset-input transition-all placeholder:text-typo-disable hover:ring-bd-sf2 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-bg-disable",
                         error &&
                             !isHideError &&
                             "border-error ring-error hover:ring-error-darker focus-visible:ring-error",

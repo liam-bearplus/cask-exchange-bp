@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "CaskX Exchange";
 
 export const APP_DESCRIPTION =
@@ -106,72 +108,84 @@ export const passwordConstraintContent: {
     },
 ];
 
-export const MENU_NAVIGATION = [
+export const MENU_NAVIGATION: TMenuNavigation[] = [
     {
         title: "Cask Listing",
         href: "/list-data",
-        isNewWindow: false,
+        isOpenWindow: false,
     },
     {
         title: "Dashboard",
         href: "/dashboard",
-        isNewWindow: false,
+        isOpenWindow: false,
     },
     {
         title: "My Portfolio",
         href: "/profile",
-        isNewWindow: false,
+        isOpenWindow: false,
     },
     {
         title: "Buying",
         href: "/markets",
-        isNewWindow: false,
+        isOpenWindow: false,
         subItems: [
             {
                 title: "Active bids",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
             {
                 title: "On-going transactions",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
             {
                 title: "Completed orders",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
         ],
     },
     {
         title: "Selling",
         href: "/selling",
-        isNewWindow: false,
+        isOpenWindow: false,
         subItems: [
             {
                 title: "New listing",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
             {
                 title: "Active asks",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
             {
                 title: "Pending asks",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
             {
                 title: "Sales history",
                 href: "#",
-                isNewWindow: false,
+                isOpenWindow: false,
             },
         ],
     },
 ];
+export type TMenuNavigation = {
+    title?: string;
+    href?: string;
+    isOpenWindow?: boolean;
+    subItems?: {
+        title: string;
+        href?: string;
+        isOpenWindow?: boolean;
+        icon?: () => JSX.Element;
+        onClick?: () => void;
+    }[];
+};
 export const filterCaskValDefault = {
     distillery: [],
     caskType: [],
@@ -228,6 +242,7 @@ export type TDataFilterCask<T extends keyof FilterTypes = keyof FilterTypes> = {
         title: string;
         name: string;
         type: T;
+        unit?: string;
         options: FilterTypes[T];
     };
 };
@@ -270,24 +285,28 @@ export const DATA_FILTER_CASKS: TDataFilterCask = {
         title: "ABV",
         type: "range",
         name: "abv",
+        unit: "%",
         options: [0, 0],
     },
     rla: {
         title: "RLA",
         type: "range",
         name: "rla",
+        unit: "%",
         options: [0, 0],
     },
     ola: {
         title: "OLA",
         type: "range",
         name: "ola",
+        unit: "%",
         options: [0, 0],
     },
     price: {
         title: "Price",
         type: "range",
         name: "price",
+        unit: "$",
         options: [0, 0],
     },
     bottles: {

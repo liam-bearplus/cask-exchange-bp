@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import SideBarFooter from "../sidebar/footer";
 export default function FormFilter() {
     const { updateParams, valueParams } = useUpdateSearchParams(PARAMS.filter);
     const [dataFilter, setDataFilter] =
@@ -213,37 +214,38 @@ export default function FormFilter() {
     };
 
     return (
-        <div className="relative col-span-4">
-            <div className="sticky top-[10vh] h-[80vh] overflow-scroll pr-4">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSubmit)}>
-                        <div className="flex flex-col gap-4">
-                            {Object.entries(dataFilter).map(([key, value]) => (
-                                <FormField
-                                    key={key}
-                                    name={
-                                        key as keyof z.infer<
-                                            typeof filterSchema
-                                        >
-                                    }
-                                    control={form.control}
-                                    render={({ field }) => {
-                                        return (
-                                            <FormControl>
-                                                <InputFilter
-                                                    key={value.title}
-                                                    {...value}
-                                                    field={field}
-                                                />
-                                            </FormControl>
-                                        );
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </form>
-                </Form>
-            </div>
+        <div className="relative col-span-4 h-[calc(100vh-4.5rem)]">
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="h-full min-h-full"
+                >
+                    <div className="mb-18 relative flex h-full flex-col">
+                        {Object.entries(dataFilter).map(([key, value]) => (
+                            <FormField
+                                key={key}
+                                name={key as keyof z.infer<typeof filterSchema>}
+                                control={form.control}
+                                render={({ field }) => {
+                                    return (
+                                        <FormControl>
+                                            <InputFilter
+                                                key={value.title}
+                                                {...value}
+                                                field={field}
+                                                isHaveSearch={
+                                                    field.name === "distillery"
+                                                }
+                                            />
+                                        </FormControl>
+                                    );
+                                }}
+                            />
+                        ))}
+                    </div>
+                    <SideBarFooter className="sticky bottom-0 mt-auto" />
+                </form>
+            </Form>
         </div>
     );
 }

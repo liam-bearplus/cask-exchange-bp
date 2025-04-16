@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { findClosestIndex } from "@/helpers";
 import { cn } from "@/lib/utils";
 import { EmblaCarouselType } from "embla-carousel";
 import { Skeleton } from "./skeleton";
@@ -262,7 +263,7 @@ const CarouselContent = React.forwardRef<
 >(({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
     return (
-        <div ref={carouselRef} className="overflow-hidden rounded-lg">
+        <div ref={carouselRef} className="overflow-hidden">
             <div
                 ref={ref}
                 className={cn(
@@ -276,6 +277,43 @@ const CarouselContent = React.forwardRef<
     );
 });
 CarouselContent.displayName = "CarouselContent";
+
+const CarouselScrollProgress = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className }) => {
+    const { api } = useCarousel();
+    const [scrollProgress, setScrollProgress] = React.useState(0);
+
+    const onScroll = React.useCallback((emblaApi: EmblaCarouselType) => {
+        const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
+        setScrollProgress(progress * 100);
+    }, []);
+
+    React.useEffect(() => {
+        if (!api) return;
+
+        onScroll(api);
+        api.on("reInit", onScroll)
+            .on("scroll", onScroll)
+            .on("slideFocus", onScroll);
+    }, [api, onScroll]);
+
+    return (
+        <div
+            className={cn(
+                "relative h-2 w-full self-center overflow-hidden rounded-full bg-bg-sf2",
+                className
+            )}
+        >
+            <div
+                className="absolute -left-full top-0 h-full w-full bg-bg-dark-main"
+                style={{ transform: `translate3d(${scrollProgress}%,0px,0px)` }}
+            />
+        </div>
+    );
+});
+CarouselScrollProgress.displayName = "CarouselScrollProgress";
 
 const CarouselItem = React.forwardRef<
     HTMLDivElement,
@@ -403,12 +441,233 @@ export const CarouselDotButtonSkeleton = () => {
     );
 };
 
+const START_INDEX = 2;
+
+const CarouselScrollbar = ({ className }: { className?: string }) => {
+    const scrollbarRef = React.useRef<HTMLDivElement>(null);
+    const scrollbarTrackRef = React.useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = React.useState<boolean>(false);
+    const { api: emblaApi } = useCarousel();
+    const scrollSnaps = emblaApi?.scrollSnapList() || [];
+    const handleTrackClick = React.useCallback(
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (
+                !emblaApi ||
+                event.target === scrollbarRef.current ||
+                !scrollSnaps?.length
+            )
+                return;
+
+            emblaApi.internalEngine().animation.start();
+
+            const { clientX } = event;
+            const rect = scrollbarTrackRef.current?.getBoundingClientRect();
+            if (!rect) return;
+
+            const percentageFromLeftEdge =
+                ((clientX - rect.left) / rect.width) * 100;
+            const closestIndex = findClosestIndex(
+                scrollSnaps,
+                percentageFromLeftEdge
+            );
+
+            emblaApi.scrollTo(closestIndex);
+        },
+        [emblaApi, scrollSnaps]
+    );
+
+    const handleMouseMoveScrollbar = React.useCallback(
+        (event: MouseEvent | TouchEvent) => {
+            if (!emblaApi || !isDragging || !scrollSnaps) return;
+
+            const track = scrollbarTrackRef.current;
+            const scrollbar = scrollbarRef.current;
+            if (!track || !scrollbar) return;
+
+            let clientX;
+            if (event.type === "touchmove" && event.target === scrollbar) {
+                clientX = (event as TouchEvent).touches[0].clientX;
+            } else {
+                clientX = (event as MouseEvent).clientX;
+            }
+
+            const rect = track.getBoundingClientRect();
+            const newTranslateX = Math.max(
+                0,
+                Math.min(
+                    track.clientWidth - scrollbar.clientWidth,
+                    clientX - rect.left - scrollbar.clientWidth / 2
+                )
+            );
+
+            scrollbar.style.transform = `translateX(${newTranslateX}px)`;
+
+            const percentageFromLeftEdge =
+                (newTranslateX / (track.clientWidth - scrollbar.clientWidth)) *
+                100;
+            const closestIndex = findClosestIndex(
+                scrollSnaps,
+                percentageFromLeftEdge
+            );
+
+            const maxWidthApiScrollProgressPx =
+                emblaApi.internalEngine().limit.length;
+            const rangeValueForEmblaEngine =
+                ((-1 * percentageFromLeftEdge) / 100) *
+                maxWidthApiScrollProgressPx;
+            const engine = emblaApi.internalEngine();
+            engine.animation.stop();
+            engine.translate.to(rangeValueForEmblaEngine);
+            engine.location.set(rangeValueForEmblaEngine);
+            engine.index.set(closestIndex);
+        },
+        [emblaApi, isDragging, scrollSnaps]
+    );
+
+    const translateScrollbar = (newPercent: number) => {
+        const track = scrollbarTrackRef.current;
+        const scrollbar = scrollbarRef.current;
+
+        if (!track || !scrollbar) {
+            console.error("Error: track or scrollbar is null.");
+            return;
+        }
+
+        const newPercentClamped = Math.max(0, Math.min(100, newPercent));
+
+        const trackWidth = track.clientWidth;
+        const scrollbarWidth = scrollbar.clientWidth;
+
+        const maxTranslateX = trackWidth - scrollbarWidth;
+        const percentRatio = (newPercentClamped / 100) * maxTranslateX;
+
+        const translateX = percentRatio;
+
+        scrollbar.style.transform = `translateX(${translateX}px)`;
+    };
+
+    const handleMouseUp = React.useCallback(
+        (event: MouseEvent | TouchEvent) => {
+            if (event.type !== "touchmove") {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            setIsDragging(false);
+
+            window.removeEventListener("touchmove", handleMouseMoveScrollbar);
+            window.removeEventListener("touchend", handleMouseUp);
+        },
+        [handleMouseMoveScrollbar]
+    );
+
+    const handleMouseDown = React.useCallback(
+        (
+            event:
+                | React.MouseEvent<HTMLDivElement, MouseEvent>
+                | React.TouchEvent<HTMLDivElement>
+        ) => {
+            if (event.type !== "touchmove") {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            setIsDragging(true);
+        },
+        []
+    );
+
+    const onScroll = React.useCallback(
+        (emblaApi: EmblaCarouselType) => {
+            if (!emblaApi) {
+                return;
+            }
+
+            translateScrollbar(emblaApi.scrollProgress() * 100);
+        },
+        [emblaApi, scrollbarTrackRef.current, scrollbarRef.current]
+    );
+
+    React.useEffect(() => {
+        if (!emblaApi) {
+            return;
+        }
+
+        onScroll(emblaApi);
+        emblaApi.on("reInit", onScroll).on("scroll", onScroll);
+    }, [emblaApi, onScroll]);
+
+    React.useEffect(() => {
+        if (emblaApi && START_INDEX) {
+            emblaApi.scrollTo(START_INDEX);
+        }
+    }, [emblaApi]);
+
+    React.useEffect(() => {
+        const track = scrollbarTrackRef.current;
+        const scrollbar = scrollbarRef.current;
+
+        if (!track || !scrollbar || !scrollSnaps) {
+            return;
+        }
+
+        const trackWidth = track.clientWidth;
+        const scrollbarWidth = scrollbar.clientWidth;
+        const maxScrollDistance = trackWidth - scrollbarWidth;
+        const scrollPercentage = (START_INDEX / (scrollSnaps.length - 1)) * 100;
+        const scrollDistance = maxScrollDistance * (scrollPercentage / 100);
+
+        scrollbar.style.transform = `translateX(${scrollDistance}px)`;
+    }, [scrollbarTrackRef, scrollbarRef, scrollSnaps]);
+
+    React.useEffect(() => {
+        window.addEventListener("mousemove", handleMouseMoveScrollbar);
+        window.addEventListener("mouseup", handleMouseUp);
+        window.addEventListener("touchmove", handleMouseMoveScrollbar);
+        window.addEventListener("touchend", handleMouseUp);
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMoveScrollbar);
+            window.removeEventListener("mouseup", handleMouseUp);
+            window.removeEventListener("touchmove", handleMouseMoveScrollbar);
+            window.removeEventListener("touchend", handleMouseUp);
+        };
+    }, [handleMouseMoveScrollbar, handleMouseUp]);
+
+    return (
+        <div
+            className={cn("-my-2 cursor-pointer py-2", className)}
+            onClick={handleTrackClick}
+        >
+            <div
+                className="before:contents-[''] relative flex h-1 w-full cursor-pointer items-center self-center overflow-hidden rounded-full bg-bg-sf2 before:absolute before:top-1/2 before:h-2 before:w-full before:-translate-y-1/2"
+                ref={scrollbarTrackRef}
+            >
+                <div
+                    onMouseDown={handleMouseDown}
+                    onTouchStart={handleMouseDown}
+                    className="after:contents-[''] relative h-5 w-full rounded-full py-2 after:z-10 after:block after:h-1 after:bg-bg-dark-main"
+                    ref={scrollbarRef}
+                    style={{
+                        width: `calc(100% / ${scrollSnaps?.length})`,
+                        cursor: isDragging ? "grabbing" : "grab",
+                    }}
+                />
+            </div>
+        </div>
+    );
+};
+
+CarouselScrollbar.displayName = "CarouselScrollbar";
+
 export {
     Carousel,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
+    CarouselScrollbar,
+    CarouselScrollProgress,
     useDotButton,
     type CarouselApi,
 };

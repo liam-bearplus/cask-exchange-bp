@@ -9,6 +9,7 @@ import {
     KEY_SIGNIN,
     KEY_SIGNUP,
     KEY_VERIFY,
+    KEY_WHOAMI,
 } from "@/lib/constants/key";
 import { PATH_AUTH } from "@/lib/constants/path";
 import { handleRequest } from "@/lib/utils";
@@ -27,7 +28,11 @@ class AuthService {
             axiosInstance.post<TUserSchema>(`${PATH_AUTH}/${KEY_SIGNUP}`, data)
         );
     }
-
+    async whoami(): Promise<TUserSchema> {
+        return handleRequest(
+            axiosInstance.get<TUserSchema>(`${PATH_AUTH}/${KEY_WHOAMI}`)
+        );
+    }
     async verifyUser(data: TVerifyUser): Promise<{ email: string }> {
         return handleRequest(
             axiosInstance.post(`${PATH_AUTH}/${KEY_VERIFY}`, data)

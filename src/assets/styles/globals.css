@@ -72,9 +72,9 @@
     }
     .input-dark {
         --input: var(--white-300);
-        --ring: var(--white-500);
+        --ring: var(--brand);
 
-        @apply border-white-300 bg-bg-dark-main text-typo-dark-disable hover:!ring-bd-dark-sf2;
+        @apply border-white-300 bg-bg-dark-main text-typo-dark-disable valid:border-brand valid:text-typo-dark-primary hover:!ring-bd-dark-sf1 focus:!ring-brand [&:not(:placeholder-shown)]:text-typo-dark-primary [&:not(:placeholder-shown)]:ring-bd-dark-sf1;
     }
 }
 
@@ -158,6 +158,14 @@
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
         --radius: 0.625rem;
+        --sidebar-background: 0 0% 98%;
+        --sidebar-foreground: 240 5.3% 26.1%;
+        --sidebar-primary: 240 5.9% 10%;
+        --sidebar-primary-foreground: 0 0% 98%;
+        --sidebar-accent: 240 4.8% 95.9%;
+        --sidebar-accent-foreground: 240 5.9% 10%;
+        --sidebar-border: 220 13% 91%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
     }
     .dark {
         --background: 222.2 84% 4.9%;
@@ -184,6 +192,14 @@
         --chart-3: 30 80% 55%;
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
+        --sidebar-background: 240 5.9% 10%;
+        --sidebar-foreground: 240 4.8% 95.9%;
+        --sidebar-primary: 224.3 76.3% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 240 3.7% 15.9%;
+        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-border: 240 3.7% 15.9%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
     }
 }
 
@@ -196,6 +212,12 @@
     }
     ::-webkit-scrollbar {
         width: 5px;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 }
 @keyframes lds-spinner {
@@ -225,6 +247,10 @@
 }
 html {
     scroll-behavior: smooth;
+}
+html body[data-scroll-locked] {
+    overflow: visible !important;
+    margin-right: 0 !important;
 }
 
 ::-webkit-scrollbar {

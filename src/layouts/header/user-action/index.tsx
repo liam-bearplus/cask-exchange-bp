@@ -5,15 +5,10 @@ import IconLogout from "@/components/shared/icons/icon-logout";
 import IconSetting from "@/components/shared/icons/icon-settings";
 import IconStar from "@/components/shared/icons/icon-start";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import authService from "@/services/auth";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import MenuItem from "../menu/menu-item";
 
 export default function UserAction() {
     const { data: session } = useSession();
@@ -38,50 +33,45 @@ export default function UserAction() {
                         <IconStar />
                     </div>
                 </Button>
-                <DropdownMenu modal={false}>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            size="icon"
-                            variant={"icon"}
-                            className="relative"
-                        >
-                            <div className="overflow-hidden rounded-full">
-                                <Image
-                                    src={
-                                        session?.user?.image ||
-                                        "/images/user_placeholder.jpeg"
-                                    }
-                                    alt={`${session?.user?.name} avatar`}
-                                    height={80}
-                                    width={80}
-                                />
-                            </div>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="shadow-[0px_0.5rem_1.5rem_0px_rgba(149, 157, 165, 0.20)] min-w-[12.5rem] p-0">
-                        <DropdownMenuItem>
-                            <div className="h-4 w-4">
-                                <IconSetting />
-                            </div>
-                            <div className="text-sm font-medium text-typo-body">
-                                Settings
-                            </div>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={async () => {
+                <MenuItem
+                    isNavigationMenu={false}
+                    subItems={[
+                        {
+                            title: "Settings",
+                            icon: () => (
+                                <div className="h-4 w-4">
+                                    <IconSetting />
+                                </div>
+                            ),
+                        },
+                        {
+                            title: "Log out",
+                            icon: () => (
+                                <div className="h-4 w-4">
+                                    <IconLogout />
+                                </div>
+                            ),
+                            onClick: async () => {
                                 await authService.signOut();
                                 signOut();
-                            }}
-                        >
-                            <div className="h-4 w-4">
-                                <IconLogout />
-                            </div>
-                            <div className="text-sm font-medium text-typo-body">
-                                Log out
-                            </div>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            },
+                        },
+                    ]}
+                >
+                    <Button size="icon" variant={"icon"} className="relative">
+                        <div className="overflow-hidden rounded-full">
+                            <Image
+                                src={
+                                    session?.user?.image ||
+                                    "/images/user_placeholder.jpeg"
+                                }
+                                alt={`${session?.user?.name} avatar`}
+                                height={80}
+                                width={80}
+                            />
+                        </div>
+                    </Button>
+                </MenuItem>
             </div>
         </div>
     );

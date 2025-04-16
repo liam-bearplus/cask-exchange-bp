@@ -32,6 +32,7 @@ export default function HomeModule() {
                         lists={distilleryQuery.data}
                         title="Popular distilleries"
                         isRevert
+                        href="/distilleries"
                     />
                 )}
                 {recentReview.isLoading ? (
@@ -45,6 +46,7 @@ export default function HomeModule() {
                                 : recentReview.data?.data
                         }
                         title="Featured casks"
+                        href="/cask-listing?type=featured "
                         subTitle="Most-watched casks by investors"
                     />
                 )}

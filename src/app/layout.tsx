@@ -4,7 +4,12 @@ import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-inter",
+    weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
     title: {

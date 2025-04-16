@@ -3,6 +3,7 @@ const KEY_SIGNIN = "signin";
 const KEY_RESET_PASSWORD = "reset-password";
 const KEY_UPDATE_PASSWORD = "update-password";
 const KEY_FORGOT_PASSWORD = "forgot-password";
+const KEY_WHOAMI = "whoami";
 const KEY_VERIFY = "verify-user";
 const KEY_RESEND_EMAIL = "resend-verification";
 const KEY_REFRESH_TOKEN = "refresh-token";
@@ -25,6 +26,7 @@ export {
     KEY_UPDATE_PASSWORD,
     KEY_FORGOT_PASSWORD,
     KEY_VERIFY,
+    KEY_WHOAMI,
     KEY_RESEND_EMAIL,
     KEY_LOG_OUT,
     KEY_REFRESH_TOKEN,

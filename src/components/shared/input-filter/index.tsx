@@ -4,7 +4,6 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Command,
@@ -22,10 +21,12 @@ import {
     TOptionCheckBox,
     TOptionRange,
 } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import { filterSchema } from "@/lib/validators";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ControllerRenderProps, Path } from "react-hook-form";
 import { z } from "zod";
+import ImagePlaceholder from "../image-placeholder";
 
 // Define the generic type for options
 type FilterOptions<T> = T extends "checkbox" ? TOptionCheckBox[] : TOptionRange;
@@ -38,45 +39,120 @@ type TInputFilter<T extends "checkbox" | "range" = "checkbox" | "range"> = {
         z.infer<typeof filterSchema>,
         Path<typeof filterCaskValDefault>
     >;
+    isHaveSearch?: boolean;
     options: FilterOptions<T>;
+    unit?: string;
 };
 
 // InputFilter component with proper typing
-export default function InputFilter<T extends "checkbox" | "range">({
-    type,
-    title,
-    field,
-    options,
-}: TInputFilter<T>) {
+export default function InputFilter<T extends "checkbox" | "range">(
+    props: TInputFilter<T>
+) {
+    const { type, options, ...params } = props;
     return type === "checkbox" ? (
         <InputCheckBox
             options={options as FilterOptions<"checkbox">}
-            title={title}
-            type={type}
-            field={field}
+            type="checkbox"
+            {...params}
         />
     ) : (
         <InputRange
-            type={type}
             options={options as FilterOptions<"range">}
-            title={title}
-            field={field}
+            type={"range"}
+            {...params}
         />
     );
 }
 
 // InputCheckBox component with specific typing
-const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
-    // State to track accordion open/close status
+const InputCheckBox = ({
+    options,
+    title,
+    field,
+    isHaveSearch,
+}: TInputFilter<"checkbox">) => {
     const [accordionValue, setAccordionValue] = useState<string>("");
 
-    // Check if any option is selected in the field value
     const hasSelectedValues = useMemo(() => {
         if (!Array.isArray(field.value)) return false;
         return field.value.length > 0;
     }, [field.value]);
 
-    // Update accordion state based on selected values
+    const handleCheckboxChange = useCallback(
+        (checked: boolean, itemId: string) => {
+            if (!Array.isArray(field.value)) return;
+
+            if (checked) {
+                const isAll = itemId === "all";
+                if (isAll) {
+                    field.onChange([itemId]);
+                    return;
+                }
+
+                field.onChange([
+                    ...field.value.filter((val) => val !== "all"),
+                    itemId,
+                ]);
+            } else {
+                field.onChange(field.value.filter((val) => val !== itemId));
+            }
+        },
+        [field]
+    );
+
+    const handleRenderGroupCheckBox = () => {
+        const CheckboxWrap = isHaveSearch ? CommandItem : "div";
+        return (
+            <div className="flex w-full flex-col gap-3">
+                {options.map((item) => (
+                    <CheckboxWrap
+                        key={item.label}
+                        className={cn(
+                            "cursor-pointer py-0 data-[selected='true']:bg-transparent"
+                        )}
+                    >
+                        <div className="flex w-full cursor-pointer flex-row items-center gap-2 text-typo-body hover:[&_label]:font-semibold hover:[&_label]:text-typo-primary">
+                            <Checkbox
+                                id={item.id}
+                                value={item.id}
+                                checked={
+                                    Array.isArray(field.value) &&
+                                    field.value.includes(item.id as never)
+                                }
+                                onCheckedChange={(checked) =>
+                                    handleCheckboxChange(
+                                        checked as boolean,
+                                        item.id || ""
+                                    )
+                                }
+                                className="h-6 w-6 flex-shrink-0"
+                            />
+                            <LabelSimple
+                                htmlFor={item.id}
+                                className={cn("flex-1 cursor-pointer")}
+                            >
+                                {item.label.split("-").join(" ")}
+                            </LabelSimple>
+                        </div>
+                    </CheckboxWrap>
+                ))}
+            </div>
+        );
+    };
+    const handleRenderGroupCheckBoxWithSearch = () => {
+        return (
+            <Command className="w-full">
+                <CommandInput
+                    placeholder={`Search for a ${title.toLowerCase()}`}
+                />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup>{handleRenderGroupCheckBox()}</CommandGroup>
+                </CommandList>
+            </Command>
+        );
+    };
+
     useEffect(() => {
         setAccordionValue(hasSelectedValues ? field.name : "");
     }, [hasSelectedValues, field.name]);
@@ -93,116 +169,15 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
                 }}
             >
                 <AccordionItem value={field.name}>
-                    <AccordionTrigger>
+                    <AccordionTrigger className="[&[data-state=open]]:pb-4">
                         <h3 className="text-xl font-medium text-typo-primary">
                             {title}
                         </h3>
                     </AccordionTrigger>
                     <AccordionContent className="flex flex-col gap-4">
-                        <Command className="w-full">
-                            <CommandInput
-                                placeholder={`Search for a ${title.toLowerCase()}`}
-                            />
-                            <CommandList>
-                                <CommandEmpty>No results found.</CommandEmpty>
-                                <CommandGroup>
-                                    {options.map((item) => (
-                                        <CommandItem
-                                            key={item.label}
-                                            className="cursor-pointer"
-                                        >
-                                            <div className="flex w-full cursor-pointer flex-row items-center gap-2">
-                                                <Checkbox
-                                                    id={item.id}
-                                                    value={item.id}
-                                                    checked={
-                                                        Array.isArray(
-                                                            field.value
-                                                        ) &&
-                                                        field.value.includes(
-                                                            item.id as never
-                                                        )
-                                                    }
-                                                    onCheckedChange={(
-                                                        checked
-                                                    ) => {
-                                                        if (checked) {
-                                                            // Remove empty expression to fix linting error
-                                                            const isAll =
-                                                                item.id ===
-                                                                "all";
-                                                            if (isAll) {
-                                                                field.onChange([
-                                                                    item.id,
-                                                                ]);
-                                                                return;
-                                                            }
-
-                                                            field.onChange(
-                                                                Array.isArray(
-                                                                    field.value
-                                                                )
-                                                                    ? [
-                                                                          ...field.value.filter(
-                                                                              (
-                                                                                  val
-                                                                              ) =>
-                                                                                  val !==
-                                                                                  "all"
-                                                                          ),
-                                                                          item.id,
-                                                                      ]
-                                                                    : [item.id]
-                                                            );
-                                                        } else {
-                                                            if (
-                                                                Array.isArray(
-                                                                    field.value
-                                                                )
-                                                            ) {
-                                                                const indexOf =
-                                                                    field.value.findIndex(
-                                                                        (val) =>
-                                                                            val ===
-                                                                            item.id
-                                                                    );
-                                                                if (
-                                                                    indexOf > -1
-                                                                ) {
-                                                                    field.onChange(
-                                                                        [
-                                                                            ...field.value.slice(
-                                                                                0,
-                                                                                indexOf
-                                                                            ),
-                                                                            ...field.value.slice(
-                                                                                indexOf +
-                                                                                    1
-                                                                            ),
-                                                                        ]
-                                                                    );
-                                                                }
-                                                            } else {
-                                                            }
-                                                        }
-                                                    }}
-                                                    className="h-6 w-6 flex-shrink-0"
-                                                />
-                                                <LabelSimple
-                                                    htmlFor={item.id}
-                                                    className="flex-1 cursor-pointer"
-                                                >
-                                                    {item.label
-                                                        .split("-")
-                                                        .join(" ")
-                                                        .toLocaleUpperCase()}
-                                                </LabelSimple>
-                                            </div>
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
+                        {isHaveSearch
+                            ? handleRenderGroupCheckBoxWithSearch()
+                            : handleRenderGroupCheckBox()}
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
@@ -211,7 +186,7 @@ const InputCheckBox = ({ options, title, field }: TInputFilter<"checkbox">) => {
 };
 
 // InputRange component with specific typing
-const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
+const InputRange = ({ options, title, field, unit }: TInputFilter<"range">) => {
     const [accordionValue, setAccordionValue] = useState<string>("");
 
     // Check if any value in the range is selected
@@ -226,12 +201,32 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
     useEffect(() => {
         setAccordionValue(hasSelectedValues ? field.name : "");
     }, [hasSelectedValues, field.name]);
+
+    const handleSwapValue = useCallback(() => {
+        if (!Array.isArray(field.value)) return;
+
+        const [min, max] = field.value.map(Number);
+        const [defaultMin, defaultMax] = options;
+
+        const valMin = Math.max(min, defaultMin) || defaultMin;
+        const valMax = Math.min(max, defaultMax) || defaultMax;
+        if (max < min) {
+            field.onChange([
+                max > defaultMin && max < defaultMax ? max : defaultMin,
+                min > defaultMin && min < defaultMax ? min : defaultMax,
+            ]);
+            return;
+        }
+
+        field.onChange([valMin, valMax]);
+    }, [field.value, options]);
+
     return (
         <div className="flex flex-col gap-4">
             <Accordion
                 type="single"
-                collapsible
                 value={accordionValue}
+                collapsible
                 onValueChange={() => {
                     setAccordionValue(
                         accordionValue === field.name ? "" : field.name
@@ -239,18 +234,26 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                 }}
             >
                 <AccordionItem value={field.name}>
-                    <AccordionTrigger>
+                    <AccordionTrigger className="[&[data-state=open]]:pb-4">
                         <h3 className="text-xl font-medium text-typo-primary">
                             {title}
                         </h3>
                     </AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4">
-                        <div className="flex flex-row gap-4">
-                            <Button size={"sm"} variant="input">
+                    <AccordionContent className="flex flex-col">
+                        <div className="flex flex-row items-center gap-4">
+                            <div className="relative">
+                                {unit && (
+                                    <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
+                                        {unit}
+                                    </div>
+                                )}
                                 <Input
                                     type="number"
                                     isHideError
-                                    placeholder={`${options?.[0]}`}
+                                    placeholder={`From`}
+                                    maxLength={13}
+                                    onBlur={handleSwapValue}
+                                    className={cn(`${unit && "pl-8"}`)}
                                     value={
                                         Array.isArray(field.value)
                                             ? field.value?.[0]
@@ -265,12 +268,29 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                                         ]);
                                     }}
                                 />
-                            </Button>
-                            <Button size={"sm"} variant="input">
+                            </div>
+
+                            <ImagePlaceholder
+                                width={32}
+                                height={32}
+                                alt="Minus icon"
+                                className="h-4 w-4"
+                                imgClassName="img-fill"
+                                src={"/icons/minus-icon.svg"}
+                            />
+                            <div className="relative">
+                                {unit && (
+                                    <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
+                                        {unit}
+                                    </div>
+                                )}
                                 <Input
                                     type="number"
-                                    placeholder={`${options?.[1]}`}
+                                    placeholder={`To`}
                                     isHideError
+                                    maxLength={13}
+                                    className={cn(`${unit && "pl-8"}`)}
+                                    onBlur={handleSwapValue}
                                     value={
                                         Array.isArray(field.value)
                                             ? field.value?.[1]
@@ -285,11 +305,8 @@ const InputRange = ({ options, title, field }: TInputFilter<"range">) => {
                                         ]);
                                     }}
                                 />
-                            </Button>
+                            </div>
                         </div>
-                        <Button type="submit" variant={"secondary"}>
-                            Apply
-                        </Button>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>

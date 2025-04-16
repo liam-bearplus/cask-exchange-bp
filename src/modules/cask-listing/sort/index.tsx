@@ -61,32 +61,30 @@ export function SortFilter() {
     }, [defaultParams]);
 
     return (
-        <div className="relative col-span-3">
-            <div className="sticky top-[10vh]">
-                <Select
-                    value={valueSelect}
-                    defaultValue={defaultParams}
-                    onValueChange={handleSplitParams}
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Sort by..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            {sortCaskData.data?.sortOptions.map((sort) => {
-                                return (
-                                    <SelectItem
-                                        value={`${sort.value}_${sort.defaultOrder.toLowerCase()}`}
-                                        key={sort.name}
-                                    >
-                                        {sort.name}
-                                    </SelectItem>
-                                );
-                            })}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-            </div>
+        <div className="relative">
+            <Select
+                value={valueSelect}
+                defaultValue={defaultParams}
+                onValueChange={handleSplitParams}
+            >
+                <SelectTrigger className="w-full" subLabel="Sort by: ">
+                    <SelectValue placeholder="Popular Cask" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        {sortCaskData.data?.sortOptions.map((sort) => {
+                            return (
+                                <SelectItem
+                                    value={`${sort.value}_${sort.defaultOrder.toLowerCase()}`}
+                                    key={sort.name}
+                                >
+                                    {sort.name}
+                                </SelectItem>
+                            );
+                        })}
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
         </div>
     );
 }
