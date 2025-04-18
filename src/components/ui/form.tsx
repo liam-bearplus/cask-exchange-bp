@@ -172,24 +172,8 @@ const FormRootError = React.forwardRef<
 FormRootError.displayName = "FormRootError";
 const FormMessage = React.forwardRef<
     HTMLParagraphElement,
-    React.HTMLAttributes<HTMLParagraphElement> & {
-        contentError?: string;
-    }
->(({ className, children, contentError, ...props }, ref) => {
-    if (contentError) {
-        return (
-            <p
-                ref={ref}
-                className={cn(
-                    "text-sm font-medium text-destructive",
-                    className
-                )}
-                {...props}
-            >
-                {contentError}
-            </p>
-        );
-    }
+    React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
     const { error, formMessageId } = useFormField();
     const body = error ? String(error?.message ?? "") : children;
     if (!body) {

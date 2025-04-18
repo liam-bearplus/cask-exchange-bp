@@ -132,9 +132,11 @@ export default function VerifyModule() {
             setTimer((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerRef.current!);
-                    session.data?.user
-                        ? redirect(ROUTE_PUBLIC.HOME)
-                        : redirect(ROUTE_AUTH.LOGIN);
+                    if (session.data?.user) {
+                        redirect(ROUTE_PUBLIC.HOME);
+                    } else {
+                        redirect(ROUTE_AUTH.LOGIN);
+                    }
                 }
                 return prev - 1;
             });

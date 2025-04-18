@@ -28,7 +28,15 @@ export default function Search(props: TSearchProps) {
         defaultValues: {
             search: "",
         },
+
+        mode: "onChange",
     });
+    // const searchQuery = useQuery({
+    //     queryKey: ["search"],
+    //     queryFn: () => caskServices.searchCasks(form.getValues("search")),
+    //     enabled: !!form.getValues("search"),
+    //     refetchOnWindowFocus: false,
+    // });
     const onSubmitForm = (data: z.infer<typeof searchSchema>) => {
         if (onSubmit) {
             onSubmit(data?.search);

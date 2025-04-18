@@ -1,5 +1,4 @@
 import {
-    Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
@@ -13,7 +12,6 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LabelSimple } from "@/components/ui/label";
 import {
@@ -23,7 +21,7 @@ import {
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { filterSchema } from "@/lib/validators";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { ControllerRenderProps, Path } from "react-hook-form";
 import { z } from "zod";
 import ImagePlaceholder from "../image-placeholder";

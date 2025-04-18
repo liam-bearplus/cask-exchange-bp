@@ -1,9 +1,8 @@
 import authService from "@/services/auth";
 import axios, { AxiosRequestConfig } from "axios";
+import { deleteCookie, setCookie } from "cookies-next";
 import { encode } from "next-auth/jwt";
-import { getSession, signIn } from "next-auth/react";
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getSession } from "next-auth/react";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api",
@@ -53,7 +52,6 @@ const setAccessTokenOnRequestAndAsAxiosDefaults = async (
 ) => {
     if (!cachedAccessToken) {
         const session = await getSession();
-        const cookieStore = await cookies();
         if (session && session.user.accessToken) {
             cachedAccessToken = session.user.accessToken;
             cachedRefreshToken = session.user.refreshToken || null;
@@ -75,6 +73,7 @@ const refreshAccessToken = async () => {
         });
         cachedAccessToken = response?.accessToken || "";
         const session = await getSession();
+
         const newSessionToken = await encode({
             secret: process.env.NEXTAUTH_SECRET!,
             token: {
@@ -91,47 +90,26 @@ const refreshAccessToken = async () => {
     }
 };
 
-function updateCookie(
-    sessionToken: string | null,
-    request: NextRequest,
-    response: NextResponse
-) {
+async function updateCookie(sessionToken: string | null) {
     const sessionCookie = process.env.NEXTAUTH_URL?.startsWith("https://")
         ? "__Secure-next-auth.session-token"
         : "next-auth.session-token";
+
     if (sessionToken) {
         // set request cookies for the incoming getServerSession to read new session
-        request.cookies.set(sessionCookie, sessionToken);
 
-        // updated request cookies can only be passed to server if its passdown here after setting its updates
-        response = NextResponse.next({
-            request: {
-                headers: request.headers,
-            },
-        });
-
-        // set response cookies to send back to browser
-        response.cookies.set(sessionCookie, sessionToken, {
+        setCookie(sessionCookie, sessionToken, {
             httpOnly: true,
-            maxAge: 604800 /* TODO: 7 days -> get from the env */,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
         });
     } else {
-        request.cookies.delete(sessionCookie);
-        response = NextResponse.next({
-            request: {
-                headers: request.headers,
-            },
-        });
-        response.cookies.delete(sessionCookie);
+        deleteCookie(sessionCookie);
     }
-
-    return response;
 }
 
-//Remove AccessToken SignOut
-export const unsetAccessTokenAttachedToAxiosDefaults = () => {
+// Remove AccessToken SignOut
+export const unsetAccessTokenAttachedToAxiosDefaults = async () => {
     delete axiosInstance.defaults.headers.common["Authorization"];
 };
 

@@ -83,7 +83,7 @@ class CaskServices {
     async searchCasks(params: string) {
         return handleRequest(
             axiosInstance.get<TCask[]>(
-                `${PATH_CASKS}/${KEY_SEARCH_CASK}?query=${params}`
+                `${PATH_CASKS}/${KEY_SEARCH_CASK}?query=${params}&page=1&size=10`
             )
         );
     }

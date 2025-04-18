@@ -6,10 +6,7 @@ const initValue = {
     isLogin: false,
 };
 
-export const createAuthSlice: StateCreator<store.TAuth, [], []> = (
-    set,
-    _get
-) => ({
+export const createAuthSlice: StateCreator<store.TAuth, [], []> = (set) => ({
     user: null,
     isLogin: false,
     setMyUser: (user) => {

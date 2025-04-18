@@ -3,15 +3,8 @@ import CaskCardItem, { CaskCardSkeleton } from "@/components/shared/cask-card";
 import CaskEmpty from "@/components/shared/cask-notfound";
 import IconChevonLeft from "@/components/shared/icons/icon-chevon-left";
 import IconChevonRight from "@/components/shared/icons/icon-chevon-right";
-import IconClose from "@/components/shared/icons/icon-close";
 import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { FormMessage } from "@/components/ui/form";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
     Pagination,
     PaginationContent,
@@ -23,8 +16,7 @@ import { PARAMS } from "@/lib/constants/route";
 import authService from "@/services/auth";
 import caskServices from "@/services/cask";
 import { useBoundStore } from "@/store";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -223,12 +215,10 @@ export default function CaskList() {
                             {buttonState[resendEmailMutation.status].title}
                         </Button>
                         {resendEmailMutation.error?.message && (
-                            <FormMessage
-                                contentError={
-                                    resendEmailMutation.error?.message ||
-                                    "Something went wrong"
-                                }
-                            />
+                            <div className="text-sm font-medium text-destructive">
+                                {resendEmailMutation.error?.message ||
+                                    "Something went wrong"}
+                            </div>
                         )}
                     </div>
                     <DialogContent className="p-0">

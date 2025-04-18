@@ -8,11 +8,11 @@ import {
     CarouselScrollbar,
 } from "@/components/ui/carousel";
 import { useSidebar } from "@/components/ui/sidebar";
-import { SortFilter } from "../sort";
-import { useBoundStore } from "@/store";
-import { isEmpty } from "@/lib/utils";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams.ts";
 import { PARAMS } from "@/lib/constants/route";
+import { isEmpty } from "@/lib/utils";
+import { useBoundStore } from "@/store";
+import { SortFilter } from "../sort";
 
 export default function ActionHeader() {
     const { setOpen } = useSidebar();

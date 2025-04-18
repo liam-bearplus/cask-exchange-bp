@@ -1,13 +1,7 @@
+import { filterSchema } from "@/lib/validators";
 import { z } from "zod";
 import { TUserSchema } from "./auth";
-import {
-    TCaskFilter,
-    TCaskFilterCask,
-    TCaskRangeType,
-    TCaskSort,
-    TCaskType,
-} from "./cask";
-import { filterSchema } from "@/lib/validators";
+import { TCaskFilter, TCaskFilterCask, TCaskSort, TCaskType } from "./cask";
 import { TDistillery } from "./distillery";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

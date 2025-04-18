@@ -2,7 +2,6 @@ import { TUserSchema } from "./auth";
 import { TDistillery } from "./distillery";
 import { global } from "./global/global";
 import { TRegion } from "./region";
-import { DATA_FILTER_CASKS } from "../lib/constants/index";
 export type TCask = {
     caskReference: string;
     name: string;
