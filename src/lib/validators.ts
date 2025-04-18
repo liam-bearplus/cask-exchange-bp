@@ -7,7 +7,7 @@ import { z } from "zod";
 //   .refine(
 //     (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(value))),
 //     "Price must have exactly two decimal places"
-//   );
+//   ) ;
 
 // Schema for signing users in
 export const signInFormSchema = z.object({
