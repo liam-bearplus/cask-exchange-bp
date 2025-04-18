@@ -9,14 +9,18 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar";
 import useClickOutSide from "@/hooks/useClickOutSide";
+import { useBoundStore } from "@/store";
 import { useRef } from "react";
 import FormFilter from "../filter";
 
 export function SideBarCaskListing() {
     const { setOpen } = useSidebar();
+    const { setIsCancel } = useBoundStore();
     const wrapSidebarRef = useRef<HTMLDivElement | null>(null);
-    useClickOutSide(() => setOpen(false), wrapSidebarRef);
-
+    useClickOutSide(() => {
+        setOpen(false);
+        setIsCancel(true);
+    }, wrapSidebarRef);
     return (
         <Sidebar ref={wrapSidebarRef}>
             <SidebarHeader>

@@ -11,9 +11,14 @@ type TAuthStatus = {
     action?: () => void;
     isDisableButton?: boolean;
     messageError?: string;
+    className?: string;
 } & PropsWithChildren;
 
-export default function AuthStatus({ status, ...data }: TAuthStatus) {
+export default function AuthStatus({
+    status,
+    className,
+    ...data
+}: TAuthStatus) {
     const imageWithStatus = {
         success: (
             <ImagePlaceholder
@@ -43,7 +48,7 @@ export default function AuthStatus({ status, ...data }: TAuthStatus) {
         ),
     };
     return (
-        <div className="flex-center flex-col space-y-8">
+        <div className={cn("flex-center flex-col space-y-8", className)}>
             <div className={cn("h-20 w-20")}>
                 {imageWithStatus[status] && imageWithStatus[status]}
             </div>

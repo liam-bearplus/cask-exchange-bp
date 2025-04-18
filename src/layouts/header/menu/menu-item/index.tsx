@@ -3,37 +3,38 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 type TProp = {
     isNavigationMenu?: boolean;
 } & TMenuNavigation &
     PropsWithChildren;
 
 export default function MenuItem(props: TProp) {
-    const { title, subItems, isNavigationMenu, href, children, ...params } =
+    const { title, subItems, isNavigationMenu, href, children, isOpenWindow } =
         props;
-    const NavTrigger = isNavigationMenu ? "a" : "div";
     return (
         <div className="after:contents-[''] group relative text-typo-dark-body after:absolute after:left-0 after:top-full after:w-full after:pb-8 hover:text-typo-brand">
             {children ? (
                 children
-            ) : (
-                <NavTrigger
+            ) : isNavigationMenu && href ? (
+                <Link
                     className="flex cursor-pointer flex-row items-center gap-1 transition-all"
-                    {...params}
-                    {...(isNavigationMenu && { href: href || "#" })}
+                    {...(isOpenWindow && { target: "_blank" })}
+                    href={href}
                 >
                     <div className="text-base font-medium">{title}</div>
-                    {isNavigationMenu && (
-                        <Image
-                            src="/icons/chevon-down.svg"
-                            width={32}
-                            height={32}
-                            alt="arrow-down"
-                            className="h-3 w-3 duration-500 group-hover:rotate-180"
-                        />
-                    )}
-                </NavTrigger>
+                    <Image
+                        src="/icons/chevon-down.svg"
+                        width={32}
+                        height={32}
+                        alt="arrow-down"
+                        className="h-3 w-3 duration-500 group-hover:rotate-180"
+                    />
+                </Link>
+            ) : (
+                <div className="flex cursor-pointer flex-row items-center gap-1 transition-all">
+                    <div className="text-base font-medium">{title}</div>
+                </div>
             )}
 
             {subItems && (
@@ -79,7 +80,6 @@ const ListItem = ({
 }: NonNullable<TMenuNavigation["subItems"]>[number]) => {
     const pathname = usePathname();
     const isActive = href === pathname;
-    const ItemWrap = !!href ? Link : "div";
     return (
         <li
             className={cn(
@@ -88,17 +88,25 @@ const ListItem = ({
             )}
             onClick={onClick}
         >
-            <ItemWrap
-                href={href || ""}
-                as={typeof ItemWrap === "string" ? "div" : undefined}
-                {...(href && { href: href as string })}
-                {...(isOpenWindow && { target: "_blank" })}
-                className={cn(
-                    "flex flex-row items-center gap-2 text-sm font-medium leading-none text-typo-body"
-                )}
-            >
-                {icon && <div>{icon()}</div>} {title}
-            </ItemWrap>
+            {href ? (
+                <Link
+                    href={href}
+                    {...(isOpenWindow && { target: "_blank" })}
+                    className={cn(
+                        "flex flex-row items-center gap-2 text-sm font-medium leading-none text-typo-body"
+                    )}
+                >
+                    {icon && <div>{icon()}</div>} {title}
+                </Link>
+            ) : (
+                <div
+                    className={cn(
+                        "flex flex-row items-center gap-2 text-sm font-medium leading-none text-typo-body"
+                    )}
+                >
+                    {icon && <div>{icon()}</div>} {title}
+                </div>
+            )}
         </li>
     );
 };

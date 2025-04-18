@@ -316,3 +316,50 @@ export const DATA_FILTER_CASKS: TDataFilterCask = {
         options: [0, 0],
     },
 };
+
+export const RULE_TAGS_CASK = {
+    caskType: {
+        label: "",
+        unit: undefined,
+    },
+    year: {
+        label: "Year",
+        unit: undefined,
+    },
+    abv: {
+        label: "ABV",
+        unit: {
+            value: "%",
+            position: "suffix",
+        },
+    },
+    price: {
+        label: "Price",
+        unit: {
+            value: "$",
+            position: "prefix",
+        },
+    },
+    distillery: {
+        label: "",
+        unit: undefined,
+    },
+    ola: {
+        label: "OLA",
+        unit: {
+            value: "%",
+            position: "suffix",
+        },
+    },
+    rla: {
+        label: "RLA",
+        unit: {
+            value: "%",
+            position: "suffix",
+        },
+    },
+    bottles: {
+        label: "Bottles",
+        unit: undefined,
+    },
+};

@@ -83,9 +83,9 @@ export default function CaskCard({
     );
 }
 
-export function CaskCardSkeleton() {
+export function CaskCardSkeleton({ className }: { className?: string }) {
     return (
-        <div className="flex flex-1 flex-col gap-6">
+        <div className={cn("flex flex-1 flex-col gap-6", className)}>
             <Skeleton className="aspect-[234/180] w-[14.625rem] rounded-lg" />
             <div className="flex flex-col gap-2">
                 <Skeleton className="h-2 w-full" />

@@ -71,13 +71,6 @@ const InputCheckBox = ({
     field,
     isHaveSearch,
 }: TInputFilter<"checkbox">) => {
-    const [accordionValue, setAccordionValue] = useState<string>("");
-
-    const hasSelectedValues = useMemo(() => {
-        if (!Array.isArray(field.value)) return false;
-        return field.value.length > 0;
-    }, [field.value]);
-
     const handleCheckboxChange = useCallback(
         (checked: boolean, itemId: string) => {
             if (!Array.isArray(field.value)) return;
@@ -153,54 +146,27 @@ const InputCheckBox = ({
         );
     };
 
-    useEffect(() => {
-        setAccordionValue(hasSelectedValues ? field.name : "");
-    }, [hasSelectedValues, field.name]);
     return (
         <div>
-            <Accordion
-                type="single"
-                collapsible
-                value={accordionValue}
-                onValueChange={() => {
-                    setAccordionValue(
-                        accordionValue === field.name ? "" : field.name
-                    );
-                }}
-            >
-                <AccordionItem value={field.name}>
-                    <AccordionTrigger className="[&[data-state=open]]:pb-4">
-                        <h3 className="text-xl font-medium text-typo-primary">
-                            {title}
-                        </h3>
-                    </AccordionTrigger>
-                    <AccordionContent className="flex flex-col gap-4">
-                        {isHaveSearch
-                            ? handleRenderGroupCheckBoxWithSearch()
-                            : handleRenderGroupCheckBox()}
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
+            <AccordionItem value={field.name}>
+                <AccordionTrigger className="[&[data-state=open]]:pb-4">
+                    <h3 className="text-xl font-medium text-typo-primary">
+                        {title}
+                    </h3>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-4">
+                    {isHaveSearch
+                        ? handleRenderGroupCheckBoxWithSearch()
+                        : handleRenderGroupCheckBox()}
+                </AccordionContent>
+            </AccordionItem>
         </div>
     );
 };
 
 // InputRange component with specific typing
 const InputRange = ({ options, title, field, unit }: TInputFilter<"range">) => {
-    const [accordionValue, setAccordionValue] = useState<string>("");
-
     // Check if any value in the range is selected
-    const hasSelectedValues = useMemo(() => {
-        if (!Array.isArray(field.value)) return false;
-        return field.value.some(
-            (val) => val !== options[0] && val !== options[1]
-        );
-    }, [field.value, options]);
-
-    // Update accordion state based on selected values
-    useEffect(() => {
-        setAccordionValue(hasSelectedValues ? field.name : "");
-    }, [hasSelectedValues, field.name]);
 
     const handleSwapValue = useCallback(() => {
         if (!Array.isArray(field.value)) return;
@@ -208,8 +174,26 @@ const InputRange = ({ options, title, field, unit }: TInputFilter<"range">) => {
         const [min, max] = field.value.map(Number);
         const [defaultMin, defaultMax] = options;
 
-        const valMin = Math.max(min, defaultMin) || defaultMin;
-        const valMax = Math.min(max, defaultMax) || defaultMax;
+        if (!min || !max) {
+            const minV = !isNaN(min)
+                ? min < defaultMin || min > defaultMax
+                    ? defaultMin
+                    : min
+                : undefined;
+
+            const maxV = !isNaN(max)
+                ? max < defaultMin || max > defaultMax
+                    ? defaultMax
+                    : max
+                : undefined;
+
+            field.onChange([minV, maxV]);
+            return;
+        }
+
+        const valMin = Math.max(min, defaultMin); //|| defaultMin;
+        const valMax = Math.min(max, defaultMax); //|| defaultMax;
+
         if (max < min) {
             field.onChange([
                 max > defaultMin && max < defaultMax ? max : defaultMin,
@@ -223,94 +207,82 @@ const InputRange = ({ options, title, field, unit }: TInputFilter<"range">) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <Accordion
-                type="single"
-                value={accordionValue}
-                collapsible
-                onValueChange={() => {
-                    setAccordionValue(
-                        accordionValue === field.name ? "" : field.name
-                    );
-                }}
-            >
-                <AccordionItem value={field.name}>
-                    <AccordionTrigger className="[&[data-state=open]]:pb-4">
-                        <h3 className="text-xl font-medium text-typo-primary">
-                            {title}
-                        </h3>
-                    </AccordionTrigger>
-                    <AccordionContent className="flex flex-col">
-                        <div className="flex flex-row items-center gap-4">
-                            <div className="relative">
-                                {unit && (
-                                    <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
-                                        {unit}
-                                    </div>
-                                )}
-                                <Input
-                                    type="number"
-                                    isHideError
-                                    placeholder={`From`}
-                                    maxLength={13}
-                                    onBlur={handleSwapValue}
-                                    className={cn(`${unit && "pl-8"}`)}
-                                    value={
+            <AccordionItem value={field.name}>
+                <AccordionTrigger className="[&[data-state=open]]:pb-4">
+                    <h3 className="text-xl font-medium text-typo-primary">
+                        {title}
+                    </h3>
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col">
+                    <div className="flex flex-row items-center gap-4">
+                        <div className="relative">
+                            {unit && (
+                                <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
+                                    {unit}
+                                </div>
+                            )}
+                            <Input
+                                type="number"
+                                isHideError
+                                placeholder={`From`}
+                                maxLength={13}
+                                onBlur={handleSwapValue}
+                                className={cn(`${unit && "pl-8"}`)}
+                                value={
+                                    Array.isArray(field.value)
+                                        ? field.value?.[0]
+                                        : options?.[0]
+                                }
+                                onChange={(e) => {
+                                    field.onChange([
+                                        parseInt(e.target.value),
                                         Array.isArray(field.value)
-                                            ? field.value?.[0]
-                                            : options?.[0]
-                                    }
-                                    onChange={(e) => {
-                                        field.onChange([
-                                            parseInt(e.target.value),
-                                            Array.isArray(field.value)
-                                                ? field.value[1]
-                                                : options?.[1],
-                                        ]);
-                                    }}
-                                />
-                            </div>
-
-                            <ImagePlaceholder
-                                width={32}
-                                height={32}
-                                alt="Minus icon"
-                                className="h-4 w-4"
-                                imgClassName="img-fill"
-                                src={"/icons/minus-icon.svg"}
+                                            ? field.value[1]
+                                            : options?.[1],
+                                    ]);
+                                }}
                             />
-                            <div className="relative">
-                                {unit && (
-                                    <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
-                                        {unit}
-                                    </div>
-                                )}
-                                <Input
-                                    type="number"
-                                    placeholder={`To`}
-                                    isHideError
-                                    maxLength={13}
-                                    className={cn(`${unit && "pl-8"}`)}
-                                    onBlur={handleSwapValue}
-                                    value={
-                                        Array.isArray(field.value)
-                                            ? field.value?.[1]
-                                            : options?.[1]
-                                    }
-                                    onChange={(e) => {
-                                        field.onChange([
-                                            Array.isArray(field.value)
-                                                ? field.value[0]
-                                                : options?.[0],
-                                            parseInt(e.target.value),
-                                        ]);
-                                    }}
-                                />
-                            </div>
                         </div>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-            <FormMessage />
+
+                        <ImagePlaceholder
+                            width={32}
+                            height={32}
+                            alt="Minus icon"
+                            className="h-4 w-4"
+                            imgClassName="img-fill"
+                            src={"/icons/minus-icon.svg"}
+                        />
+                        <div className="relative">
+                            {unit && (
+                                <div className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-typo-sub">
+                                    {unit}
+                                </div>
+                            )}
+                            <Input
+                                type="number"
+                                placeholder={`To`}
+                                isHideError
+                                maxLength={13}
+                                className={cn(`${unit && "pl-8"}`)}
+                                onBlur={handleSwapValue}
+                                value={
+                                    Array.isArray(field.value)
+                                        ? field.value?.[1]
+                                        : options?.[1]
+                                }
+                                onChange={(e) => {
+                                    field.onChange([
+                                        Array.isArray(field.value)
+                                            ? field.value[0]
+                                            : options?.[0],
+                                        parseInt(e.target.value),
+                                    ]);
+                                }}
+                            />
+                        </div>
+                    </div>
+                </AccordionContent>
+            </AccordionItem>
         </div>
     );
 };

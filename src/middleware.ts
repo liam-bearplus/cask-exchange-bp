@@ -4,10 +4,9 @@ import { ROUTE_AUTH, ROUTE_PUBLIC } from "./lib/constants/route";
 
 export async function middleware(req: NextRequest) {
     const sessionToken = await getToken({ req });
-    const includesAuth = Object.values(ROUTE_AUTH).includes(
-        req.nextUrl.pathname
-    );
-
+    const includesAuth = Object.values(ROUTE_AUTH)
+        .filter((route) => route !== ROUTE_AUTH.VERIFY)
+        .includes(req.nextUrl.pathname);
     if (sessionToken && includesAuth) {
         const referer = req.headers.get("referer") || ROUTE_PUBLIC.HOME;
         return NextResponse.redirect(new URL(referer, req.url));

@@ -1,30 +1,40 @@
 import InputFilter from "@/components/shared/input-filter";
+import { Accordion } from "@/components/ui/accordion";
 import { Form, FormControl, FormField } from "@/components/ui/form";
+import { handleConvertOriginal, handleConvertReverse } from "@/helpers";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams.ts";
 import {
     DATA_FILTER_CASKS,
     filterCaskValDefault,
     TOptionCheckBox,
 } from "@/lib/constants";
-import { MAP_KEY_FILTER_CASK } from "@/lib/constants/index";
 import {
     KEY_FILTER_CASK_RANGE,
     KEY_FILTER_CASK_TYPE,
     KEY_FILTER_DISTILLERIES,
 } from "@/lib/constants/key";
 import { PARAMS } from "@/lib/constants/route";
-import { convertStringToLabel, isEmpty } from "@/lib/utils";
+import { convertStringToLabel } from "@/lib/utils";
 import { filterSchema } from "@/lib/validators";
 import caskServices from "@/services/cask";
 import distilleriesServices from "@/services/distilleries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SideBarFooter from "../sidebar/footer";
+import { useBoundStore } from "@/store";
 export default function FormFilter() {
     const { updateParams, valueParams } = useUpdateSearchParams(PARAMS.filter);
+    const {
+        updateFilterCask,
+        setIsCancel,
+        isCancel,
+        filterCask,
+        updateCaskTypes,
+        updateDistilleries,
+    } = useBoundStore();
     const [dataFilter, setDataFilter] =
         useState<typeof DATA_FILTER_CASKS>(DATA_FILTER_CASKS);
 
@@ -47,109 +57,7 @@ export default function FormFilter() {
         // mode: "onSubmit",
     });
 
-    const handleConvertOriginal = (data: z.infer<typeof filterSchema>) => {
-        const result = Object.entries(data).reduce(
-            (acc: { [key: string]: string }, [key, value]) => {
-                const keySearch =
-                    MAP_KEY_FILTER_CASK[
-                        key as keyof typeof MAP_KEY_FILTER_CASK
-                    ];
-                // Early return if value is empty or contains "all"
-                if (
-                    isEmpty(value) ||
-                    (Array.isArray(value) && value.includes("all" as never))
-                ) {
-                    return acc; // Return accumulated result without processing this value
-                }
-
-                // replace key to key search, ex: caskType => casktypeId, destillery => distilleryId
-                if (typeof keySearch === "string") {
-                    if (!acc[keySearch]) {
-                        acc[keySearch] = Array.isArray(value)
-                            ? value.join(",")
-                            : (value as string);
-                    } else {
-                        acc[keySearch] += `,${value}`;
-                    }
-                } else {
-                    Object.values(keySearch).forEach((val, index) => {
-                        if (!acc[val]) {
-                            acc[val] = `${value[index]}`;
-                        }
-                    });
-                }
-
-                return acc;
-            },
-            {}
-        );
-        const dataParams = Object.entries(result)
-            .map(([key, value]) => `${key}=${value}`)
-            .join("&");
-        return dataParams;
-    };
-
-    // Reverse function to convert filter string back to object
-    const handleConvertReverse = useCallback(
-        (filterString: string): z.infer<typeof filterSchema> => {
-            if (!filterString) return filterCaskValDefault;
-
-            const filterStringArr = filterString.split("&");
-
-            const filterStringObj = filterStringArr.reduce(
-                (acc: { [key: string]: string }, val) => {
-                    const [key, value] = val.split("=");
-                    acc[key] = value;
-                    return acc;
-                },
-                {}
-            );
-
-            //Update key real,
-            const mapFormKey = Object.entries(MAP_KEY_FILTER_CASK).reduce(
-                (
-                    acc: { [key: string]: Array<number | string | never> },
-                    [key, value]
-                ) => {
-                    if (typeof value === "string") {
-                        const findValue = Object.entries(filterStringObj).find(
-                            ([keyFind]) => value === keyFind
-                        );
-                        acc[key] = findValue ? findValue[1].split(",") : [];
-                    } else {
-                        if (
-                            isEmpty(filterStringObj[value.min]) ||
-                            isEmpty(filterStringObj[value.max])
-                        )
-                            return acc;
-                        acc[key] = [
-                            Number(filterStringObj[value.min]),
-                            Number(filterStringObj[value.max]),
-                        ];
-                    }
-                    return acc;
-                },
-                {}
-            );
-            return mapFormKey;
-        },
-        []
-    );
-
     const dataReverts = handleConvertReverse(valueParams ?? "");
-
-    useEffect(() => {
-        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
-        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
-        if (dataReverts?.distillery)
-            form.setValue("distillery", dataReverts.distillery);
-        if (dataReverts?.caskType)
-            form.setValue("caskType", dataReverts.caskType);
-        if (dataReverts?.year) form.setValue("year", dataReverts.year);
-        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
-        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
-        if (dataReverts?.price) form.setValue("price", dataReverts.price);
-    }, [valueParams]);
 
     useEffect(() => {
         if (caskTypeQuery.data && distilleryQuery.data && caskRangeQuery.data) {
@@ -201,7 +109,6 @@ export default function FormFilter() {
                     Math.floor(range?.max as number) || 0,
                 ];
             });
-
             // Update state with the new filter data
             setDataFilter(updatedDataFilter);
         }
@@ -210,9 +117,39 @@ export default function FormFilter() {
 
     const handleSubmit = (data: z.infer<typeof filterSchema>) => {
         const params = handleConvertOriginal(data);
+        updateFilterCask(data);
+        setIsCancel(false);
         updateParams(params);
     };
 
+    useEffect(() => {
+        if (dataReverts?.rla) form.setValue("rla", dataReverts.rla);
+        if (dataReverts?.ola) form.setValue("ola", dataReverts.ola);
+        if (dataReverts?.distillery)
+            form.setValue("distillery", dataReverts.distillery);
+        if (dataReverts?.caskType)
+            form.setValue("caskType", dataReverts.caskType);
+        if (dataReverts?.year) form.setValue("year", dataReverts.year);
+        if (dataReverts?.abv) form.setValue("abv", dataReverts.abv);
+        if (dataReverts?.bottles) form.setValue("bottles", dataReverts.bottles);
+        if (dataReverts?.price) form.setValue("price", dataReverts.price);
+        updateFilterCask(form.getValues());
+    }, [valueParams]);
+
+    useEffect(() => {
+        //set data to match label with tags
+        if (!caskTypeQuery.data || !distilleryQuery.data) return;
+        updateCaskTypes(caskTypeQuery.data);
+        updateDistilleries(distilleryQuery.data);
+        updateFilterCask(form.getValues());
+    }, [caskTypeQuery.data, distilleryQuery.data]);
+
+    useEffect(() => {
+        if (isCancel) {
+            form.reset(filterCask);
+            setIsCancel(false);
+        }
+    }, [isCancel]);
     return (
         <div className="relative col-span-4 h-[calc(100vh-4.5rem)]">
             <Form {...form}>
@@ -220,29 +157,39 @@ export default function FormFilter() {
                     onSubmit={form.handleSubmit(handleSubmit)}
                     className="h-full min-h-full"
                 >
-                    <div className="mb-18 relative flex h-full flex-col">
-                        {Object.entries(dataFilter).map(([key, value]) => (
-                            <FormField
-                                key={key}
-                                name={key as keyof z.infer<typeof filterSchema>}
-                                control={form.control}
-                                render={({ field }) => {
-                                    return (
-                                        <FormControl>
-                                            <InputFilter
-                                                key={value.title}
-                                                {...value}
-                                                field={field}
-                                                isHaveSearch={
-                                                    field.name === "distillery"
-                                                }
-                                            />
-                                        </FormControl>
-                                    );
-                                }}
-                            />
-                        ))}
-                    </div>
+                    <Accordion
+                        type="multiple"
+                        defaultValue={["caskType", "distillery"]}
+                    >
+                        <div className="mb-18 relative flex h-full flex-col">
+                            {Object.entries(dataFilter).map(([key, value]) => (
+                                <FormField
+                                    key={key}
+                                    name={
+                                        key as keyof z.infer<
+                                            typeof filterSchema
+                                        >
+                                    }
+                                    control={form.control}
+                                    render={({ field }) => {
+                                        return (
+                                            <FormControl>
+                                                <InputFilter
+                                                    key={value.title}
+                                                    {...value}
+                                                    field={field}
+                                                    isHaveSearch={
+                                                        field.name ===
+                                                        "distillery"
+                                                    }
+                                                />
+                                            </FormControl>
+                                        );
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </Accordion>
                     <SideBarFooter className="sticky bottom-0 mt-auto" />
                 </form>
             </Form>

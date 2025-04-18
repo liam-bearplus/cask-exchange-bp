@@ -190,3 +190,4 @@ export const isEmpty = <T>(value: T): boolean => {
             Object.keys(value).length === 0)
     );
 };
+export const isNumeric = (num: any) => typeof num === "number";

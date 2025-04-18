@@ -2,6 +2,7 @@ import { TUserSchema } from "./auth";
 import { TDistillery } from "./distillery";
 import { global } from "./global/global";
 import { TRegion } from "./region";
+import { DATA_FILTER_CASKS } from "../lib/constants/index";
 export type TCask = {
     caskReference: string;
     name: string;
@@ -28,7 +29,7 @@ export type TCask = {
     imageUrl: string;
     caskTypeId: string;
     classificationId: string;
-    // caskType: CaskType;
+    caskType: TCaskType;
     // classification: Classification;
     // spiritType: SpiritType;
     region: TRegion;
@@ -40,6 +41,12 @@ export type TCask = {
     ownerId: string | null;
 } & global.TDataWithFields;
 
+export type TCaskType = {
+    name: string;
+
+    typicalCapacityLiters: null | string;
+    description: string | null;
+} & global.TDataWithFields;
 export type TCaskRangeType = {
     abv: { min: number; max: number };
     estimatedBottleCount: { min: number; max: number };
@@ -96,3 +103,11 @@ export enum CaskStatus {
     WITHDRAWN = "withdrawn",
     BOTTLED = "bottled",
 }
+export type TCaskFilterCask = {
+    label?: string;
+    value?: string | number;
+    id?: string;
+    type: TCaskFilter;
+};
+
+export type TCaskFilter = string;

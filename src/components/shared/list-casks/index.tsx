@@ -64,7 +64,6 @@ export default function ListCask({
                             "-mx-[0.5625rem]"
                         )}
                         onPointerDown={() => {
-                            console.log("carouselRef", carouselRef);
                             carouselRef.current?.classList.add(
                                 "[&_*]:cursor-grabbing"
                             );

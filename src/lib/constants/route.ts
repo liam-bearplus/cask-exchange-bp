@@ -11,7 +11,7 @@ const ROUTE_PUBLIC = {
 const PARAMS = {
     sortOrder: "sortOrder",
     sortBy: "sortBy",
-    limit: "limit",
+    size: "size",
     page: "page",
     filter: "filter?",
 };

@@ -14,21 +14,27 @@ const KEY_GET_CASK = "get-casks";
 const KEY_FILTER_CASK_TYPE = "cask-types";
 const KEY_FILTER_DISTILLERIES = "distilleries-list";
 const KEY_FILTER_CASK_RANGE = "ranges";
+const KEY_SEARCH_CASK = "search";
 const KEY_SORT_CASK = "sort";
 const KEY_CASK_LISTING = "listing";
+const KEY_RESENTLY_VIEWED = "recently-viewed";
+const KEY_GROWTH_CASK = "growth";
 const KEY_DISTILLERIES_LIST = "list";
 const KEY_REGION_LIST = "list";
+const KEY_FEATURED_CASK = "featured";
 
 export {
     KEY_SIGNUP,
     KEY_SIGNIN,
     KEY_RESET_PASSWORD,
+    KEY_SEARCH_CASK,
     KEY_UPDATE_PASSWORD,
     KEY_FORGOT_PASSWORD,
     KEY_VERIFY,
     KEY_WHOAMI,
     KEY_RESEND_EMAIL,
     KEY_LOG_OUT,
+    KEY_GROWTH_CASK,
     KEY_REFRESH_TOKEN,
     KEY_LIST_CASK,
     KEY_CHECK_RESET_PASSWORD,
@@ -36,8 +42,10 @@ export {
     KEY_FILTER_CASK_TYPE,
     KEY_FILTER_DISTILLERIES,
     KEY_FILTER_CASK_RANGE,
+    KEY_FEATURED_CASK,
     KEY_CASK_LISTING,
     KEY_DISTILLERIES_LIST,
     KEY_REGION_LIST,
     KEY_SORT_CASK,
+    KEY_RESENTLY_VIEWED,
 };

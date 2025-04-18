@@ -27,7 +27,7 @@ export default function ImagePlaceholder({
                 className={cn("img img-h absolute inset-0 z-20", imgClassName)}
                 width={props.width as number}
                 height={props.height as number}
-                alt={props.alt as string}
+                alt={(props.alt as string) || "Image Non-available"}
                 quality={100}
                 sizes={`(max-width:${props.width}) 100vw, ${props.width}px`}
             />
@@ -36,7 +36,7 @@ export default function ImagePlaceholder({
                 {...props}
                 src={src}
                 onLoad={() => setIsLoaded(true)}
-                alt={props.alt as string}
+                alt={(props.alt as string) || "Image Non-available"}
                 className={cn(
                     "img img-h relative inset-0 z-10 transition-none",
                     isLoaded ? "opacity-0" : "opacity-100",

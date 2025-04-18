@@ -8,7 +8,7 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { findClosestIndex } from "@/helpers";
-import { cn } from "@/lib/utils";
+import { cn, isEmpty } from "@/lib/utils";
 import { EmblaCarouselType } from "embla-carousel";
 import { Skeleton } from "./skeleton";
 
@@ -278,10 +278,9 @@ const CarouselContent = React.forwardRef<
 });
 CarouselContent.displayName = "CarouselContent";
 
-const CarouselScrollProgress = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
->(({ className }) => {
+const CarouselScrollProgress = ({
+    className,
+}: React.HTMLAttributes<HTMLDivElement>) => {
     const { api } = useCarousel();
     const [scrollProgress, setScrollProgress] = React.useState(0);
 
@@ -307,13 +306,12 @@ const CarouselScrollProgress = React.forwardRef<
             )}
         >
             <div
-                className="absolute -left-full top-0 h-full w-full bg-bg-dark-main"
+                className="max-w-1/2 absolute -left-full top-0 h-full w-full bg-bg-dark-main"
                 style={{ transform: `translate3d(${scrollProgress}%,0px,0px)` }}
             />
         </div>
     );
-});
-CarouselScrollProgress.displayName = "CarouselScrollProgress";
+};
 
 const CarouselItem = React.forwardRef<
     HTMLDivElement,
@@ -613,7 +611,7 @@ const CarouselScrollbar = ({ className }: { className?: string }) => {
         }
 
         const trackWidth = track.clientWidth;
-        const scrollbarWidth = scrollbar.clientWidth;
+        const scrollbarWidth = scrollbar?.clientWidth || 0;
         const maxScrollDistance = trackWidth - scrollbarWidth;
         const scrollPercentage = (START_INDEX / (scrollSnaps.length - 1)) * 100;
         const scrollDistance = maxScrollDistance * (scrollPercentage / 100);
@@ -633,8 +631,16 @@ const CarouselScrollbar = ({ className }: { className?: string }) => {
             window.removeEventListener("touchend", handleMouseUp);
         };
     }, [handleMouseMoveScrollbar, handleMouseUp]);
+    const hasNoItems = isEmpty(emblaApi?.scrollSnapList());
 
-    return (
+    const percentOfScrollbar = React.useMemo(() => {
+        const containerWidth = emblaApi?.containerNode()?.clientWidth || 0;
+        const scrollWidth = emblaApi?.containerNode()?.scrollWidth || 0;
+        return scrollWidth > containerWidth
+            ? (containerWidth / scrollWidth) * 100
+            : 0;
+    }, [emblaApi?.scrollSnapList().length, emblaApi?.scrollProgress()]);
+    return hasNoItems || !percentOfScrollbar ? null : (
         <div
             className={cn("-my-2 cursor-pointer py-2", className)}
             onClick={handleTrackClick}
@@ -646,10 +652,10 @@ const CarouselScrollbar = ({ className }: { className?: string }) => {
                 <div
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleMouseDown}
-                    className="after:contents-[''] relative h-5 w-full rounded-full py-2 after:z-10 after:block after:h-1 after:bg-bg-dark-main"
+                    className="after:contents-[''] relative h-5 w-0 rounded-full py-2 after:z-10 after:block after:h-1 after:bg-bg-dark-main"
                     ref={scrollbarRef}
                     style={{
-                        width: `calc(100% / ${scrollSnaps?.length})`,
+                        width: `${percentOfScrollbar}%`,
                         cursor: isDragging ? "grabbing" : "grab",
                     }}
                 />

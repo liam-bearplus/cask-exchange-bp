@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { SidebarFooter, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { useBoundStore } from "@/store";
 import React from "react";
 
 export default function SideBarFooter({ className }: { className: string }) {
     const { setOpen } = useSidebar();
+    const { setIsCancel } = useBoundStore();
+
     return (
         <SidebarFooter className={cn("bg-bg-main", className)}>
             <div className="flex flex-row items-center justify-center gap-3 px-6 py-4">
@@ -22,7 +25,10 @@ export default function SideBarFooter({ className }: { className: string }) {
                     type="button"
                     variant={"outline"}
                     className="flex-1"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                        setOpen(false);
+                        setIsCancel(true);
+                    }}
                 >
                     Cancel
                 </Button>

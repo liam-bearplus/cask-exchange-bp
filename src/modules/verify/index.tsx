@@ -3,10 +3,11 @@
 import AuthStatus from "@/components/shared/auth/auth-status";
 import { TIMER_REDIRECT } from "@/lib/constants";
 import { KEY_RESEND_EMAIL, KEY_VERIFY } from "@/lib/constants/key";
-import { ROUTE_AUTH } from "@/lib/constants/route";
+import { ROUTE_AUTH, ROUTE_PUBLIC } from "@/lib/constants/route";
 import authService from "@/services/auth";
 import { TVerifyUser } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { redirect, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -16,7 +17,7 @@ export default function VerifyModule() {
     const [timer, setTimer] = useState(TIMER_REDIRECT);
     const [isSuccessResend, setIsLoadedResend] = useState<boolean>(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-
+    const session = useSession();
     // Data Fetching
     const verifyUser = useQuery({
         queryKey: [KEY_VERIFY],
@@ -24,7 +25,6 @@ export default function VerifyModule() {
         retry: false,
         enabled: !!token,
     });
-
     const resendEmailMutation = useMutation({
         mutationFn: authService.resendEmailVerification,
         gcTime: Infinity,
@@ -42,9 +42,13 @@ export default function VerifyModule() {
                     seconds.
                 </div>
             ),
-            buttonText: "Log in now",
-            action: () => redirect(ROUTE_AUTH.LOGIN),
-
+            buttonText: session?.data?.user
+                ? "Back to homepage now"
+                : "Log in now",
+            action: () =>
+                session?.data?.user
+                    ? redirect(ROUTE_PUBLIC.HOME)
+                    : redirect(ROUTE_AUTH.LOGIN),
             isDisableButton: false,
             messageError: "",
         },
@@ -128,7 +132,9 @@ export default function VerifyModule() {
             setTimer((prev) => {
                 if (prev <= 1) {
                     clearInterval(timerRef.current!);
-                    redirect(ROUTE_AUTH.LOGIN);
+                    session.data?.user
+                        ? redirect(ROUTE_PUBLIC.HOME)
+                        : redirect(ROUTE_AUTH.LOGIN);
                 }
                 return prev - 1;
             });
@@ -137,7 +143,7 @@ export default function VerifyModule() {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, [status, timer]);
+    }, [status, timer, session.data?.user]);
 
     useEffect(() => {
         if (resendEmailMutation?.status === "success") {

@@ -20,6 +20,7 @@ export type TToken = {
 };
 export type TUserSchema = z.infer<typeof userSchema> & {
     role: TRole;
+    isVerified?: boolean;
     avatar?: string;
 } & TToken;
 export type TRegisterUser = z.infer<typeof signUpFormSchema>;
